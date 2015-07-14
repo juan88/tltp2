@@ -68,10 +68,8 @@ class LexerTest(unittest.TestCase):
         token = lexer.token()
         while token is not None:
             obtenidos.append(token.type)
-            #print token.value
             token = lexer.token()
 
-        #print obtenidos
         for index, val in enumerate(esperados):
             self.assertEqual(obtenidos[index], esperados[index])
 

@@ -1,3 +1,4 @@
+#Defino las palabras reservadas como key : value para asociarlas a un token
 reservadas = {
   'tempo' : 'TEMPO',
   'voz' : 'VOICE',
@@ -8,6 +9,7 @@ reservadas = {
   'repetir' : 'REPEAT',
 }
 
+# Todos los tokens que considero necesarios que me instancie el lexer
 tokens = [
    'HASH',
    'NUMBER',
@@ -24,6 +26,7 @@ tokens = [
 ] + list(reservadas.values())
 
 
+#Guardo un diccionario con una referencia de las figuras y su duración (esto lo usaré para guardar el valor de cada figura como un atributo)
 figuras = {
   'redonda' : 1,
   'blanca' : 2,
@@ -34,6 +37,7 @@ figuras = {
   'semifusa' : 64
   }
 
+#Reglas para matchear los distintos tokens. El orden es importante en general
 def t_NUMBER(token):
   r"[1-9][0-9]*|0"
   token.value = int(token.value)
@@ -48,7 +52,6 @@ def t_FIGURE(token):
 
 def t_CONSTID(token):
   r"[_a-zA-Z]+"
-  #print token.value + ' -> ' + reservadas.get(token.value, 'CONSTID')
   token.type = reservadas.get(token.value, 'CONSTID')
   return token
 
@@ -72,10 +75,11 @@ t_SEMICOLON = r";"
 t_EQUAL = r"="
 
 
-#ignoro whitespaces y comentarios?
+#ignoro whitespaces
 t_ignore_WHITESPACES = r"[ \t]+"
 
 
+#Mensaje de error de lexer genérico.
 def t_error(token):
     message = " > Token desconocido:"
     message += "\ntype:" + token.type

@@ -2,7 +2,7 @@ from lexer_rules import tokens
 from operator import add, mul
 from expressions import BinaryOperation, Number
 
-
+#TODO: Tomadas de otro ejercicio para tener como muestra. Hay que reemplazarlas.
 def p_expression_plus(subexpressions):
     'expression : expression PLUS term'
     subexpressions[0] = BinaryOperation(subexpressions[1], subexpressions[3], add)
