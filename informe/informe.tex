@@ -1,0 +1,136 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsfonts}
+%\usepackage{amsmath}
+\usepackage[protrusion,expansion,tracking,kerning,selected,final]{microtype}
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+
+\hypersetup{
+  pdftitle={Teoría de Lenguages - TP1},
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=black 
+}
+
+\makeatletter
+
+\def\titulo     #1{\def\titulo     {#1}}
+\def\subtitulo  #1{\def\subtitulo  {#1}}
+\def\grupo      #1{\def\grupo      {#1}}
+\def\res        #1{\def\res        {#1}}
+\def\integrantes#1{\def\integrantes{{\sffamily {\fontsize{10pt}{0pt} #1} }} }
+
+\def\keyvar#1{\def\keyvar{#1}}
+
+\newcommand{\Res}[1]{
+	\begin{abstract}
+		\vspace*{-1mm}
+		#1
+	\end{abstract}
+}
+
+\newcommand{\keywords}[1]{
+	\begin{center}
+		{\footnotesize \textbf{Keywords} \vskip 4pt #1 }
+	\end{center}
+}
+
+
+% Carátula
+\renewcommand{\maketitle}{
+	\begin{titlepage}
+		\vspace*{-100pt}
+		\let\footnotesize\small
+		\let\footnoterule\relax
+		\parindent \z@
+		\reset@font
+		\null\vfil
+
+		\vskip 10\p@
+		\hbox{
+			\vrule depth 0.9\textheight
+			\mbox{\hspace{2em}}
+			\vtop{
+				\vskip 30\p@
+				\begin{center}
+					\textsf{Universidad de Buenos Aires} \\
+					\textsf{Facultad de Ciencias Exactas y Naturales} \\
+					\textsf{Departamento de computación} \\
+				\end{center}
+	
+				\vspace{10pt}
+	
+				% Título
+				\begin{center}
+					{\sffamily {\textbf{\huge \titulo}}}
+				\end{center}
+				
+				% Subtítulo
+				\begin{center}
+					{\sffamily {\Large \subtitulo}}
+				\end{center}
+	
+				\par
+				\hrule height 2pt
+				\par
+				
+				\begin{center}
+					{\sffamily {\textbf{\large  \underline \grupo}}}
+					
+				\end{center}
+				
+				\begin{center}
+				    \vspace*{-5pt} {
+					    \fontsize{10pt}{0pt} {
+     						\par      Juan Enríquez - LU 36/08 -  juanenriquez@gmail.com
+					    }
+					}
+			    \par
+				\end{center}
+				\vskip 30\p@
+
+	
+				% Abstract
+				\Res{\res}
+				\vskip 10\p@
+				% Keywords
+				\keywords{\keyvar}
+
+				\vfill
+				\vspace*{0mm}
+			}
+		}
+ 
+	\end{titlepage}
+	\setcounter{footnote}{0}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\titulo   {TP2 - Musileng}
+\subtitulo{Teoría de Lenguajes - TP2}
+
+\grupo{GRUPO Los Sin Grupo}
+
+\res{
+    RESUMEN RESUMEN RESUMEN RESUMEN RESUMEN RESUMEN
+}
+\keyvar{Lenguaje musical - Parsing - LALR - PLY} % palabras claves
+
+
+\begin{document}
+
+\maketitle
+\setlength{\parskip}{0.2cm}
+
+\newpage
+
+\end{document}
