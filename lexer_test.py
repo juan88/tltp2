@@ -12,25 +12,28 @@ from ply.yacc import yacc
 
 class LexerTest(unittest.TestCase):
 
-    def testLeoEncabezadoYValidoTokens(self):
+    def testLeoEncabezadoYValidoTokens1(self):
         expresion = self.leer_archivo("entradas_de_prueba/encabezado1.mus")
         lexer = self.lexer(expresion)
-        
         token = lexer.token()
+        # print "test1"
+        # print token
         while token is not None:
-            #print token.value
+            # print "test1"
+            # print token.value
             token = lexer.token()
 
         self.assertTrue(True)
 
-    def testLeoEncabezadoYValidoTokens(self):
+    def testLeoEncabezadoYValidoTokens2(self):
         expresion = self.leer_archivo("entradas_de_prueba/encabezado2.mus")
         lexer = self.lexer(expresion)
         
         token = lexer.token()
         while token is not None:
-            #print token.type
-            #print token.value
+            # print "test2"
+            # print token.type
+            # print token.value
             token = lexer.token()
 
         self.assertTrue(True)
@@ -39,6 +42,9 @@ class LexerTest(unittest.TestCase):
     def testTokensLinea1(self):
         lexer = self.lexer("#tempo redonda 60")
         esperados = ['HASH', 'TEMPO', 'FIGURE', 'NUMBER']
+        #print "test3"
+        #for lex in lexer:
+        #    print lex
         self.assertTokens(esperados, lexer)
 
     def testTokensLinea2(self):

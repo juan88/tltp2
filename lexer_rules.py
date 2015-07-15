@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #Defino las palabras reservadas como key : value para asociarlas a un token
 reservadas = {
   'tempo' : 'TEMPO',
