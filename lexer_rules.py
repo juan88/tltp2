@@ -13,6 +13,7 @@ reservadas = {
 # Todos los tokens que considero necesarios que me instancie el lexer
 tokens = [
    'HASH',
+   'COLON',
    'NUMBER',
    'FIGURE',
    'LCURL',
@@ -23,7 +24,8 @@ tokens = [
    'SEMICOLON',
    'EQUAL',
    'ALTURA',
-   'CONSTID'
+   'CONSTID',
+   'NOTAID'
 ] + list(reservadas.values())
 
 
@@ -38,6 +40,17 @@ figuras = {
   'semifusa' : 64
   }
 
+#Guardo una lista con los valores posibles de las notas musicales
+notas = [
+  'do',
+  're',
+  'mi',
+  'fa',
+  'sol',
+  'la',
+  'si'
+]
+
 #Reglas para matchear los distintos tokens. El orden es importante en general
 def t_NUMBER(token):
   r"[1-9][0-9]*|0"
@@ -50,11 +63,16 @@ def t_FIGURE(token):
     token.value = {"value": figuras[token.value], "type": token.value}
   return token
 
+def t_NOTA(token):
+  r"do|re|mi|fa|sol|la|si"
+  token.type = 'NOTAID'
+  return token
 
 def t_CONSTID(token):
   r"[_a-zA-Z]+"
   token.type = reservadas.get(token.value, 'CONSTID')
   return token
+
 
 def t_NEWLINE(token):
   r"\n+"
@@ -74,6 +92,7 @@ t_DIV = r"/"
 t_HASH = r"\#"
 t_SEMICOLON = r";"
 t_EQUAL = r"="
+t_COLON = r","
 
 
 #ignoro whitespaces

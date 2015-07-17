@@ -67,14 +67,19 @@ class LexerTest(unittest.TestCase):
             const octava = 5; //Esto es un comentario""")
         esperados = ['CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON']
         self.assertTokens(esperados, lexer)
-    
-    def assertTokens(self, esperados, lexer):
+
+    def testNotaId(self):
+        lexer = self.lexer("nota(do, 2, blanca);")
+        esperados2 = ['NOTA', 'LPAREN', 'NOTAID', 'COLON', 'NUMBER', 'COLON', 'FIGURE', 'RPAREN', 'SEMICOLON']
+        self.assertTokens(esperados2, lexer)
+
+    def assertTokens(self, esperados, lexer2):
         """ Assert una lista de tokens supuestamente consumidos ok por el lexer pasado como parametro """
         obtenidos = []
-        token = lexer.token()
+        token = lexer2.token()
         while token is not None:
             obtenidos.append(token.type)
-            token = lexer.token()
+            token = lexer2.token()
 
         for index, val in enumerate(esperados):
             self.assertEqual(obtenidos[index], esperados[index])
