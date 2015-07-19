@@ -13,7 +13,7 @@ reservadas = {
 # Todos los tokens que considero necesarios que me instancie el lexer
 tokens = [
    'HASH',
-   'COLON',
+   'COMMA',
    'NUMBER',
    'FIGURE',
    'LCURL',
@@ -24,8 +24,8 @@ tokens = [
    'SEMICOLON',
    'EQUAL',
    'ALTURA',
+   'NOTAID',
    'CONSTID',
-   'NOTAID'
 ] + list(reservadas.values())
 
 
@@ -58,13 +58,13 @@ def t_NUMBER(token):
   return token
 
 def t_FIGURE(token):
-  r"redonda|blanca|negra|corchea|semicorchea|fusa|semifusa"
+  r"\b(redonda|blanca|negra|corchea|semicorchea|fusa|semifusa)\b"
   if token.value in figuras:
     token.value = {"value": figuras[token.value], "type": token.value}
   return token
 
 def t_NOTA(token):
-  r"do|re|mi|fa|sol|la|si"
+  r"\b(do|re|mi|fa|sol|la|si)\b"
   token.type = 'NOTAID'
   return token
 
@@ -92,7 +92,7 @@ t_DIV = r"/"
 t_HASH = r"\#"
 t_SEMICOLON = r";"
 t_EQUAL = r"="
-t_COLON = r","
+t_COMMA = r","
 
 
 #ignoro whitespaces

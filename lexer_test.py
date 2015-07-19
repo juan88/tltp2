@@ -15,36 +15,26 @@ class LexerTest(unittest.TestCase):
     def testLeoEncabezadoYValidoTokens1(self):
         expresion = self.leer_archivo("entradas_de_prueba/encabezado1.mus")
         lexer = self.lexer(expresion)
-        token = lexer.token()
-        # print "test1"
-        # print token
-        while token is not None:
-            # print "test1"
-            # print token.value
-            token = lexer.token()
+        esperados = ['HASH', 'TEMPO', 'FIGURE', 'NUMBER',
+            'HASH', 'COMPAS', 'NUMBER', 'DIV', 'NUMBER', 
+            'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+            'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON']
+        self.assertTokens(esperados, lexer)
 
-        self.assertTrue(True)
 
     def testLeoEncabezadoYValidoTokens2(self):
         expresion = self.leer_archivo("entradas_de_prueba/encabezado2.mus")
         lexer = self.lexer(expresion)
-        
-        token = lexer.token()
-        while token is not None:
-            # print "test2"
-            # print token.type
-            # print token.value
-            token = lexer.token()
-
-        self.assertTrue(True)
+        esperados = ['HASH', 'TEMPO', 'FIGURE', 'NUMBER',
+            'HASH', 'COMPAS', 'NUMBER', 'DIV', 'NUMBER', 
+            'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+            'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON']
+        self.assertTokens(esperados, lexer)
 
 
     def testTokensLinea1(self):
         lexer = self.lexer("#tempo redonda 60")
         esperados = ['HASH', 'TEMPO', 'FIGURE', 'NUMBER']
-        #print "test3"
-        #for lex in lexer:
-        #    print lex
         self.assertTokens(esperados, lexer)
 
     def testTokensLinea2(self):
@@ -70,20 +60,110 @@ class LexerTest(unittest.TestCase):
 
     def testNotaId(self):
         lexer = self.lexer("nota(do, 2, blanca);")
-        esperados2 = ['NOTA', 'LPAREN', 'NOTAID', 'COLON', 'NUMBER', 'COLON', 'FIGURE', 'RPAREN', 'SEMICOLON']
+        esperados2 = ['NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'NUMBER', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON']
         self.assertTokens(esperados2, lexer)
 
+    def testSilencio(self):
+        lexer = self.lexer("silencio(blanca);")
+        esperados2 = ['SILENCIO', 'LPAREN', 'FIGURE', 'RPAREN', 'SEMICOLON']
+        self.assertTokens(esperados2, lexer)    
+    
+    def testCompas(self):
+        """ Testeo un compas entero para ver tome bien los tokens definidos"""
+        texto = """compas
+        {
+            nota(si, octava, blanca);
+            // esto es un silencio que dura una blanca.
+            silencio(blanca);
+        }"""
+        
+        lexer = self.lexer(texto)
+        esperados2 = ['COMPAS', 'LCURL', 'NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'CONSTID', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON',
+            'SILENCIO', 'LPAREN', 'FIGURE', 'RPAREN', 'SEMICOLON', 'RCURL']
+        self.assertTokens(esperados2, lexer)
+
+    def testRepetir1(self):
+        """ Testeo un bloque repetir para ver tome bien los tokens definidos"""
+        texto = """repetir(10) {
+            compas
+            {
+                nota(si, octava, blanca);
+                nota(do, octava, blanca);
+            }
+        }"""
+        
+        lexer = self.lexer(texto)
+        esperados2 = [
+            'REPEAT', 'LPAREN', 'NUMBER', 'RPAREN', 'LCURL',
+                'COMPAS', 'LCURL', 
+                    'NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'CONSTID', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON',
+                    'NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'CONSTID', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON',
+                'RCURL',
+            'RCURL']
+        self.assertTokens(esperados2, lexer)
+
+    def testRepetir2(self):
+        """ Testeo un bloque repetir un poco más complejo para ver tome bien los tokens definidos"""
+        texto = """repetir(3) {
+            compas
+            {
+                nota(si, octava, blanca);
+                nota(do, octava, blanca);
+            }
+            compas
+            {
+                nota(do, octava, semifusa);
+            }
+        }"""
+        
+        lexer = self.lexer(texto)
+        esperados2 = [
+            'REPEAT', 'LPAREN', 'NUMBER', 'RPAREN', 'LCURL',
+                'COMPAS', 'LCURL', 
+                    'NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'CONSTID', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON',
+                    'NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'CONSTID', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON',
+                'RCURL',
+                'COMPAS', 'LCURL', 
+                    'NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'CONSTID', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON',
+                'RCURL',
+            'RCURL']
+        self.assertTokens(esperados2, lexer)    
+
+    def testVoz(self):
+        """ Testeo un de voz"""
+        texto = """voz(esto_es_una_constante) {
+            compas
+            {
+                nota(si, octava, blanca);
+                nota(do, octava, blanca);
+            }
+        }"""
+        
+        lexer = self.lexer(texto)
+        esperados2 = [
+            'VOICE', 'LPAREN', 'CONSTID', 'RPAREN', 'LCURL',
+                'COMPAS', 'LCURL', 
+                    'NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'CONSTID', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON',
+                    'NOTA', 'LPAREN', 'NOTAID', 'COMMA', 'CONSTID', 'COMMA', 'FIGURE', 'RPAREN', 'SEMICOLON',
+                'RCURL',
+            'RCURL']
+        self.assertTokens(esperados2, lexer)
+
+
+
+    # Funciones utilitarias
     def assertTokens(self, esperados, lexer2):
         """ Assert una lista de tokens supuestamente consumidos ok por el lexer pasado como parametro """
         obtenidos = []
         token = lexer2.token()
         while token is not None:
+            #print token #descomentar para debugging. Muy útil!
             obtenidos.append(token.type)
             token = lexer2.token()
 
+
         for index, val in enumerate(esperados):
             self.assertEqual(obtenidos[index], esperados[index])
-
 
     def lexer(self, expresion):
         lexer = lex(module=lexer_rules)
