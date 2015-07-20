@@ -1,0 +1,160 @@
+Created by PLY version 3.6 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CONST
+    EQUAL
+    VOICE
+    LCURL
+    RPAREN
+    SEMICOLON
+    TEMPO
+    RCURL
+    COLON
+    ALTURA
+    REPEAT
+    NOTAID
+    LPAREN
+    CONSTID
+    NOTA
+    SILENCIO
+
+Grammar
+
+Rule 0     S' -> exp
+Rule 1     exp -> encabezado
+Rule 2     encabezado -> tempo compas
+Rule 3     tempo -> HASH FIGURE NUMBER
+Rule 4     compas -> HASH COMPAS NUMBER DIV NUMBER
+
+Terminals, with rules where they appear
+
+ALTURA               : 
+COLON                : 
+COMPAS               : 4
+CONST                : 
+CONSTID              : 
+DIV                  : 4
+EQUAL                : 
+FIGURE               : 3
+HASH                 : 3 4
+LCURL                : 
+LPAREN               : 
+NOTA                 : 
+NOTAID               : 
+NUMBER               : 3 4 4
+RCURL                : 
+REPEAT               : 
+RPAREN               : 
+SEMICOLON            : 
+SILENCIO             : 
+TEMPO                : 
+VOICE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+compas               : 2
+encabezado           : 1
+exp                  : 0
+tempo                : 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . exp
+    (1) exp -> . encabezado
+    (2) encabezado -> . tempo compas
+    (3) tempo -> . HASH FIGURE NUMBER
+
+    HASH            shift and go to state 1
+
+    encabezado                     shift and go to state 2
+    tempo                          shift and go to state 3
+    exp                            shift and go to state 4
+
+state 1
+
+    (3) tempo -> HASH . FIGURE NUMBER
+
+    FIGURE          shift and go to state 5
+
+
+state 2
+
+    (1) exp -> encabezado .
+
+    $end            reduce using rule 1 (exp -> encabezado .)
+
+
+state 3
+
+    (2) encabezado -> tempo . compas
+    (4) compas -> . HASH COMPAS NUMBER DIV NUMBER
+
+    HASH            shift and go to state 6
+
+    compas                         shift and go to state 7
+
+state 4
+
+    (0) S' -> exp .
+
+
+
+state 5
+
+    (3) tempo -> HASH FIGURE . NUMBER
+
+    NUMBER          shift and go to state 8
+
+
+state 6
+
+    (4) compas -> HASH . COMPAS NUMBER DIV NUMBER
+
+    COMPAS          shift and go to state 9
+
+
+state 7
+
+    (2) encabezado -> tempo compas .
+
+    $end            reduce using rule 2 (encabezado -> tempo compas .)
+
+
+state 8
+
+    (3) tempo -> HASH FIGURE NUMBER .
+
+    HASH            reduce using rule 3 (tempo -> HASH FIGURE NUMBER .)
+
+
+state 9
+
+    (4) compas -> HASH COMPAS . NUMBER DIV NUMBER
+
+    NUMBER          shift and go to state 10
+
+
+state 10
+
+    (4) compas -> HASH COMPAS NUMBER . DIV NUMBER
+
+    DIV             shift and go to state 11
+
+
+state 11
+
+    (4) compas -> HASH COMPAS NUMBER DIV . NUMBER
+
+    NUMBER          shift and go to state 12
+
+
+state 12
+
+    (4) compas -> HASH COMPAS NUMBER DIV NUMBER .
+
+    $end            reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
+
