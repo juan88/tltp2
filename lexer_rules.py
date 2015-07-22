@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 #Defino las palabras reservadas como key : value para asociarlas a un token
+import ply.lex as lex
+
 reservadas = {
   'tempo' : 'TEMPO',
   'voz' : 'VOICE',
@@ -8,6 +10,7 @@ reservadas = {
   'silencio' : 'SILENCIO',
   'compas' : 'COMPAS',
   'repetir' : 'REPEAT',
+  'nil' : 'NIL',
 }
 
 # Todos los tokens que considero necesarios que me instancie el lexer
@@ -77,6 +80,7 @@ def t_CONSTID(token):
 def t_NEWLINE(token):
   r"\n+"
   token.lexer.lineno += len(token.value)
+  return token
 
 def t_ignore_COMMENT(t):
   r'//.*'
@@ -107,3 +111,8 @@ def t_error(token):
     message += "\nline:" + str(token.lineno)
     message += "\nposition:" + str(token.lexpos)
     raise Exception(message)
+
+lexer = lex.lex()
+
+def lexer_rules(inp):
+  lexer.input(inp)

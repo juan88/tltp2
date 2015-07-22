@@ -5,9 +5,9 @@ _tabversion = '3.5'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'A39979328218281F32D0ACC4B08DA663'
+_lr_signature = '1C96EFE1E2141CA407365DEC118DA84D'
     
-_lr_action_items = {'HASH':([0,3,8,],[1,6,-3,]),'FIGURE':([1,],[5,]),'COMPAS':([6,],[9,]),'NUMBER':([5,9,11,],[8,10,12,]),'DIV':([10,],[11,]),'$end':([2,4,7,12,],[-1,0,-2,-4,]),}
+_lr_action_items = {'HASH':([0,2,4,12,],[1,-4,7,-3,]),'NIL':([0,2,4,12,],[2,-4,8,-3,]),'FIGURE':([6,],[10,]),'COMPAS':([7,],[11,]),'TEMPO':([1,],[6,]),'NUMBER':([10,11,14,],[12,13,15,]),'DIV':([13,],[14,]),'$end':([3,5,8,9,15,],[-1,0,-6,-2,-5,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'encabezado':([0,],[2,]),'tempo':([0,],[3,]),'exp':([0,],[4,]),'compas':([3,],[7,]),}
+_lr_goto_items = {'encabezado':([0,],[3,]),'tempo':([0,],[4,]),'exp':([0,],[5,]),'compas':([4,],[9,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,7 +27,9 @@ del _lr_goto_items
 _lr_productions = [
   ("S' -> exp","S'",1,None,None,None),
   ('exp -> encabezado','exp',1,'p_exp','yacc.py',11),
-  ('encabezado -> tempo compas','encabezado',2,'p_encabezado','yacc.py',15),
-  ('tempo -> HASH FIGURE NUMBER','tempo',3,'p_tempo','yacc.py',19),
-  ('compas -> HASH COMPAS NUMBER DIV NUMBER','compas',5,'p_compas','yacc.py',23),
+  ('encabezado -> tempo compas','encabezado',2,'p_encabezado','yacc.py',16),
+  ('tempo -> HASH TEMPO FIGURE NUMBER','tempo',4,'p_tempo','yacc.py',21),
+  ('tempo -> NIL','tempo',1,'p_tempo_nil','yacc.py',26),
+  ('compas -> HASH COMPAS NUMBER DIV NUMBER','compas',5,'p_compas','yacc.py',30),
+  ('compas -> NIL','compas',1,'p_compas_nil','yacc.py',35),
 ]

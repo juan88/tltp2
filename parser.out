@@ -8,7 +8,6 @@ Unused terminals:
     LCURL
     RPAREN
     SEMICOLON
-    TEMPO
     RCURL
     COLON
     ALTURA
@@ -24,31 +23,34 @@ Grammar
 Rule 0     S' -> exp
 Rule 1     exp -> encabezado
 Rule 2     encabezado -> tempo compas
-Rule 3     tempo -> HASH FIGURE NUMBER
-Rule 4     compas -> HASH COMPAS NUMBER DIV NUMBER
+Rule 3     tempo -> HASH TEMPO FIGURE NUMBER
+Rule 4     tempo -> NIL
+Rule 5     compas -> HASH COMPAS NUMBER DIV NUMBER
+Rule 6     compas -> NIL
 
 Terminals, with rules where they appear
 
 ALTURA               : 
 COLON                : 
-COMPAS               : 4
+COMPAS               : 5
 CONST                : 
 CONSTID              : 
-DIV                  : 4
+DIV                  : 5
 EQUAL                : 
 FIGURE               : 3
-HASH                 : 3 4
+HASH                 : 3 5
 LCURL                : 
 LPAREN               : 
+NIL                  : 4 6
 NOTA                 : 
 NOTAID               : 
-NUMBER               : 3 4 4
+NUMBER               : 3 5 5
 RCURL                : 
 REPEAT               : 
 RPAREN               : 
 SEMICOLON            : 
 SILENCIO             : 
-TEMPO                : 
+TEMPO                : 3
 VOICE                : 
 error                : 
 
@@ -66,95 +68,122 @@ state 0
     (0) S' -> . exp
     (1) exp -> . encabezado
     (2) encabezado -> . tempo compas
-    (3) tempo -> . HASH FIGURE NUMBER
+    (3) tempo -> . HASH TEMPO FIGURE NUMBER
+    (4) tempo -> . NIL
 
     HASH            shift and go to state 1
+    NIL             shift and go to state 2
 
-    encabezado                     shift and go to state 2
-    tempo                          shift and go to state 3
-    exp                            shift and go to state 4
+    encabezado                     shift and go to state 3
+    tempo                          shift and go to state 4
+    exp                            shift and go to state 5
 
 state 1
 
-    (3) tempo -> HASH . FIGURE NUMBER
+    (3) tempo -> HASH . TEMPO FIGURE NUMBER
 
-    FIGURE          shift and go to state 5
+    TEMPO           shift and go to state 6
 
 
 state 2
+
+    (4) tempo -> NIL .
+
+    HASH            reduce using rule 4 (tempo -> NIL .)
+    NIL             reduce using rule 4 (tempo -> NIL .)
+
+
+state 3
 
     (1) exp -> encabezado .
 
     $end            reduce using rule 1 (exp -> encabezado .)
 
 
-state 3
+state 4
 
     (2) encabezado -> tempo . compas
-    (4) compas -> . HASH COMPAS NUMBER DIV NUMBER
+    (5) compas -> . HASH COMPAS NUMBER DIV NUMBER
+    (6) compas -> . NIL
 
-    HASH            shift and go to state 6
+    HASH            shift and go to state 7
+    NIL             shift and go to state 8
 
-    compas                         shift and go to state 7
+    compas                         shift and go to state 9
 
-state 4
+state 5
 
     (0) S' -> exp .
 
 
 
-state 5
-
-    (3) tempo -> HASH FIGURE . NUMBER
-
-    NUMBER          shift and go to state 8
-
-
 state 6
 
-    (4) compas -> HASH . COMPAS NUMBER DIV NUMBER
+    (3) tempo -> HASH TEMPO . FIGURE NUMBER
 
-    COMPAS          shift and go to state 9
+    FIGURE          shift and go to state 10
 
 
 state 7
+
+    (5) compas -> HASH . COMPAS NUMBER DIV NUMBER
+
+    COMPAS          shift and go to state 11
+
+
+state 8
+
+    (6) compas -> NIL .
+
+    $end            reduce using rule 6 (compas -> NIL .)
+
+
+state 9
 
     (2) encabezado -> tempo compas .
 
     $end            reduce using rule 2 (encabezado -> tempo compas .)
 
 
-state 8
-
-    (3) tempo -> HASH FIGURE NUMBER .
-
-    HASH            reduce using rule 3 (tempo -> HASH FIGURE NUMBER .)
-
-
-state 9
-
-    (4) compas -> HASH COMPAS . NUMBER DIV NUMBER
-
-    NUMBER          shift and go to state 10
-
-
 state 10
 
-    (4) compas -> HASH COMPAS NUMBER . DIV NUMBER
-
-    DIV             shift and go to state 11
-
-
-state 11
-
-    (4) compas -> HASH COMPAS NUMBER DIV . NUMBER
+    (3) tempo -> HASH TEMPO FIGURE . NUMBER
 
     NUMBER          shift and go to state 12
 
 
+state 11
+
+    (5) compas -> HASH COMPAS . NUMBER DIV NUMBER
+
+    NUMBER          shift and go to state 13
+
+
 state 12
 
-    (4) compas -> HASH COMPAS NUMBER DIV NUMBER .
+    (3) tempo -> HASH TEMPO FIGURE NUMBER .
 
-    $end            reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
+    HASH            reduce using rule 3 (tempo -> HASH TEMPO FIGURE NUMBER .)
+    NIL             reduce using rule 3 (tempo -> HASH TEMPO FIGURE NUMBER .)
+
+
+state 13
+
+    (5) compas -> HASH COMPAS NUMBER . DIV NUMBER
+
+    DIV             shift and go to state 14
+
+
+state 14
+
+    (5) compas -> HASH COMPAS NUMBER DIV . NUMBER
+
+    NUMBER          shift and go to state 15
+
+
+state 15
+
+    (5) compas -> HASH COMPAS NUMBER DIV NUMBER .
+
+    $end            reduce using rule 5 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
 
