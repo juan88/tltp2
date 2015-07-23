@@ -5,9 +5,9 @@ _tabversion = '3.5'
 
 _lr_method = 'LALR'
 
-_lr_signature = '1C96EFE1E2141CA407365DEC118DA84D'
+_lr_signature = '466E15A9BCE3441A4355F1648A96BAD4'
     
-_lr_action_items = {'HASH':([0,2,4,12,],[1,-4,7,-3,]),'NIL':([0,2,4,12,],[2,-4,8,-3,]),'FIGURE':([6,],[10,]),'COMPAS':([7,],[11,]),'TEMPO':([1,],[6,]),'NUMBER':([10,11,14,],[12,13,15,]),'DIV':([13,],[14,]),'$end':([3,5,8,9,15,],[-1,0,-6,-2,-5,]),}
+_lr_action_items = {'CONST':([6,17,19,],[10,-4,10,]),'SEMICOLON':([18,],[19,]),'FIGURE':([7,],[11,]),'COMPAS':([5,],[8,]),'TEMPO':([4,],[7,]),'NUMBER':([8,11,15,16,],[12,14,17,18,]),'EQUAL':([13,],[16,]),'HASH':([0,2,14,],[4,5,-3,]),'DIV':([12,],[15,]),'CONSTID':([10,],[13,]),'$end':([1,3,6,9,17,19,20,],[-1,0,-6,-2,-4,-6,-5,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'encabezado':([0,],[3,]),'tempo':([0,],[4,]),'exp':([0,],[5,]),'compas':([4,],[9,]),}
+_lr_goto_items = {'encabezado':([0,],[1,]),'const':([6,19,],[9,20,]),'tempo':([0,],[2,]),'exp':([0,],[3,]),'compas':([2,],[6,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,9 +27,9 @@ del _lr_goto_items
 _lr_productions = [
   ("S' -> exp","S'",1,None,None,None),
   ('exp -> encabezado','exp',1,'p_exp','yacc.py',11),
-  ('encabezado -> tempo compas','encabezado',2,'p_encabezado','yacc.py',16),
+  ('encabezado -> tempo compas const','encabezado',3,'p_encabezado','yacc.py',16),
   ('tempo -> HASH TEMPO FIGURE NUMBER','tempo',4,'p_tempo','yacc.py',21),
-  ('tempo -> NIL','tempo',1,'p_tempo_nil','yacc.py',26),
-  ('compas -> HASH COMPAS NUMBER DIV NUMBER','compas',5,'p_compas','yacc.py',30),
-  ('compas -> NIL','compas',1,'p_compas_nil','yacc.py',35),
+  ('compas -> HASH COMPAS NUMBER DIV NUMBER','compas',5,'p_compas','yacc.py',27),
+  ('const -> CONST CONSTID EQUAL NUMBER SEMICOLON const','const',6,'p_const','yacc.py',33),
+  ('const -> <empty>','const',0,'p_const_nil','yacc.py',38),
 ]

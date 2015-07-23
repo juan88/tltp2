@@ -9,8 +9,7 @@ reservadas = {
   'nota' : 'NOTA',
   'silencio' : 'SILENCIO',
   'compas' : 'COMPAS',
-  'repetir' : 'REPEAT',
-  'nil' : 'NIL',
+  'repetir' : 'REPEAT'
 }
 
 # Todos los tokens que considero necesarios que me instancie el lexer

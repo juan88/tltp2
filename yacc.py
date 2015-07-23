@@ -3,7 +3,8 @@ from lexer_rules import tokens
 
 DEBUG = True
 
-name = {}
+dicc = {}
+consts = {}
 
 #BNF
 
@@ -13,27 +14,31 @@ def p_exp(p):
 	print "expresion: " + str(p[0])
 
 def p_encabezado(p):
-	'encabezado : tempo compas'
+	'encabezado : tempo compas const'
 	p[0] = p[1]
 	print "encabezado"
 
 def p_tempo(p):
 	'tempo : HASH TEMPO FIGURE NUMBER'
-	p[0] = p[3]
+	p[0] = {p[3]["type"] : p[4]}
+	dicc["tempo"] = p[0]
 	print "tempo: " + str(p[0])
-
-def p_tempo_nil(p):
-	'tempo : NIL'
-	print "tempo nil"
 
 def p_compas(p):
 	'compas : HASH COMPAS NUMBER DIV NUMBER'
-	p[0] = p[3]
-	print "compas"
+	p[0] = str(p[3]) + "/" + str(p[5])
+	dicc["compas"] = p[0]
+	print "compas: " + p[0]
 
-def p_compas_nil(p):
-	'compas : NIL'
-	print "compas es nil"
+def p_const(p):
+	'const : CONST CONSTID EQUAL NUMBER SEMICOLON const'
+	consts[p[2]] = p[4]
+	print "const: " + p[2] + ": " + str(consts[p[2]])
+
+def p_const_nil(p):
+	'const : '
+	p[0] = None
+
 
 def p_error(p):
 	print "Tenes un error en ", p
@@ -41,12 +46,14 @@ def p_error(p):
 
 parser = yacc.yacc()
 
-for tok in tokens:
-	print tok
-
+s = ""
 while True:
-    s = raw_input("musileng > ")
-    if not(s):
-        continue
-    result = parser.parse(s)
-    print result
+	try:
+	    s = s + " " + raw_input()
+	    if not(s):
+    		continue
+	except (EOFError):
+		break
+
+result = parser.parse(s)
+print result
