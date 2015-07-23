@@ -26,6 +26,7 @@ tokens = [
    'ALTURA',
    'NOTAID',
    'CONSTID',
+   'DOT',
 ] + list(reservadas.values())
 
 
@@ -93,6 +94,7 @@ t_HASH = r"\#"
 t_SEMICOLON = r";"
 t_EQUAL = r"="
 t_COMMA = r","
+t_DOT = r"\."
 
 
 #ignoro whitespaces
