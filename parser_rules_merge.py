@@ -3,7 +3,8 @@ from lexer_rules import tokens
 
 DEBUG = True
 
-dicc = {}
+voices = 1 # NTRACK (#tracks = #voices + track del encabezado)
+dicc = {} 
 consts = {}
 
 #BNF
@@ -28,7 +29,7 @@ def p_compas(p):
 	'compas : HASH COMPAS NUMBER DIV NUMBER'
 	p[0] = str(p[3]) + "/" + str(p[5])
 	dicc["compas"] = p[0]
-	print "compas: " + p[0]
+	print "compas: " + p[-2]
 
 def p_constantes(p):
 	'constantes : CONST CONSTID EQUAL NUMBER SEMICOLON constantes'
@@ -41,6 +42,7 @@ def p_constantes_lambda(p):
 
 def p_voces(p):
 	'voces : voz voces'
+    pass
 
 def p_voces_lambda(p):
 	'voces : '
@@ -52,6 +54,7 @@ def p_voz(p):
 
 def p_decla_instrumento(p):
     'decla_instrumento : VOICE LPAREN NUMBER RPAREN'
+    voices += 1
     pass
 
 def p_decla_instrumento_const(p):
@@ -59,6 +62,7 @@ def p_decla_instrumento_const(p):
     if(not(p[3] in consts)):
     	p_error(p)
     else:
+        voices += 1
     	pass
 
     pass
