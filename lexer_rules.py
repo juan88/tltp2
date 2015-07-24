@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 #Defino las palabras reservadas como key : value para asociarlas a un token
+import ply.lex as lex
+
 reservadas = {
   'tempo' : 'TEMPO',
   'voz' : 'VOICE',
@@ -7,13 +9,13 @@ reservadas = {
   'nota' : 'NOTA',
   'silencio' : 'SILENCIO',
   'compas' : 'COMPAS',
-  'repetir' : 'REPEAT',
+  'repetir' : 'REPEAT'
 }
 
 # Todos los tokens que considero necesarios que me instancie el lexer
 tokens = [
    'HASH',
-   'COMMA',
+   'COLON',
    'NUMBER',
    'FIGURE',
    'LCURL',
@@ -24,9 +26,8 @@ tokens = [
    'SEMICOLON',
    'EQUAL',
    'ALTURA',
-   'NOTAID',
    'CONSTID',
-   'DOT',
+   'NOTAID'
 ] + list(reservadas.values())
 
 
@@ -59,13 +60,13 @@ def t_NUMBER(token):
   return token
 
 def t_FIGURE(token):
-  r"\b(redonda|blanca|negra|corchea|semicorchea|fusa|semifusa)\b"
+  r"redonda|blanca|negra|corchea|semicorchea|fusa|semifusa"
   if token.value in figuras:
     token.value = {"value": figuras[token.value], "type": token.value}
   return token
 
 def t_NOTA(token):
-  r"\b(do|re|mi|fa|sol|la|si)\b"
+  r"do|re|mi|fa|sol|la|si"
   token.type = 'NOTAID'
   return token
 
@@ -78,6 +79,7 @@ def t_CONSTID(token):
 def t_NEWLINE(token):
   r"\n+"
   token.lexer.lineno += len(token.value)
+  return token
 
 def t_ignore_COMMENT(t):
   r'//.*'
@@ -93,8 +95,7 @@ t_DIV = r"/"
 t_HASH = r"\#"
 t_SEMICOLON = r";"
 t_EQUAL = r"="
-t_COMMA = r","
-t_DOT = r"\."
+t_COLON = r","
 
 
 #ignoro whitespaces
@@ -109,3 +110,8 @@ def t_error(token):
     message += "\nline:" + str(token.lineno)
     message += "\nposition:" + str(token.lexpos)
     raise Exception(message)
+
+lexer = lex.lex()
+
+def lexer_rules(inp):
+  lexer.input(inp)
