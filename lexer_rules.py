@@ -80,7 +80,6 @@ def t_CONSTID(token):
 def t_NEWLINE(token):
   r"\n+"
   token.lexer.lineno += len(token.value)
-  return token
 
 def t_ignore_COMMENT(t):
   r'//.*'

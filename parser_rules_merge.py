@@ -9,7 +9,7 @@ consts = {}
 #BNF
 
 def p_start(p):
-	'start : encabezado'
+	'start : encabezado constantes voces'
 	p[0] = p[1]
 	print "expresion: " + str(p[0])
 
@@ -75,7 +75,7 @@ def p_musica_bucle(p):
     'musica : bucle musica'
     pass
 
-def p_compas(p):
+def p_compas_def(p):
     'compas : COMPAS LCURL notas RCURL'
     pass    
 
@@ -119,7 +119,7 @@ def p_simbolo_altura_lambda(p):
     'simbolo_altura : '
     pass
 
-def p_simbolo_altura_lambda(p):
+def p_simbolo_altura(p):
     'simbolo_altura : ALTURA'
     pass
 
@@ -145,20 +145,5 @@ def p_error(token):
         message += "\ntype:" + token.type
         message += "\nvalue:" + str(token.value)
         message += "\nline:" + str(token.lineno)
-        message += "\nposition:" + str(token.lexpos)
+        message += "\nposition:" + str(token.lexpos) 
         raise Exception(message)
-
-
-parser = yacc.yacc()
-
-s = ""
-while True:
-	try:
-	    s = s + " " + raw_input()
-	    if not(s):
-    		continue
-	except (EOFError):
-		break
-
-result = parser.parse(s)
-print result
