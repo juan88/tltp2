@@ -54,6 +54,15 @@ def p_decla_instrumento(p):
     'decla_instrumento : VOICE LPAREN NUMBER RPAREN'
     pass
 
+def p_decla_instrumento_const(p):
+    'decla_instrumento : VOICE LPAREN CONSTID RPAREN'
+    if(not(p[3] in consts)):
+    	p_error(p)
+    else:
+    	pass
+
+    pass
+
 def p_musica_lambda(p):
     'musica :'
     pass
