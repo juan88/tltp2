@@ -7,7 +7,7 @@ const octava = 5;
 voz(piano)
 {
 	compas{
-        	nota(do, 5, blanca)
-        	nota(re, 5, blanca)
+        	nota(do, 5, blanca);
+        	nota(re, 5, blanca);
 	}
 }

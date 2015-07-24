@@ -5,9 +5,9 @@ _tabversion = '3.5'
 
 _lr_method = 'LALR'
 
-_lr_signature = '6C8B96F6DC630B67FADA9D90E4AD50C7'
+_lr_signature = '23B01C84CF5FFB3DF78EB5B18D9AA0B4'
     
-_lr_action_items = {'REPEAT':([19,29,30,35,56,],[28,28,28,-14,-15,]),'CONST':([2,9,35,37,],[6,-2,-14,6,]),'SEMICOLON':([27,],[37,]),'FIGURE':([5,36,],[10,44,]),'COMPAS':([3,17,19,29,30,35,51,52,53,56,],[8,-3,8,8,8,-14,8,8,8,-15,]),'NOTAID':([16,22,24,26,49,],[24,24,-20,-21,-28,]),'TEMPO':([1,],[5,]),'NUMBER':([10,18,20,38,],[17,27,32,47,]),'EQUAL':([11,],[18,]),'LCURL':([8,12,42,43,50,],[16,19,-9,-10,51,]),'RCURL':([16,19,22,23,24,26,29,30,31,34,35,39,40,49,52,53,54,55,56,],[-18,-11,-18,35,-20,-21,-11,-11,41,-19,-14,-13,-12,-28,-16,-16,56,-17,-15,]),'RPAREN':([32,33,36,44,45,47,48,],[42,43,-25,-26,49,50,-27,]),'LPAREN':([14,25,28,],[20,36,38,]),'SILENCIO':([16,22,24,26,49,],[25,25,-20,-21,-28,]),'HASH':([0,],[1,]),'VOICE':([2,7,9,15,35,37,41,46,],[-5,14,-2,14,-14,-5,-8,-4,]),'CONSTID':([6,20,],[11,33,]),'DOT':([44,],[48,]),'$end':([2,4,7,9,13,15,21,35,37,41,46,],[-5,0,-7,-2,-1,-7,-6,-14,-5,-8,-4,]),}
+_lr_action_items = {'REPEAT':([19,30,31,36,65,],[29,29,29,-14,-15,]),'CONST':([2,9,36,39,],[6,-2,-14,6,]),'SEMICOLON':([28,63,],[39,66,]),'FIGURE':([5,37,38,58,],[10,47,48,47,]),'COMPAS':([3,17,19,30,31,36,57,59,61,65,],[8,-3,8,8,8,-14,8,8,8,-15,]),'RPAREN':([33,34,46,47,51,60,],[44,45,52,-25,55,63,]),'TEMPO':([1,],[5,]),'NUMBER':([10,18,20,40,54,],[17,28,33,51,56,]),'EQUAL':([11,],[18,]),'LCURL':([8,12,44,45,55,],[16,19,-9,-10,57,]),'RCURL':([16,19,22,23,24,27,30,31,32,35,36,41,42,52,59,61,62,64,65,66,],[-18,-11,-18,36,-20,-21,-11,-11,43,-19,-14,-13,-12,-26,-16,-16,65,-17,-15,-22,]),'NOTA':([16,22,24,27,52,66,],[26,26,-20,-21,-26,-22,]),'LPAREN':([14,25,26,29,],[20,37,38,40,]),'SILENCIO':([16,22,24,27,52,66,],[25,25,-20,-21,-26,-22,]),'HASH':([0,],[1,]),'VOICE':([2,7,9,15,36,39,43,50,],[-5,14,-2,14,-14,-5,-8,-4,]),'CONSTID':([6,20,],[11,34,]),'COMMA':([48,49,53,56,],[-24,54,-23,58,]),'$end':([2,4,7,9,13,15,21,36,39,43,50,],[-5,0,-7,-2,-1,-7,-6,-14,-5,-8,-4,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'figura':([16,22,],[22,22,]),'bucle':([19,29,30,],[29,29,29,]),'notas':([16,22,],[23,34,]),'compas':([3,19,29,30,51,52,53,],[9,30,30,30,52,53,53,]),'encabezado':([0,],[2,]),'compases':([52,53,],[54,55,]),'decla_instrumento':([7,15,],[12,12,]),'tempo':([0,],[3,]),'voces':([7,15,],[13,21,]),'start':([0,],[4,]),'musica':([19,29,30,],[31,39,40,]),'silencio':([16,22,],[26,26,]),'duracion':([36,],[45,]),'constantes':([2,37,],[7,46,]),'voz':([7,15,],[15,15,]),}
+_lr_goto_items = {'figura':([16,22,],[22,22,]),'bucle':([19,30,31,],[30,30,30,]),'notas':([16,22,],[23,35,]),'compas':([3,19,30,31,57,59,61,],[9,31,31,31,59,61,61,]),'encabezado':([0,],[2,]),'compases':([59,61,],[62,64,]),'notaProd':([16,22,],[24,24,]),'decla_instrumento':([7,15,],[12,12,]),'tempo':([0,],[3,]),'voces':([7,15,],[13,21,]),'simbolo_altura':([48,],[53,]),'start':([0,],[4,]),'musica':([19,30,31,],[32,41,42,]),'silencio':([16,22,],[27,27,]),'duracion':([37,58,],[46,60,]),'constantes':([2,39,],[7,50,]),'voz':([7,15,],[15,15,]),'altura':([38,],[49,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -45,13 +45,11 @@ _lr_productions = [
   ('compases -> compas compases','compases',2,'p_compases','parser_rules_merge.py',91),
   ('notas -> <empty>','notas',0,'p_notas_lambda','parser_rules_merge.py',95),
   ('notas -> figura notas','notas',2,'p_notas','parser_rules_merge.py',99),
-  ('figura -> NOTAID','figura',1,'p_figura_nota','parser_rules_merge.py',103),
+  ('figura -> notaProd','figura',1,'p_figura_nota','parser_rules_merge.py',103),
   ('figura -> silencio','figura',1,'p_figura_silencio','parser_rules_merge.py',107),
-  ('nota -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN','nota',8,'p_nota','parser_rules_merge.py',111),
+  ('notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON','notaProd',9,'p_nota_prod','parser_rules_merge.py',111),
   ('altura -> FIGURE simbolo_altura','altura',2,'p_altura','parser_rules_merge.py',115),
   ('simbolo_altura -> <empty>','simbolo_altura',0,'p_simbolo_altura_lambda','parser_rules_merge.py',119),
-  ('duracion -> <empty>','duracion',0,'p_duracion_lambda','parser_rules_merge.py',123),
   ('duracion -> FIGURE','duracion',1,'p_duracion','parser_rules_merge.py',127),
-  ('duracion -> FIGURE DOT','duracion',2,'p_duracion_punto','parser_rules_merge.py',131),
   ('silencio -> SILENCIO LPAREN duracion RPAREN','silencio',4,'p_silencio','parser_rules_merge.py',135),
 ]

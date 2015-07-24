@@ -92,7 +92,7 @@ def p_compases(p):
     pass
 
 def p_notas_lambda(p):
-    'notas :'
+    'notas : '
     pass    
 
 def p_notas(p):
@@ -100,15 +100,15 @@ def p_notas(p):
     pass
 
 def p_figura_nota(p):
-    'figura : NOTAID'
+    'figura : notaProd'
     pass
 
 def p_figura_silencio(p):
     'figura : silencio'
     pass
 
-def p_nota(p):
-    'nota : NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN'
+def p_nota_prod(p):
+    'notaProd : NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON'
     pass
 
 def p_altura(p):
@@ -119,17 +119,17 @@ def p_simbolo_altura_lambda(p):
     'simbolo_altura :'
     pass    
 
-def p_duracion_lambda(p):
-    'duracion :'
-    pass    
+# def p_duracion_lambda(p):
+#     'duracion :'
+#     pass    
 
 def p_duracion(p):
     'duracion : FIGURE'
     pass
 
-def p_duracion_punto(p):
-    'duracion : FIGURE DOT'
-    pass
+# def p_duracion_punto(p):
+#     'duracion : FIGURE DOT'
+#     pass
 
 def p_silencio(p):
     'silencio : SILENCIO LPAREN duracion RPAREN'

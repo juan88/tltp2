@@ -15,7 +15,7 @@ reservadas = {
 # Todos los tokens que considero necesarios que me instancie el lexer
 tokens = [
    'HASH',
-   'COLON',
+   'COMMA',
    'NUMBER',
    'FIGURE',
    'LCURL',
@@ -95,7 +95,7 @@ t_DIV = r"/"
 t_HASH = r"\#"
 t_SEMICOLON = r";"
 t_EQUAL = r"="
-t_COLON = r","
+t_COMMA = r","
 
 
 #ignoro whitespaces
