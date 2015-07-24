@@ -5,9 +5,9 @@ _tabversion = '3.5'
 
 _lr_method = 'LALR'
 
-_lr_signature = '23B01C84CF5FFB3DF78EB5B18D9AA0B4'
+_lr_signature = '08610A8A02B0A40444995A2DACA7E045'
     
-_lr_action_items = {'REPEAT':([19,30,31,36,65,],[29,29,29,-14,-15,]),'CONST':([2,9,36,39,],[6,-2,-14,6,]),'SEMICOLON':([28,63,],[39,66,]),'FIGURE':([5,37,38,58,],[10,47,48,47,]),'COMPAS':([3,17,19,30,31,36,57,59,61,65,],[8,-3,8,8,8,-14,8,8,8,-15,]),'RPAREN':([33,34,46,47,51,60,],[44,45,52,-25,55,63,]),'TEMPO':([1,],[5,]),'NUMBER':([10,18,20,40,54,],[17,28,33,51,56,]),'EQUAL':([11,],[18,]),'LCURL':([8,12,44,45,55,],[16,19,-9,-10,57,]),'RCURL':([16,19,22,23,24,27,30,31,32,35,36,41,42,52,59,61,62,64,65,66,],[-18,-11,-18,36,-20,-21,-11,-11,43,-19,-14,-13,-12,-26,-16,-16,65,-17,-15,-22,]),'NOTA':([16,22,24,27,52,66,],[26,26,-20,-21,-26,-22,]),'LPAREN':([14,25,26,29,],[20,37,38,40,]),'SILENCIO':([16,22,24,27,52,66,],[25,25,-20,-21,-26,-22,]),'HASH':([0,],[1,]),'VOICE':([2,7,9,15,36,39,43,50,],[-5,14,-2,14,-14,-5,-8,-4,]),'CONSTID':([6,20,],[11,34,]),'COMMA':([48,49,53,56,],[-24,54,-23,58,]),'$end':([2,4,7,9,13,15,21,36,39,43,50,],[-5,0,-7,-2,-1,-7,-6,-14,-5,-8,-4,]),}
+_lr_action_items = {'HASH':([0,],[1,]),'SEMICOLON':([26,34,],[30,35,]),'FIGURE':([5,19,32,],[8,21,21,]),'NOTAID':([20,],[23,]),'ALTURA':([23,],[28,]),'TEMPO':([1,],[5,]),'NUMBER':([8,29,],[10,31,]),'RCURL':([9,11,12,13,16,17,30,35,],[-18,-18,18,-20,-21,-19,-27,-22,]),'COMMA':([24,27,28,31,],[29,-23,-24,32,]),'NOTA':([9,11,13,16,30,35,],[15,15,-20,-21,-27,-22,]),'LPAREN':([14,15,],[19,20,]),'COMPASS':([3,10,],[7,-3,]),'SILENCIO':([9,11,13,16,30,35,],[14,14,-20,-21,-27,-22,]),'RPAREN':([21,22,25,33,],[-25,26,-26,34,]),'$end':([2,4,6,18,],[-1,0,-2,-14,]),'DOT':([21,],[25,]),'LCURL':([7,],[9,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'figura':([16,22,],[22,22,]),'bucle':([19,30,31,],[30,30,30,]),'notas':([16,22,],[23,35,]),'compas':([3,19,30,31,57,59,61,],[9,31,31,31,59,61,61,]),'encabezado':([0,],[2,]),'compases':([59,61,],[62,64,]),'notaProd':([16,22,],[24,24,]),'decla_instrumento':([7,15,],[12,12,]),'tempo':([0,],[3,]),'voces':([7,15,],[13,21,]),'simbolo_altura':([48,],[53,]),'start':([0,],[4,]),'musica':([19,30,31,],[32,41,42,]),'silencio':([16,22,],[27,27,]),'duracion':([37,58,],[46,60,]),'constantes':([2,39,],[7,50,]),'voz':([7,15,],[15,15,]),'altura':([38,],[49,]),}
+_lr_goto_items = {'figura':([9,11,],[11,11,]),'notas':([9,11,],[12,17,]),'compas':([3,],[6,]),'encabezado':([0,],[2,]),'notaProd':([9,11,],[13,13,]),'tempo':([0,],[3,]),'simbolo_altura':([23,],[27,]),'start':([0,],[4,]),'silencio':([9,11,],[16,16,]),'duracion':([19,32,],[22,33,]),'altura':([20,],[24,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,7 +26,7 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
-  ('start -> encabezado constantes voces','start',3,'p_start','parser_rules_merge.py',12),
+  ('start -> encabezado','start',1,'p_start','parser_rules_merge.py',12),
   ('encabezado -> tempo compas','encabezado',2,'p_encabezado','parser_rules_merge.py',17),
   ('tempo -> HASH TEMPO FIGURE NUMBER','tempo',4,'p_tempo','parser_rules_merge.py',22),
   ('constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes','constantes',6,'p_constantes','parser_rules_merge.py',34),
@@ -39,7 +39,7 @@ _lr_productions = [
   ('musica -> <empty>','musica',0,'p_musica_lambda','parser_rules_merge.py',67),
   ('musica -> compas musica','musica',2,'p_musica_compas','parser_rules_merge.py',71),
   ('musica -> bucle musica','musica',2,'p_musica_bucle','parser_rules_merge.py',75),
-  ('compas -> COMPAS LCURL notas RCURL','compas',4,'p_compas','parser_rules_merge.py',79),
+  ('compas -> COMPASS LCURL notas RCURL','compas',4,'p_compas','parser_rules_merge.py',79),
   ('bucle -> REPEAT LPAREN NUMBER RPAREN LCURL compas compases RCURL','bucle',8,'p_bucle','parser_rules_merge.py',83),
   ('compases -> <empty>','compases',0,'p_compases_lambda','parser_rules_merge.py',87),
   ('compases -> compas compases','compases',2,'p_compases','parser_rules_merge.py',91),
@@ -48,8 +48,9 @@ _lr_productions = [
   ('figura -> notaProd','figura',1,'p_figura_nota','parser_rules_merge.py',103),
   ('figura -> silencio','figura',1,'p_figura_silencio','parser_rules_merge.py',107),
   ('notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON','notaProd',9,'p_nota_prod','parser_rules_merge.py',111),
-  ('altura -> FIGURE simbolo_altura','altura',2,'p_altura','parser_rules_merge.py',115),
-  ('simbolo_altura -> <empty>','simbolo_altura',0,'p_simbolo_altura_lambda','parser_rules_merge.py',119),
-  ('duracion -> FIGURE','duracion',1,'p_duracion','parser_rules_merge.py',127),
-  ('silencio -> SILENCIO LPAREN duracion RPAREN','silencio',4,'p_silencio','parser_rules_merge.py',135),
+  ('altura -> NOTAID simbolo_altura','altura',2,'p_altura','parser_rules_merge.py',115),
+  ('simbolo_altura -> ALTURA','simbolo_altura',1,'p_simbolo_altura_lambda','parser_rules_merge.py',123),
+  ('duracion -> FIGURE','duracion',1,'p_duracion','parser_rules_merge.py',131),
+  ('duracion -> FIGURE DOT','duracion',2,'p_duracion_punto','parser_rules_merge.py',135),
+  ('silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON','silencio',5,'p_silencio','parser_rules_merge.py',139),
 ]

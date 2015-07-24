@@ -9,7 +9,7 @@ consts = {}
 #BNF
 
 def p_start(p):
-	'start : encabezado constantes voces'
+	'start : encabezado'
 	p[0] = p[1]
 	print "expresion: " + str(p[0])
 
@@ -112,12 +112,16 @@ def p_nota_prod(p):
     pass
 
 def p_altura(p):
-    'altura : FIGURE simbolo_altura'
+    'altura : NOTAID simbolo_altura'
     pass
 
 def p_simbolo_altura_lambda(p):
-    'simbolo_altura :'
-    pass    
+    'simbolo_altura : '
+    pass
+
+def p_simbolo_altura_lambda(p):
+    'simbolo_altura : ALTURA'
+    pass
 
 # def p_duracion_lambda(p):
 #     'duracion :'
@@ -127,12 +131,12 @@ def p_duracion(p):
     'duracion : FIGURE'
     pass
 
-# def p_duracion_punto(p):
-#     'duracion : FIGURE DOT'
-#     pass
+def p_duracion_punto(p):
+    'duracion : FIGURE DOT'
+    pass
 
 def p_silencio(p):
-    'silencio : SILENCIO LPAREN duracion RPAREN'
+    'silencio : SILENCIO LPAREN duracion RPAREN SEMICOLON'
     pass
 
 def p_error(token):

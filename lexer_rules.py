@@ -27,7 +27,8 @@ tokens = [
    'EQUAL',
    'ALTURA',
    'CONSTID',
-   'NOTAID'
+   'NOTAID',
+   'DOT'
 ] + list(reservadas.values())
 
 
@@ -65,7 +66,7 @@ def t_FIGURE(token):
     token.value = {"value": figuras[token.value], "type": token.value}
   return token
 
-def t_NOTA(token):
+def t_NOTAID(token):
   r"do|re|mi|fa|sol|la|si"
   token.type = 'NOTAID'
   return token
@@ -96,6 +97,7 @@ t_HASH = r"\#"
 t_SEMICOLON = r";"
 t_EQUAL = r"="
 t_COMMA = r","
+t_DOT = r"\."
 
 
 #ignoro whitespaces
