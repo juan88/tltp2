@@ -10,43 +10,43 @@ consts = {}
 #BNF
 
 def p_start(p):
-	'start : encabezado constantes voces'
-	p[0] = p[1]
-	print "expresion: " + str(p[0])
+    'start : encabezado constantes voces'
+    p[0] = p[1]
+    print "expresion: " + str(p[0])
 
 def p_encabezado(p):
-	'encabezado : tempo compas'
-	p[0] = p[1]
-	print "encabezado"
+    'encabezado : tempo compas'
+    p[0] = p[1]
+    print "encabezado"
 
 def p_tempo(p):
-	'tempo : HASH TEMPO FIGURE NUMBER'
-	p[0] = {p[3]["type"] : p[4]}
-	dicc["tempo"] = {p[3]["type"] : p[4]}
-	print "tempo: " + str(p[0])
+    'tempo : HASH TEMPO FIGURE NUMBER'
+    p[0] = {p[3]["type"] : p[4]}
+    dicc["tempo"] = {p[3]["type"] : p[4]}
+    print "tempo: " + str(p[0])
 
 def p_compas(p):
-	'compas : HASH COMPAS NUMBER DIV NUMBER'
-	p[0] = str(p[3]) + "/" + str(p[5])
-	dicc["compas"] = p[0]
-	print "compas: " + p[-2]
+    'compas : HASH COMPAS NUMBER DIV NUMBER'
+    p[0] = str(p[3]) + "/" + str(p[5])
+    dicc["compas"] = p[0]
+    print "compas: " + p[2]
 
 def p_constantes(p):
-	'constantes : CONST CONSTID EQUAL NUMBER SEMICOLON constantes'
-	consts[p[2]] = p[4]
-	print "constantes: " + p[2] + ": " + str(consts[p[2]])
+    'constantes : CONST CONSTID EQUAL NUMBER SEMICOLON constantes'
+    consts[p[2]] = p[4]
+    print "constantes: " + p[2] + ": " + str(consts[p[2]])
 
 def p_constantes_lambda(p):
-	'constantes : '
-	pass
+    'constantes : '
+    pass
 
 def p_voces(p):
-	'voces : voz voces'
+    'voces : voz voces'
     pass
 
 def p_voces_lambda(p):
-	'voces : '
-	pass
+    'voces : '
+    pass
 
 def p_voz(p):
     'voz : decla_instrumento LCURL musica RCURL'
@@ -54,16 +54,16 @@ def p_voz(p):
 
 def p_decla_instrumento(p):
     'decla_instrumento : VOICE LPAREN NUMBER RPAREN'
-    voices += 1
+    voices = voices + 1
     pass
 
 def p_decla_instrumento_const(p):
     'decla_instrumento : VOICE LPAREN CONSTID RPAREN'
     if(not(p[3] in consts)):
-    	p_error(p)
+        p_error(p)
     else:
-        voices += 1
-    	pass
+        voices = voices + 1
+        pass
 
     pass
 
@@ -85,7 +85,7 @@ def p_compas_def(p):
 
 def p_bucle(p):
     'bucle : REPEAT LPAREN NUMBER RPAREN LCURL compas compases RCURL'
-    pass    
+    pass
 
 def p_compases_lambda(p):
     'compases :'
