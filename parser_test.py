@@ -14,26 +14,35 @@ from ply.yacc import yacc
 
 class ParserTest(unittest.TestCase):
     
+    # def testTraductor1(self):
+    #     expresion = """#tempo redonda 60
+    #     #compas 2/2
+    #     """
+    #     ast = self.parser(expresion)
+    #     self.assertTrue(isinstance(ast, Traductor))
+
+    # def testTraductor2(self):
+    #     expresion = self.leer_archivo("entradas_de_prueba/encabezado1.mus")
+    #     ast = self.parser(expresion)
+    #     self.assertTrue(isinstance(ast, Traductor))
+
+
     def testTraductor1(self):
-        expresion = """#tempo redonda 60
-        #compas 2/2
-        """
-        ast = self.parser(expresion)
-        self.assertTrue(isinstance(ast, Traductor))
-
-    def testTraductor2(self):
-        expresion = self.leer_archivo("entradas_de_prueba/encabezado1.mus")
-        ast = self.parser(expresion)
-        self.assertTrue(isinstance(ast, Traductor))
-
-
-    def testTraductor3(self):
         expresion = self.leer_archivo("entradas_de_prueba/entrada1.mus")
         ast = self.parser(expresion)
 
-    def testTraductor4(self):
+    def testTraductor2(self):
         expresion = self.leer_archivo("parsingtest.mus")
         ast = self.parser(expresion)
+
+    def testTraductor3(self):
+        expresion = self.leer_archivo("parsingtest_wrongtimecompas.mus")
+        try:
+            ast = self.parser(expresion)
+            return False
+        except Exception as e:
+            return True
+
 
     # Funciones utilitarias
     def parser(self, expresion):

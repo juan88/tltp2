@@ -4,7 +4,7 @@
 // entonces cada compas puede tener 1 redonda, 2 blancas, 4 negras, etc.
 #compas 2/2
 
-const octava = 5;
+const octava = 6;
 const grand_piano = 0;
 
 voz (grand_piano)
@@ -16,8 +16,8 @@ voz (grand_piano)
 	}
 	compas
 	{
-		nota(mi, octava, blanca);
-		nota(fa, octava, blanca);
+		nota(mi, 4, blanca);
+		nota(fa, octava, blanca);//comentario
 	}
 	compas
 	{

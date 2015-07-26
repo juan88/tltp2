@@ -7,9 +7,7 @@ reservadas = {
   'voz' : 'VOICE',
   'const' : 'CONST',
   'nota' : 'NOTA',
-  'silencio' : 'SILENCIO',
-  'compas' : 'COMPAS',
-  'repetir' : 'REPEAT'
+  'compas' : 'COMPAS'
 }
 
 # Todos los tokens que considero necesarios que me instancie el lexer
@@ -28,6 +26,8 @@ tokens = [
    'ALTURA',
    'CONSTID',
    'NOTAID',
+   'SILENCIO',
+   'REPEAT',
    'DOT'
 ] + list(reservadas.values())
 
@@ -64,6 +64,14 @@ def t_FIGURE(token):
   r"redonda|blanca|negra|corchea|semicorchea|fusa|semifusa"
   if token.value in figuras:
     token.value = {"value": figuras[token.value], "type": token.value}
+  return token
+
+def t_SILENCIO(token):
+  r"silencio"
+  return token
+
+def t_REPEAT(token):
+  r"repetir"
   return token
 
 def t_NOTAID(token):
