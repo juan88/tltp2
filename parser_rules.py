@@ -86,7 +86,11 @@ class Reglas():
 
     def p_compas_def(p):
         'compas : COMPAS LCURL notas RCURL'
-        if(p[3] != Reglas.dicc["compas_val"]):
+        lista = p[3]
+        duracion_compas = 0
+        for diccs in lista:
+            duracion_compas += diccs["duration"]
+        if(duracion_compas != Reglas.dicc["compas_val"]):
             raise Exception("El tiempo del compas es erroneo")
         pass
 
@@ -104,12 +108,13 @@ class Reglas():
 
     def p_notas_lambda(p):
         'notas : '
-        p[0] = 0
+        p[0] = []
         return p
 
     def p_notas(p):
         'notas : figura notas'
-        p[0] = p[1] + p[2]
+        p[0] = []
+        p[0] = [p[1]] + p[2]
         return p
 
     def p_figura_nota(p):
@@ -124,34 +129,42 @@ class Reglas():
 
     def p_nota_prod(p):
         'notaProd : NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON'
-        p[0] = p[7]
+        p[0] = {}
+        p[0]["duration"] = p[7]
+        p[0]["nota"] = p[3]
+        p[0]["octava"] = p[5]
+        p[0]["type"] = "NOT"
         return p
 
 # FALTA HACER QUE EN VEZ DE HACEPTAR UN NUMBER PUEDA ACEPTAR UN CONSTID
     def p_nota_prod_constid(p):
         'notaProd : NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON'
-        if(not(p[5] in Reglas.consts)):
-            message = "Constant " + p[5] + " not declared"
+        var = p[5]
+        if(not(var in Reglas.consts)):
+            message = "Constant " + var + " not declared"
             raise Exception(message)
         else:
-            p[0] = p[7]
+            p[0] = {}
+            p[0]["duration"] = p[7]
+            p[0]["nota"] = p[3]
+            p[0]["octava"] = Reglas.consts[var]
+            p[0]["type"] = "NOT"
         return p
 
     def p_altura(p):
         'altura : NOTAID simbolo_altura'
+        p[0] = p[1] + p[2]
         pass
 
     def p_simbolo_altura_lambda(p):
         'simbolo_altura : '
+        p[0] = ""
         pass
 
     def p_simbolo_altura(p):
         'simbolo_altura : ALTURA'
-        pass
-
-    # def p_duracion_lambda(p):
-    #     'duracion :'
-    #     pass    
+        p[0] = p[1]
+        pass  
 
     def p_duracion(p):
         'duracion : FIGURE'
@@ -165,7 +178,9 @@ class Reglas():
 
     def p_silencio(p):
         'silencio : SILENCIO LPAREN duracion RPAREN SEMICOLON'
-        p[0] = p[3]
+        p[0] = {}
+        p[0]["duration"] = p[3]
+        p[0]["type"] = "SIL"
         return p
 
     def p_error(token):
