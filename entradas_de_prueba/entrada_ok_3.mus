@@ -30,7 +30,7 @@ voz (grand_piano)
 		{
 			nota(si, octava, negra);
 			nota(mi, 4, negra);
-			// esto es un silencio que dura una blanca.
+			// esto es un silencio que dura una negra.
 			silencio(negra);
 		}
 	}

@@ -8,7 +8,7 @@ voz(0)
 {
 	compas{
         	nota(do, 5, blanca);
-        	nota(re, 5, blanca);
+        	nota(re, 5, negra);
 	}
 	compas{
 		nota(do, octava, blanca);

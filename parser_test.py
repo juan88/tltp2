@@ -28,17 +28,44 @@ class ParserTest(unittest.TestCase):
 
 
     def testTraductor1(self):
-        expresion = self.leer_archivo("entradas_de_prueba/entrada1.mus")
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_ok_1.mus")
         ast = self.parser(expresion)
 
     def testTraductor2(self):
-        expresion = self.leer_archivo("parsingtest.mus")
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_ok_4.mus")
         ast = self.parser(expresion)
 
     def testTraductor3(self):
-        expresion = self.leer_archivo("parsingtest_wrongtimecompas.mus")
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_ok_2.mus")
         ast = self.parser(expresion)
-        
+
+    def testTraductor4(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_ok_3.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor5(self):
+        expresion = self.leer_archivo("entradas_de_prueba/parsingtest_wrongtimecompas.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor6(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_error_def_compas_malformada.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor7(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_error_longitud_mal_formada_de_compas.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor8(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_def_tempo_malformada.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor9(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_errores_varios")
+        ast = self.parser(expresion)
+
+    def testTraductor10(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_error_bloque_no_cerrado.mus")
+        ast = self.parser(expresion)
 
     # Funciones utilitarias
     def parser(self, expresion):
