@@ -14,27 +14,26 @@ class Reglas():
 #BNF
     def p_start(p):
     	'start : encabezado constantes voces'
-    	p[0] = p[1]
-        pass
+    	p[0] = [p[1], p[3]]
+        print p[0]
+        #return p[0]
 
     def p_encabezado(p):
     	'encabezado : tempo compas'
-    	p[0] = p[1]
-        pass
+    	p[0] = [p[1], p[2]]
+        #return p[0]
 
     def p_tempo(p):
     	'tempo : HASH TEMPO FIGURE NUMBER'
     	p[0] = {p[3]["type"] : p[4]}
-    	Reglas.dicc["tempo"] = {p[3]["type"] : p[4]}
-        pass
+    	#Reglas.dicc["tempo"] = {p[3]["type"] : p[4]}
+        #return p[0]
 
     def p_compas(p):
     	'compas : HASH COMPAS NUMBER DIV NUMBER'
-    	p[0] = str(p[3]) + "/" + str(p[5])
-    	Reglas.dicc["compas1"] = p[3]
-        Reglas.dicc["compas2"] = p[5]
+    	p[0] = [p[3], p[5]]
         Reglas.dicc["compas_val"] = (float(p[3]) / float(p[5]))
-        pass
+        #return p[0]
 
     def p_constantes(p):
     	'constantes : CONST CONSTID EQUAL NUMBER SEMICOLON constantes'
@@ -47,20 +46,24 @@ class Reglas():
 
     def p_voces(p):
     	'voces : voz voces'
-        pass
+        p[0] = [p[1]] + p[2]
+        #return p[0]
 
     def p_voces_lambda(p):
     	'voces : '
-    	pass
+        p[0] = []
+    	#return p[0]
 
     def p_voz(p):
         'voz : decla_instrumento LCURL musica RCURL'
-        pass
+        p[0] = [p[1], p[3]]
+        #return p[0]
 
     def p_decla_instrumento(p):
         'decla_instrumento : VOICE LPAREN NUMBER RPAREN'
         Reglas.cantvoices = Reglas.cantvoices + 1
-        pass
+        p[0] = p[3]
+        #return p[0]
 
     def p_decla_instrumento_const(p):
         'decla_instrumento : VOICE LPAREN CONSTID RPAREN'
@@ -69,20 +72,24 @@ class Reglas():
                 raise Exception(message)
         else:
             Reglas.cantvoices = Reglas.cantvoices + 1
+            p[0] = Reglas.consts[p[3]]
 
-        pass
+        #return p[0]
 
     def p_musica_lambda(p):
         'musica :'
-        pass
+        p[0] = []
+        #return p[0]
 
     def p_musica_compas(p):
         'musica : compas musica'
-        pass
+        p[0] = [['C', p[1]]] + p[2]
+        #return p[0]
 
     def p_musica_bucle(p):
         'musica : bucle musica'
-        pass
+        p[0] = [['B', p[1]]] + p[2]
+        #return p[0]
 
     def p_compas_def(p):
         'compas : COMPAS LCURL notas RCURL'
@@ -92,40 +99,45 @@ class Reglas():
             duracion_compas += diccs["duration"]
         if(duracion_compas != Reglas.dicc["compas_val"]):
             raise Exception("El tiempo del compas es erroneo")
-        pass
+        else:
+            p[0] = lista
+        #return p[0]
 
     def p_bucle(p):
         'bucle : REPEAT LPAREN NUMBER RPAREN LCURL compas compases RCURL'
-        pass
+        p[0] = [p[6]] + p[7]
+        #return p[0]
 
     def p_compases_lambda(p):
         'compases :'
-        pass
+        p[0] = []
+        #return p[0]
 
     def p_compases(p):
         'compases : compas compases'
-        pass
+        p[0] = [p[1]] + p[2]
+        #return p[0]
 
     def p_notas_lambda(p):
         'notas : '
         p[0] = []
-        return p
+        #return p
 
     def p_notas(p):
         'notas : figura notas'
         p[0] = []
         p[0] = [p[1]] + p[2]
-        return p
+        #return p
 
     def p_figura_nota(p):
         'figura : notaProd'
         p[0] = p[1]
-        return p
+        #return p
 
     def p_figura_silencio(p):
         'figura : silencio'
         p[0] = p[1]
-        return p
+        #return p
 
     def p_nota_prod(p):
         'notaProd : NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON'
@@ -134,7 +146,7 @@ class Reglas():
         p[0]["nota"] = p[3]
         p[0]["octava"] = p[5]
         p[0]["type"] = "NOT"
-        return p
+        #return p
 
 # FALTA HACER QUE EN VEZ DE HACEPTAR UN NUMBER PUEDA ACEPTAR UN CONSTID
     def p_nota_prod_constid(p):
@@ -149,7 +161,7 @@ class Reglas():
             p[0]["nota"] = p[3]
             p[0]["octava"] = Reglas.consts[var]
             p[0]["type"] = "NOT"
-        return p
+        #return p
 
     def p_altura(p):
         'altura : NOTAID simbolo_altura'
@@ -169,19 +181,19 @@ class Reglas():
     def p_duracion(p):
         'duracion : FIGURE'
         p[0] = (float(1) / float(p[1]["value"]))
-        return p
+        #return p
 
     def p_duracion_punto(p):
         'duracion : FIGURE DOT'
         p[0] = (1 / p[1]["value"]) * 1.5
-        return p
+        #return p
 
     def p_silencio(p):
         'silencio : SILENCIO LPAREN duracion RPAREN SEMICOLON'
         p[0] = {}
         p[0]["duration"] = p[3]
         p[0]["type"] = "SIL"
-        return p
+        #return p
 
     def p_error(token):
         message = "[Syntax error]"

@@ -37,12 +37,8 @@ class ParserTest(unittest.TestCase):
 
     def testTraductor3(self):
         expresion = self.leer_archivo("parsingtest_wrongtimecompas.mus")
-        try:
-            ast = self.parser(expresion)
-            return False
-        except Exception as e:
-            return True
-
+        ast = self.parser(expresion)
+        
 
     # Funciones utilitarias
     def parser(self, expresion):
