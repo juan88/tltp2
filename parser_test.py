@@ -65,6 +65,7 @@ class ParserTest(unittest.TestCase):
 
     def testTraductor10(self):
         expresion = self.leer_archivo("entradas_de_prueba/entrada_error_bloque_no_cerrado.mus")
+        print expresion
         ast = self.parser(expresion)
 
     # Funciones utilitarias

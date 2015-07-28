@@ -4,7 +4,7 @@
 // entonces cada compas puede tener 1 redonda, 2 blancas, 4 negras, etc.
 #compas 3/4
 
-const octava = 6;
+const octava = 40;
 const grand_piano = 0;
 
 voz (grand_piano)

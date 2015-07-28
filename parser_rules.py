@@ -25,7 +25,7 @@ class Reglas():
 
     def p_tempo(p):
     	'tempo : HASH TEMPO FIGURE NUMBER'
-    	p[0] = {p[3]["type"] : p[4]}
+    	p[0] = [p[3]["type"] , p[4]]
     	#Reglas.dicc["tempo"] = {p[3]["type"] : p[4]}
         #return p[0]
 
@@ -202,6 +202,7 @@ class Reglas():
             message += "\nvalue:" + str(token.value)
             message += "\nline:" + str(token.lineno)
             message += "\nposition:" + str(token.lexpos) 
-            raise Exception(message)
+        
+        raise Exception(message)
 
     yacc = yacc.yacc()
