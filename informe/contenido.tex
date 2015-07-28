@@ -19,6 +19,28 @@ formal de la gramática del mismo motivo por el cual procedimos a definirla noso
 se dedujo a partir de la especificación brindada.
 
 %% Poner la gramática %%
+Sea $G$ una gramática libre de contexto tal que $G: <V_n, V_t, P, S>$ con $P$ definido como: 
+
+S $\rightarrow$ ENCABEZADO CONSTANTES VOCES \\
+ENCABEZADO $\rightarrow$ TEMPO COMPAS\_DEF \\
+TEMPO $\rightarrow$ \#FIGURA numero \\
+FIGURA $\rightarrow$ blanca $\mid$ redonda $\mid$ negra $\mid$ corchea $\mid$ semicorchea $\mid$ fusa $\mid$ semifusa \\
+COMPAS\_DEF $\rightarrow$ \#compas numero$/$numero  \\
+CONSTANTES $\rightarrow$ const cadena numero; CONSTANTES $\mid$ $\lambda$ \\
+VOCES $\rightarrow$ DECLA\_INST \{ MUSICA \} \\
+DECLA\_INST $\rightarrow$ voz(numero) \\
+MUSICA $\rightarrow$ COMPAS MUSICA $\mid$ BUCLE MUSICA $\mid$ $\lambda$ \\
+COMPAS $\rightarrow$ compas \{ NOTAS \} \\
+BUCLE $\rightarrow$ repetir(numero) \{ COMPAS COMPASES \} \\
+COMPASES $\rightarrow$ COMPAS COMPASES $\mid$ $\lambda$ \\
+NOTAS $\rightarrow$ FIGURA NOTAS $\mid$ $\lambda$ \\
+FIGURA $\rightarrow$ NOTA $\mid$ SILENCIO \\
+NOTA $\rightarrow$ nota(ALTURA, numero, DURACION) \\
+ALTURA $\rightarrow$ string SIMBOLO \\
+SIMBOLO $\rightarrow$ $+$ $\mid$ $-$ $\mid$ $\lambda$ \\
+DURACION $\rightarrow$ string $\mid$ string $\bullet$ \\
+SILENCIO $\rightarrow$ silencio(DURACION) \\
+
 
 
 \section{Implementación}
@@ -41,7 +63,7 @@ Para el lexer de nuestro lenguaje se procedió con la implementación de un conj
 en tokens con un significado relevante para el contexto de nuestro programa. En nuestro caso, queremos que los strings \texttt{do}, \texttt{re} o
 \texttt{sol} no sean simplemente esos strings sino que sean tokens que reflejen cierto comportamiento común de acuerdo al contexto de uso, en particular
 para nuestro programa son \texttt{NOTAID} que es un token que representa la ocurrencia de una nota musical dentro del programa. Lo mismo ocurre
-con cosas como \texttt{const grand_piano = 1;}. Esto no representa cualquier cosa sino que simboliza la definición de una constante con una
+con cosas como \texttt{const grand\_piano = 1;}. Esto no representa cualquier cosa sino que simboliza la definición de una constante con una
 \emph{keyword} particular y un nombre con un valor y otros símbolos que permiten identificar esta construcción sintáctica.
 
 En una etapa posterior se hizo algo similar con el parser. Yacc nos pide definir las reglas de la gramática necesaria para operar
