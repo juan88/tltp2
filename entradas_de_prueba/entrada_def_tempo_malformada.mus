@@ -1,0 +1,32 @@
+#tempo figura 60 //figura es cualquier cosa. Debería ser una redonda o negra o algo asi
+#compas 2/2
+
+const octava = 6;
+const grand_piano = 0;
+
+voz (grand_piano)
+{
+	compas
+	{
+		nota(do, octava, blanca);
+		nota(re, octava, blanca);
+	}
+	compas
+	{
+		nota(mi, 4, blanca);
+		nota(fa, octava, blanca);//comentario
+	}
+	compas
+	{
+		nota(sol-, octava, negra);
+		nota(sol, octava, negra);
+		nota(sol+, octava, negra);
+		nota(la, octava, negra);
+	}
+	compas
+	{
+		nota(si, octava, blanca);
+		// esto es un silencio que dura una blanca.
+		silencio(blanca);
+	}
+}
