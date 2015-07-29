@@ -1,0 +1,18 @@
+MFile 1 2 384 
+MTrk
+000:00:000 TimeSig 2/2 24 8
+000:00:000 Tempo 250000
+000:00:000 Meta TrkEnd
+TrkEnd
+MTrk
+000:00:000 Meta TrkName "Voz 1"
+000:00:000 ProgCh ch=1 prog=0
+000:00:000 On ch=1 note=c5 vol=70
+000:01:000 Off ch=1 note=c5 vol=0
+000:01:000 On ch=1 note=d5 vol=70
+001:00:000 Off ch=1 note=d5 vol=0
+001:00:000 On ch=1 note=c6 vol=70
+001:01:000 Off ch=1 note=c6 vol=0
+
+002:00:000 Meta TrkEnd
+TrkEnd

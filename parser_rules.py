@@ -81,9 +81,9 @@ class Reglas():
         duracion_compas = 0
         for diccs in lista:
             duracion_compas += diccs["duration"]
-        print duracion_compas
         if(duracion_compas != Reglas.dicc["compas_val"]):
-            raise Exception("El tiempo del compas es erroneo")
+            message = "El tiempo del compas es erroneo"
+            raise Exception(message)
         else:
             p[0] = lista
 

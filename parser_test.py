@@ -45,28 +45,33 @@ class ParserTest(unittest.TestCase):
 
     def testTraductor5(self):
         expresion = self.leer_archivo("entradas_de_prueba/parsingtest_wrongtimecompas.mus")
-        ast = self.parser(expresion)
+        with self.assertRaises(Exception):
+            ast = self.parser(expresion)
 
     def testTraductor6(self):
         expresion = self.leer_archivo("entradas_de_prueba/entrada_error_def_compas_malformada.mus")
-        ast = self.parser(expresion)
+        with self.assertRaises(Exception):
+            ast = self.parser(expresion)
 
     def testTraductor7(self):
         expresion = self.leer_archivo("entradas_de_prueba/entrada_error_longitud_mal_formada_de_compas.mus")
-        ast = self.parser(expresion)
+        with self.assertRaises(Exception):
+            ast = self.parser(expresion)
 
     def testTraductor8(self):
         expresion = self.leer_archivo("entradas_de_prueba/entrada_def_tempo_malformada.mus")
-        ast = self.parser(expresion)
+        with self.assertRaises(Exception):
+            ast = self.parser(expresion)
 
     def testTraductor9(self):
         expresion = self.leer_archivo("entradas_de_prueba/entrada_errores_varios")
-        ast = self.parser(expresion)
+        with self.assertRaises(Exception):
+            ast = self.parser(expresion)
 
     def testTraductor10(self):
         expresion = self.leer_archivo("entradas_de_prueba/entrada_error_bloque_no_cerrado.mus")
-        print expresion
-        ast = self.parser(expresion)
+        with self.assertRaises(Exception):
+            ast = self.parser(expresion)
 
     # Funciones utilitarias
     def parser(self, expresion):

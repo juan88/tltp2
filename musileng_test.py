@@ -26,6 +26,9 @@ class MusilengTest(unittest.TestCase):
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_5.mus')
         salida = musileng.archivo_para_escribir('salidas/salida5.mus')
         musileng.convertir(entrada, salida)
+        entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_bucles_anidados_puntillos.mus')
+        salida = musileng.archivo_para_escribir('salidas/salidaBuclesPuntillos.mus')
+        musileng.convertir(entrada, salida)
 
         self.assertTrue(os.path.isfile('salidas/salida1.mus'))
         self.assertTrue(os.path.isfile('salidas/salida2.mus'))
@@ -38,35 +41,35 @@ class MusilengTest(unittest.TestCase):
         musileng = Musileng()
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_def_tempo_malformada.mus')
         salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
-        self.assertRaises(Exception, musileng.convertir, entrada, salida)
+        with self.assertRaises(Exception):
+		musileng.convertir(entrada, salida)
 
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_error_bloque_no_cerrado.mus')
         salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
-        self.assertRaises(Exception, musileng.convertir, entrada, salida)
+        with self.assertRaises(Exception):
+                musileng.convertir(entrada, salida)
 
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_error_compas_vacio.mus')
         salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
-        self.assertRaises(Exception, musileng.convertir, entrada, salida)
+        with self.assertRaises(Exception):
+                musileng.convertir(entrada, salida)
 
-        entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_error_constante_definida_dos_veces.mus')
-        salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
-        self.assertRaises(Exception, musileng.convertir, entrada, salida)
 
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_error_def_compas_malformada.mus')
         salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
-        self.assertRaises(Exception, musileng.convertir, entrada, salida)
+        with self.assertRaises(Exception):
+                musileng.convertir(entrada, salida)
 
-        entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_errores_varios.mus')
+        entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_errores_varios')
         salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
-        self.assertRaises(Exception, musileng.convertir, entrada, salida)
+        with self.assertRaises(Exception):
+                musileng.convertir(entrada, salida)
         
 
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_error_longitud_mal_formada_de_compas.mus')
         salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
-        self.assertRaises(Exception, musileng.convertir, entrada, salida)
-        
-        
-        
+        with self.assertRaises(Exception):
+                musileng.convertir(entrada, salida)
 
 
     # Funciones utilitarias
