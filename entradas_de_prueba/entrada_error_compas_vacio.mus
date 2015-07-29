@@ -1,0 +1,12 @@
+#tempo figura 60 //figura es cualquier cosa. Debería ser una redonda o negra o algo asi
+#compas 2/2
+
+const octava = 6;
+const grand_piano = 0;
+
+voz (grand_piano)
+{
+	compas
+	{
+	}
+}
