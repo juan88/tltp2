@@ -59,7 +59,7 @@ TrkEnd\n"""
         values = {'tiempo': self.timer.mostrar(),
         'nroVoz':nroVoz,
         'nroInstrumento':nroInstrumento,
-        'notas':self.escribirNotas(nroInstrumento, notas[nroInstrumento]),
+        'notas':self.escribirNotas(nroVoz, nroInstrumento, notas[nroInstrumento]),
         'tiempoFinal':self.timer.mostrar()
         }
 
@@ -70,22 +70,23 @@ $notas
 $tiempoFinal Meta TrkEnd
 TrkEnd
 """
+        self.timer.reset()
         return string.Template(template).substitute(values)
 
     
-    def escribirNotas(self, nroInstrumento, notas):
+    def escribirNotas(self, nroVoz, nroInstrumento, notas):
         ret = ''
         for nota in notas:
             if(nota['type'] == 'NOT'):
-                ret += self.escribirNota(nroInstrumento, nota['nota'], nota['desv'], nota['octava'], nota['duration'])
+                ret += self.escribirNota(nroVoz, nroInstrumento, nota['nota'], nota['desv'], nota['octava'], nota['duration'])
             else:
                 self.timer.avanzar(nota['duration'])
         return ret
 
-    def escribirNota(self, nroInstrumento, nota, desv, octava, duration):
+    def escribirNota(self, nroVoz, nroInstrumento, nota, desv, octava, duration):
         """ A partir de un nro de instrumento escribo el valor de una nota para el documento a generar """
         valorNota = self.notaEnIngles(nota) + desv
-        values = { 'tiempo':self.timer.mostrar(), 'canal':nroInstrumento, 'nota':valorNota+str(octava) }
+        values = { 'tiempo':self.timer.mostrar(), 'canal':nroVoz, 'nota':valorNota+str(octava) }
         self.timer.avanzar(duration)
         values['tiempoLuego'] = self.timer.mostrar()
 
