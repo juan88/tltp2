@@ -19,63 +19,60 @@ Rule 13    musica -> compas musica
 Rule 14    musica -> bucle musica
 Rule 15    compas -> COMPAS LCURL notas RCURL
 Rule 16    bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
-Rule 17    compases -> <empty>
-Rule 18    compases -> compas compases
-Rule 19    notas -> <empty>
-Rule 20    notas -> figura notas
-Rule 21    figura -> notaProd
-Rule 22    figura -> silencio
-Rule 23    notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
-Rule 24    notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
-Rule 25    altura -> NOTAID simbolo_altura
-Rule 26    simbolo_altura -> <empty>
-Rule 27    simbolo_altura -> ALTURA
-Rule 28    duracion -> FIGURE
-Rule 29    duracion -> FIGURE DOT
-Rule 30    silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON
+Rule 17    notas -> <empty>
+Rule 18    notas -> figura notas
+Rule 19    figura -> notaProd
+Rule 20    figura -> silencio
+Rule 21    notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
+Rule 22    notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
+Rule 23    altura -> NOTAID simbolo_altura
+Rule 24    simbolo_altura -> <empty>
+Rule 25    simbolo_altura -> ALTURA
+Rule 26    duracion -> FIGURE
+Rule 27    duracion -> FIGURE DOT
+Rule 28    silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON
 
 Terminals, with rules where they appear
 
-ALTURA               : 27
-COMMA                : 23 23 24 24
+ALTURA               : 25
+COMMA                : 21 21 22 22
 COMPAS               : 4 15
 CONST                : 5
-CONSTID              : 5 11 24
+CONSTID              : 5 11 22
 DIV                  : 4
-DOT                  : 29
+DOT                  : 27
 EQUAL                : 5
-FIGURE               : 3 28 29
+FIGURE               : 3 26 27
 HASH                 : 3 4
 LCURL                : 9 15 16
-LPAREN               : 10 11 16 23 24 30
-NOTA                 : 23 24
-NOTAID               : 25
-NUMBER               : 3 4 4 5 10 16 23
+LPAREN               : 10 11 16 21 22 28
+NOTA                 : 21 22
+NOTAID               : 23
+NUMBER               : 3 4 4 5 10 16 21
 RCURL                : 9 15 16
 REPEAT               : 16
-RPAREN               : 10 11 16 23 24 30
-SEMICOLON            : 5 23 24 30
-SILENCIO             : 30
+RPAREN               : 10 11 16 21 22 28
+SEMICOLON            : 5 21 22 28
+SILENCIO             : 28
 TEMPO                : 3
 VOICE                : 10 11
 error                : 
 
 Nonterminals, with rules where they appear
 
-altura               : 23 24
+altura               : 21 22
 bucle                : 14
-compas               : 2 13 18
-compases             : 18
+compas               : 2 13
 constantes           : 1 5
 decla_instrumento    : 9
-duracion             : 23 24 30
+duracion             : 21 22 28
 encabezado           : 1
-figura               : 20
+figura               : 18
 musica               : 9 13 14 16
-notaProd             : 21
-notas                : 15 20
-silencio             : 22
-simbolo_altura       : 25
+notaProd             : 19
+notas                : 15 18
+silencio             : 20
+simbolo_altura       : 23
 start                : 0
 tempo                : 2
 voces                : 1 7
@@ -247,15 +244,15 @@ state 17
 state 18
 
     (15) compas -> COMPAS LCURL . notas RCURL
-    (19) notas -> .
-    (20) notas -> . figura notas
-    (21) figura -> . notaProd
-    (22) figura -> . silencio
-    (23) notaProd -> . NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
-    (24) notaProd -> . NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
-    (30) silencio -> . SILENCIO LPAREN duracion RPAREN SEMICOLON
+    (17) notas -> .
+    (18) notas -> . figura notas
+    (19) figura -> . notaProd
+    (20) figura -> . silencio
+    (21) notaProd -> . NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
+    (22) notaProd -> . NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
+    (28) silencio -> . SILENCIO LPAREN duracion RPAREN SEMICOLON
 
-    RCURL           reduce using rule 19 (notas -> .)
+    RCURL           reduce using rule 17 (notas -> .)
     NOTA            shift and go to state 29
     SILENCIO        shift and go to state 28
 
@@ -323,16 +320,16 @@ state 24
 
 state 25
 
-    (20) notas -> figura . notas
-    (19) notas -> .
-    (20) notas -> . figura notas
-    (21) figura -> . notaProd
-    (22) figura -> . silencio
-    (23) notaProd -> . NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
-    (24) notaProd -> . NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
-    (30) silencio -> . SILENCIO LPAREN duracion RPAREN SEMICOLON
+    (18) notas -> figura . notas
+    (17) notas -> .
+    (18) notas -> . figura notas
+    (19) figura -> . notaProd
+    (20) figura -> . silencio
+    (21) notaProd -> . NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
+    (22) notaProd -> . NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
+    (28) silencio -> . SILENCIO LPAREN duracion RPAREN SEMICOLON
 
-    RCURL           reduce using rule 19 (notas -> .)
+    RCURL           reduce using rule 17 (notas -> .)
     NOTA            shift and go to state 29
     SILENCIO        shift and go to state 28
 
@@ -350,35 +347,35 @@ state 26
 
 state 27
 
-    (21) figura -> notaProd .
+    (19) figura -> notaProd .
 
-    NOTA            reduce using rule 21 (figura -> notaProd .)
-    SILENCIO        reduce using rule 21 (figura -> notaProd .)
-    RCURL           reduce using rule 21 (figura -> notaProd .)
+    NOTA            reduce using rule 19 (figura -> notaProd .)
+    SILENCIO        reduce using rule 19 (figura -> notaProd .)
+    RCURL           reduce using rule 19 (figura -> notaProd .)
 
 
 state 28
 
-    (30) silencio -> SILENCIO . LPAREN duracion RPAREN SEMICOLON
+    (28) silencio -> SILENCIO . LPAREN duracion RPAREN SEMICOLON
 
     LPAREN          shift and go to state 41
 
 
 state 29
 
-    (23) notaProd -> NOTA . LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
-    (24) notaProd -> NOTA . LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
+    (21) notaProd -> NOTA . LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
+    (22) notaProd -> NOTA . LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
 
     LPAREN          shift and go to state 42
 
 
 state 30
 
-    (22) figura -> silencio .
+    (20) figura -> silencio .
 
-    NOTA            reduce using rule 22 (figura -> silencio .)
-    SILENCIO        reduce using rule 22 (figura -> silencio .)
-    RCURL           reduce using rule 22 (figura -> silencio .)
+    NOTA            reduce using rule 20 (figura -> silencio .)
+    SILENCIO        reduce using rule 20 (figura -> silencio .)
+    RCURL           reduce using rule 20 (figura -> silencio .)
 
 
 state 31
@@ -463,9 +460,9 @@ state 38
 
 state 39
 
-    (20) notas -> figura notas .
+    (18) notas -> figura notas .
 
-    RCURL           reduce using rule 20 (notas -> figura notas .)
+    RCURL           reduce using rule 18 (notas -> figura notas .)
 
 
 state 40
@@ -483,9 +480,9 @@ state 40
 
 state 41
 
-    (30) silencio -> SILENCIO LPAREN . duracion RPAREN SEMICOLON
-    (28) duracion -> . FIGURE
-    (29) duracion -> . FIGURE DOT
+    (28) silencio -> SILENCIO LPAREN . duracion RPAREN SEMICOLON
+    (26) duracion -> . FIGURE
+    (27) duracion -> . FIGURE DOT
 
     FIGURE          shift and go to state 51
 
@@ -493,9 +490,9 @@ state 41
 
 state 42
 
-    (23) notaProd -> NOTA LPAREN . altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
-    (24) notaProd -> NOTA LPAREN . altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
-    (25) altura -> . NOTAID simbolo_altura
+    (21) notaProd -> NOTA LPAREN . altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
+    (22) notaProd -> NOTA LPAREN . altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
+    (23) altura -> . NOTAID simbolo_altura
 
     NOTAID          shift and go to state 53
 
@@ -571,35 +568,35 @@ state 50
 
 state 51
 
-    (28) duracion -> FIGURE .
-    (29) duracion -> FIGURE . DOT
+    (26) duracion -> FIGURE .
+    (27) duracion -> FIGURE . DOT
 
-    RPAREN          reduce using rule 28 (duracion -> FIGURE .)
+    RPAREN          reduce using rule 26 (duracion -> FIGURE .)
     DOT             shift and go to state 57
 
 
 state 52
 
-    (30) silencio -> SILENCIO LPAREN duracion . RPAREN SEMICOLON
+    (28) silencio -> SILENCIO LPAREN duracion . RPAREN SEMICOLON
 
     RPAREN          shift and go to state 58
 
 
 state 53
 
-    (25) altura -> NOTAID . simbolo_altura
-    (26) simbolo_altura -> .
-    (27) simbolo_altura -> . ALTURA
+    (23) altura -> NOTAID . simbolo_altura
+    (24) simbolo_altura -> .
+    (25) simbolo_altura -> . ALTURA
 
-    COMMA           reduce using rule 26 (simbolo_altura -> .)
+    COMMA           reduce using rule 24 (simbolo_altura -> .)
     ALTURA          shift and go to state 60
 
     simbolo_altura                 shift and go to state 59
 
 state 54
 
-    (23) notaProd -> NOTA LPAREN altura . COMMA NUMBER COMMA duracion RPAREN SEMICOLON
-    (24) notaProd -> NOTA LPAREN altura . COMMA CONSTID COMMA duracion RPAREN SEMICOLON
+    (21) notaProd -> NOTA LPAREN altura . COMMA NUMBER COMMA duracion RPAREN SEMICOLON
+    (22) notaProd -> NOTA LPAREN altura . COMMA CONSTID COMMA duracion RPAREN SEMICOLON
 
     COMMA           shift and go to state 61
 
@@ -621,36 +618,36 @@ state 56
 
 state 57
 
-    (29) duracion -> FIGURE DOT .
+    (27) duracion -> FIGURE DOT .
 
-    RPAREN          reduce using rule 29 (duracion -> FIGURE DOT .)
+    RPAREN          reduce using rule 27 (duracion -> FIGURE DOT .)
 
 
 state 58
 
-    (30) silencio -> SILENCIO LPAREN duracion RPAREN . SEMICOLON
+    (28) silencio -> SILENCIO LPAREN duracion RPAREN . SEMICOLON
 
     SEMICOLON       shift and go to state 63
 
 
 state 59
 
-    (25) altura -> NOTAID simbolo_altura .
+    (23) altura -> NOTAID simbolo_altura .
 
-    COMMA           reduce using rule 25 (altura -> NOTAID simbolo_altura .)
+    COMMA           reduce using rule 23 (altura -> NOTAID simbolo_altura .)
 
 
 state 60
 
-    (27) simbolo_altura -> ALTURA .
+    (25) simbolo_altura -> ALTURA .
 
-    COMMA           reduce using rule 27 (simbolo_altura -> ALTURA .)
+    COMMA           reduce using rule 25 (simbolo_altura -> ALTURA .)
 
 
 state 61
 
-    (23) notaProd -> NOTA LPAREN altura COMMA . NUMBER COMMA duracion RPAREN SEMICOLON
-    (24) notaProd -> NOTA LPAREN altura COMMA . CONSTID COMMA duracion RPAREN SEMICOLON
+    (21) notaProd -> NOTA LPAREN altura COMMA . NUMBER COMMA duracion RPAREN SEMICOLON
+    (22) notaProd -> NOTA LPAREN altura COMMA . CONSTID COMMA duracion RPAREN SEMICOLON
 
     NUMBER          shift and go to state 64
     CONSTID         shift and go to state 65
@@ -665,23 +662,23 @@ state 62
 
 state 63
 
-    (30) silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .
+    (28) silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .
 
-    NOTA            reduce using rule 30 (silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .)
-    SILENCIO        reduce using rule 30 (silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .)
-    RCURL           reduce using rule 30 (silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .)
+    NOTA            reduce using rule 28 (silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .)
+    SILENCIO        reduce using rule 28 (silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .)
+    RCURL           reduce using rule 28 (silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .)
 
 
 state 64
 
-    (23) notaProd -> NOTA LPAREN altura COMMA NUMBER . COMMA duracion RPAREN SEMICOLON
+    (21) notaProd -> NOTA LPAREN altura COMMA NUMBER . COMMA duracion RPAREN SEMICOLON
 
     COMMA           shift and go to state 67
 
 
 state 65
 
-    (24) notaProd -> NOTA LPAREN altura COMMA CONSTID . COMMA duracion RPAREN SEMICOLON
+    (22) notaProd -> NOTA LPAREN altura COMMA CONSTID . COMMA duracion RPAREN SEMICOLON
 
     COMMA           shift and go to state 68
 
@@ -707,9 +704,9 @@ state 66
 
 state 67
 
-    (23) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA . duracion RPAREN SEMICOLON
-    (28) duracion -> . FIGURE
-    (29) duracion -> . FIGURE DOT
+    (21) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA . duracion RPAREN SEMICOLON
+    (26) duracion -> . FIGURE
+    (27) duracion -> . FIGURE DOT
 
     FIGURE          shift and go to state 51
 
@@ -717,9 +714,9 @@ state 67
 
 state 68
 
-    (24) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA . duracion RPAREN SEMICOLON
-    (28) duracion -> . FIGURE
-    (29) duracion -> . FIGURE DOT
+    (22) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA . duracion RPAREN SEMICOLON
+    (26) duracion -> . FIGURE
+    (27) duracion -> . FIGURE DOT
 
     FIGURE          shift and go to state 51
 
@@ -734,14 +731,14 @@ state 69
 
 state 70
 
-    (23) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion . RPAREN SEMICOLON
+    (21) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion . RPAREN SEMICOLON
 
     RPAREN          shift and go to state 73
 
 
 state 71
 
-    (24) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion . RPAREN SEMICOLON
+    (22) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion . RPAREN SEMICOLON
 
     RPAREN          shift and go to state 74
 
@@ -758,32 +755,32 @@ state 72
 
 state 73
 
-    (23) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN . SEMICOLON
+    (21) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN . SEMICOLON
 
     SEMICOLON       shift and go to state 75
 
 
 state 74
 
-    (24) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN . SEMICOLON
+    (22) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN . SEMICOLON
 
     SEMICOLON       shift and go to state 76
 
 
 state 75
 
-    (23) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON .
+    (21) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON .
 
-    NOTA            reduce using rule 23 (notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON .)
-    SILENCIO        reduce using rule 23 (notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON .)
-    RCURL           reduce using rule 23 (notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON .)
+    NOTA            reduce using rule 21 (notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON .)
+    SILENCIO        reduce using rule 21 (notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON .)
+    RCURL           reduce using rule 21 (notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON .)
 
 
 state 76
 
-    (24) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON .
+    (22) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON .
 
-    NOTA            reduce using rule 24 (notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON .)
-    SILENCIO        reduce using rule 24 (notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON .)
-    RCURL           reduce using rule 24 (notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON .)
+    NOTA            reduce using rule 22 (notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON .)
+    SILENCIO        reduce using rule 22 (notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON .)
+    RCURL           reduce using rule 22 (notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON .)
 

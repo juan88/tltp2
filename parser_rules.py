@@ -90,13 +90,6 @@ class Reglas():
         'bucle : REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL'
         p[0] = [p[3], p[6]]
 
-    def p_compases_lambda(p):
-        'compases :'
-        p[0] = []
-
-    def p_compases(p):
-        'compases : compas compases'
-        p[0] = [p[1]] + p[2]
 
     def p_notas_lambda(p):
         'notas : '

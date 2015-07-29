@@ -5,9 +5,9 @@ _tabversion = '3.5'
 
 _lr_method = 'LALR'
 
-_lr_signature = '53C00EA24814FEC3D5E5EFE00269DCE5'
+_lr_signature = '188C41B7F4A9FA62E92C01AE0D1490B7'
     
-_lr_action_items = {'CONST':([2,10,40,43,50,],[6,-2,-15,6,-4,]),'NUMBER':([11,17,20,22,38,44,61,],[19,24,31,36,50,56,64,]),'DIV':([24,],[38,]),'VOICE':([2,7,10,16,40,43,47,50,55,],[-6,15,-2,15,-15,-6,-9,-4,-5,]),'DOT':([51,],[57,]),'LCURL':([9,13,48,49,62,],[18,21,-10,-11,66,]),'RPAREN':([36,37,51,52,56,57,70,71,],[48,49,-28,58,62,-29,73,74,]),'SEMICOLON':([31,58,73,74,],[43,63,75,76,]),'TEMPO':([1,],[5,]),'RCURL':([18,21,25,26,27,30,33,34,35,39,40,45,46,50,63,66,69,72,75,76,],[-19,-12,-19,40,-21,-22,-12,-12,47,-20,-15,-14,-13,-4,-30,-12,72,-16,-23,-24,]),'COMMA':([53,54,59,60,64,65,],[-26,61,-25,-27,67,68,]),'$end':([2,4,7,10,14,16,23,40,43,47,50,55,],[-6,0,-8,-2,-1,-8,-7,-15,-6,-9,-4,-5,]),'REPEAT':([21,33,34,40,50,66,72,],[32,32,32,-15,-4,32,-16,]),'HASH':([0,3,19,21,33,34,40,50,66,72,],[1,8,-3,8,8,8,-15,-4,8,-16,]),'FIGURE':([5,41,67,68,],[11,51,51,51,]),'NOTAID':([42,],[53,]),'EQUAL':([12,],[20,]),'LPAREN':([15,28,29,32,],[22,41,42,44,]),'CONSTID':([6,22,61,],[12,37,65,]),'COMPAS':([3,8,19,21,33,34,40,50,66,72,],[9,17,-3,9,9,9,-15,-4,9,-16,]),'NOTA':([18,25,27,30,63,75,76,],[29,29,-21,-22,-30,-23,-24,]),'SILENCIO':([18,25,27,30,63,75,76,],[28,28,-21,-22,-30,-23,-24,]),'ALTURA':([53,],[60,]),}
+_lr_action_items = {'CONST':([2,10,40,43,50,],[6,-2,-15,6,-4,]),'NUMBER':([11,17,20,22,38,44,61,],[19,24,31,36,50,56,64,]),'DIV':([24,],[38,]),'VOICE':([2,7,10,16,40,43,47,50,55,],[-6,15,-2,15,-15,-6,-9,-4,-5,]),'DOT':([51,],[57,]),'LCURL':([9,13,48,49,62,],[18,21,-10,-11,66,]),'RPAREN':([36,37,51,52,56,57,70,71,],[48,49,-26,58,62,-27,73,74,]),'SEMICOLON':([31,58,73,74,],[43,63,75,76,]),'TEMPO':([1,],[5,]),'RCURL':([18,21,25,26,27,30,33,34,35,39,40,45,46,50,63,66,69,72,75,76,],[-17,-12,-17,40,-19,-20,-12,-12,47,-18,-15,-14,-13,-4,-28,-12,72,-16,-21,-22,]),'COMMA':([53,54,59,60,64,65,],[-24,61,-23,-25,67,68,]),'$end':([2,4,7,10,14,16,23,40,43,47,50,55,],[-6,0,-8,-2,-1,-8,-7,-15,-6,-9,-4,-5,]),'REPEAT':([21,33,34,40,50,66,72,],[32,32,32,-15,-4,32,-16,]),'HASH':([0,3,19,21,33,34,40,50,66,72,],[1,8,-3,8,8,8,-15,-4,8,-16,]),'FIGURE':([5,41,67,68,],[11,51,51,51,]),'NOTAID':([42,],[53,]),'EQUAL':([12,],[20,]),'LPAREN':([15,28,29,32,],[22,41,42,44,]),'CONSTID':([6,22,61,],[12,37,65,]),'COMPAS':([3,8,19,21,33,34,40,50,66,72,],[9,17,-3,9,9,9,-15,-4,9,-16,]),'NOTA':([18,25,27,30,63,75,76,],[29,29,-19,-20,-28,-21,-22,]),'SILENCIO':([18,25,27,30,63,75,76,],[28,28,-19,-20,-28,-21,-22,]),'ALTURA':([53,],[60,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -27,33 +27,31 @@ del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
   ('start -> encabezado constantes voces','start',3,'p_start','parser_rules.py',16),
-  ('encabezado -> tempo compas','encabezado',2,'p_encabezado','parser_rules.py',22),
-  ('tempo -> HASH TEMPO FIGURE NUMBER','tempo',4,'p_tempo','parser_rules.py',27),
-  ('compas -> HASH COMPAS NUMBER DIV NUMBER','compas',5,'p_compas','parser_rules.py',33),
-  ('constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes','constantes',6,'p_constantes','parser_rules.py',39),
-  ('constantes -> <empty>','constantes',0,'p_constantes_lambda','parser_rules.py',44),
-  ('voces -> voz voces','voces',2,'p_voces','parser_rules.py',48),
-  ('voces -> <empty>','voces',0,'p_voces_lambda','parser_rules.py',53),
-  ('voz -> decla_instrumento LCURL musica RCURL','voz',4,'p_voz','parser_rules.py',58),
-  ('decla_instrumento -> VOICE LPAREN NUMBER RPAREN','decla_instrumento',4,'p_decla_instrumento','parser_rules.py',63),
-  ('decla_instrumento -> VOICE LPAREN CONSTID RPAREN','decla_instrumento',4,'p_decla_instrumento_const','parser_rules.py',69),
-  ('musica -> <empty>','musica',0,'p_musica_lambda','parser_rules.py',80),
-  ('musica -> compas musica','musica',2,'p_musica_compas','parser_rules.py',85),
-  ('musica -> bucle musica','musica',2,'p_musica_bucle','parser_rules.py',90),
-  ('compas -> COMPAS LCURL notas RCURL','compas',4,'p_compas_def','parser_rules.py',95),
-  ('bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL','bucle',7,'p_bucle','parser_rules.py',107),
-  ('compases -> <empty>','compases',0,'p_compases_lambda','parser_rules.py',112),
-  ('compases -> compas compases','compases',2,'p_compases','parser_rules.py',117),
-  ('notas -> <empty>','notas',0,'p_notas_lambda','parser_rules.py',122),
-  ('notas -> figura notas','notas',2,'p_notas','parser_rules.py',127),
-  ('figura -> notaProd','figura',1,'p_figura_nota','parser_rules.py',132),
-  ('figura -> silencio','figura',1,'p_figura_silencio','parser_rules.py',137),
-  ('notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON','notaProd',9,'p_nota_prod','parser_rules.py',142),
-  ('notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON','notaProd',9,'p_nota_prod_constid','parser_rules.py',153),
-  ('altura -> NOTAID simbolo_altura','altura',2,'p_altura','parser_rules.py',168),
-  ('simbolo_altura -> <empty>','simbolo_altura',0,'p_simbolo_altura_lambda','parser_rules.py',173),
-  ('simbolo_altura -> ALTURA','simbolo_altura',1,'p_simbolo_altura','parser_rules.py',178),
-  ('duracion -> FIGURE','duracion',1,'p_duracion','parser_rules.py',183),
-  ('duracion -> FIGURE DOT','duracion',2,'p_duracion_punto','parser_rules.py',188),
-  ('silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON','silencio',5,'p_silencio','parser_rules.py',193),
+  ('encabezado -> tempo compas','encabezado',2,'p_encabezado','parser_rules.py',20),
+  ('tempo -> HASH TEMPO FIGURE NUMBER','tempo',4,'p_tempo','parser_rules.py',24),
+  ('compas -> HASH COMPAS NUMBER DIV NUMBER','compas',5,'p_compas','parser_rules.py',28),
+  ('constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes','constantes',6,'p_constantes','parser_rules.py',33),
+  ('constantes -> <empty>','constantes',0,'p_constantes_lambda','parser_rules.py',37),
+  ('voces -> voz voces','voces',2,'p_voces','parser_rules.py',40),
+  ('voces -> <empty>','voces',0,'p_voces_lambda','parser_rules.py',44),
+  ('voz -> decla_instrumento LCURL musica RCURL','voz',4,'p_voz','parser_rules.py',48),
+  ('decla_instrumento -> VOICE LPAREN NUMBER RPAREN','decla_instrumento',4,'p_decla_instrumento','parser_rules.py',52),
+  ('decla_instrumento -> VOICE LPAREN CONSTID RPAREN','decla_instrumento',4,'p_decla_instrumento_const','parser_rules.py',57),
+  ('musica -> <empty>','musica',0,'p_musica_lambda','parser_rules.py',67),
+  ('musica -> compas musica','musica',2,'p_musica_compas','parser_rules.py',71),
+  ('musica -> bucle musica','musica',2,'p_musica_bucle','parser_rules.py',75),
+  ('compas -> COMPAS LCURL notas RCURL','compas',4,'p_compas_def','parser_rules.py',79),
+  ('bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL','bucle',7,'p_bucle','parser_rules.py',90),
+  ('notas -> <empty>','notas',0,'p_notas_lambda','parser_rules.py',102),
+  ('notas -> figura notas','notas',2,'p_notas','parser_rules.py',106),
+  ('figura -> notaProd','figura',1,'p_figura_nota','parser_rules.py',110),
+  ('figura -> silencio','figura',1,'p_figura_silencio','parser_rules.py',114),
+  ('notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON','notaProd',9,'p_nota_prod','parser_rules.py',118),
+  ('notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON','notaProd',9,'p_nota_prod_constid','parser_rules.py',128),
+  ('altura -> NOTAID simbolo_altura','altura',2,'p_altura','parser_rules.py',142),
+  ('simbolo_altura -> <empty>','simbolo_altura',0,'p_simbolo_altura_lambda','parser_rules.py',146),
+  ('simbolo_altura -> ALTURA','simbolo_altura',1,'p_simbolo_altura','parser_rules.py',150),
+  ('duracion -> FIGURE','duracion',1,'p_duracion','parser_rules.py',154),
+  ('duracion -> FIGURE DOT','duracion',2,'p_duracion_punto','parser_rules.py',158),
+  ('silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON','silencio',5,'p_silencio','parser_rules.py',162),
 ]

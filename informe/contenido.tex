@@ -19,27 +19,27 @@ formal de la gramática, motivo por el cual procedimos a definirla nosotros mism
 se dedujo a partir de la información recibida.
 
 %% Poner la gramática %%
-Sea $G$ una gramática libre de contexto tal que $G: <V_n, V_t, P, S>$ con $P$ definido como: 
-
+Sea $G$ una gramática libre de contexto tal que $G: <V_n, V_t, P, S>$ con $P$ definido como: \\
+\\
 S $\rightarrow$ ENCABEZADO CONSTANTES VOCES \\
 ENCABEZADO $\rightarrow$ TEMPO COMPAS\_DEF \\
 TEMPO $\rightarrow$ \#FIGURA numero \\
 FIGURA $\rightarrow$ blanca $\mid$ redonda $\mid$ negra $\mid$ corchea $\mid$ semicorchea $\mid$ fusa $\mid$ semifusa \\
 COMPAS\_DEF $\rightarrow$ \#compas numero$/$numero  \\
-CONSTANTES $\rightarrow$ const cadena numero; CONSTANTES $\mid$ $\lambda$ \\
+CONSTANTES $\rightarrow$ const string = numero; CONSTANTES $\mid$ $\lambda$ \\
 VOCES $\rightarrow$ DECLA\_INST \{ MUSICA \} \\
 DECLA\_INST $\rightarrow$ voz(numero) \\
 MUSICA $\rightarrow$ COMPAS MUSICA $\mid$ BUCLE MUSICA $\mid$ $\lambda$ \\
 COMPAS $\rightarrow$ compas \{ NOTAS \} \\
-BUCLE $\rightarrow$ repetir(numero) \{ COMPAS COMPASES \} \\
-COMPASES $\rightarrow$ COMPAS COMPASES $\mid$ $\lambda$ \\
+BUCLE $\rightarrow$ repetir(numero) \{ MUSICA \} \\
 NOTAS $\rightarrow$ FIGURA NOTAS $\mid$ $\lambda$ \\
 FIGURA $\rightarrow$ NOTA $\mid$ SILENCIO \\
-NOTA $\rightarrow$ nota(ALTURA, numero, DURACION) \\
-ALTURA $\rightarrow$ string SIMBOLO \\
+NOTA $\rightarrow$ nota(ALTURA, numero, DURACION); \\
+ALTURA $\rightarrow$ NOTAID SIMBOLO \\
+NOTAID $\rightarrow$ do $\mid$ re $\mid$ mi $\mid$ fa $\mid$ sol $\mid$ la $\mid$ si \\
 SIMBOLO $\rightarrow$ $+$ $\mid$ $-$ $\mid$ $\lambda$ \\
-DURACION $\rightarrow$ string $\mid$ string $\bullet$ \\
-SILENCIO $\rightarrow$ silencio(DURACION) \\
+DURACION $\rightarrow$ FIGURA $\mid$ FIGURA $\bullet$ \\
+SILENCIO $\rightarrow$ silencio(DURACION); \\
 
 
 
@@ -70,10 +70,37 @@ En una etapa posterior se hizo algo similar con el parser. Yacc nos pide definir
 sintácticamente con el lenguaje a estudiar. Estas reglas se corresponden con la gramática definida en la sección anterior pero están
 definidas a partir de los tokens que se establecieron en el primer paso. Adicionalmente, las reglas que se definen permiten agregarle comportamiento 
 al parser y poder así escribir el archivo de salida y así también poder validar ciertas cuestiones relacionadas con la composición musical
-como respetar la duración de los compases y validar su estructura.
+como respetar la duración de los compases y validar su estructura o que las constantes que se usan estén definidas previamente.
 
-Además de recolectar información sobre la estructura de la composición durante el parseo se programaron estructuras adicionales que facilitan la 
-conversión al formato intermedio de manera de poder realizar esta tarea de manera lo más cómoda posible.
+El parser devuelve una estructura que contiene los datos necesarios para traducir el input a un lenguaje que pueda ser procesado por el programa \textit{midicomp} que lo compila luego en un archivo .midi listo para ser reproducido. La estructura que devuelve nuestro parser es la siguiente:
+
+El parser devuelve una lista con el siguiente formato:
+
+[    [ tempo,  compas   ]   ,     compases\_y\_bucles  ]
+
+donde \textbf{tempo} es una lista que tiene como primer elemento a la figura y como segundo elemento la cantidad de esa figura por minuto (ejemplo: ["redonda", 60])
+
+\textbf{compas} es una lista con dos elementos: el numerador primero y el denominador del compas (por ejemplo para 2/4 es [2, 4] o para 3/4 es [3, 4])
+
+\textbf{compases\_y\_bucles} es una lista de dos elementos que difieren según si se trata de un compás o de un bucle:
+
+Si es un compás, el primer elemento de la lista es una 'C' para indicar que se trata de un compás y el segundo elemento es una lista de \textbf{diccionario\_de\_notas\_y\_silencios}
+
+Si es un bucle, el primer elemento de la lista es una 'B' para indicar que se trata de un bucle y el segundo elemento es una lista de compases o de otros bucles
+
+el \textbf{diccionario\_de\_notas\_y\_silencios} representa una nota o un silencio. Los campos que tiene cada diccionario son:
+
+\textbf{duration}: es el tiempo que dura la nota ya calculado (el campo se usa para calcular la duración del compás). Este numero esta calculado de la siguiente manera: 1 / valor\_de\_la\_figura. Es decir que si la duration de una nota es 0,5 es una blanca, si es 0,25 es una negra, si es 1 es una redonda, etc.
+
+\textbf{type}: pueden ser dos valores: 'NOT' si el diccionario representa una nota y 'SIL' si representa un silencio
+
+\textbf{octava}: sólo en caso de que sea nota, tiene el valor de la octava. Importante tener en cuenta que siempre es un valor numerico, no importa que haya sido declarada la nota usando directamente ese valor o usando una constante
+
+\textbf{nota}: sólo en caso de que sea nota, tiene la nota como do, o re o mi, etc...
+
+\textbf{desv}: también sólo existe este campo en caso de que se trate de una nota y representa la desviación. Sus posibles valores son: disminuido(-), aumentado(+) o nada. En este último caso, desv es un string vacío
+
+Esta información es levantada por el programa musileng.py quien la procesa (por ejemplo, desarma los bucles escribiendo varias veces los compases que tienen dentro) y escribe en el archivo de salida el código listo para ser procesado por \textbf{midicomp}. Para escribir este código se basa de otra herramienta que llamamos traductor.py que provee métodos para garantizar esta escritura de manera correcta tomando como entrada los parametros manipulados por musileng.py
 
 \section{Conclusiones}
 
@@ -89,7 +116,9 @@ tener las herramientas tanto teóricas como prácticas para alcanzar este objeti
 sino que además creemos que la solución alcanzada por fuera de este marco sería algo completamente poco robusta y 
 con un alto costo de modificación o extensión.
 
-Esto no implica que la tarea de leer un archivo, interpretarlo y generar otro que un significado parecido sea algo trivial.
-Más bien todo lo contrario, creemos que es una tarea bastante compleja a pesar de los avances con los que contamos y que 
+Esto no implica que la tarea de leer un archivo, interpretarlo y generar otro de un significado parecido sea algo trivial.
+Más bien todo lo contrario, creemos que es una tarea compleja a pesar de los avances con los que contamos y que 
 vimos a lo largo de la materia. Especialmente compleja cuando hablamos de tareas que se agregan en este proceso como
 por ejemplo la optimización del código que se genera y demás cosas que son importantes en el diseño de compiladores.
+
+Por último, pudimos ver también la utilidad práctica que tienen los compiladores más allá de los algoritmos o de los lenguajes de programación en sí. Los compiladores permiten parsear y manipular texto con una facilidad increíble a partir de una serie de reglas gramaticales que describen el objetivo de la transformación que queremos realizar. Para un lenguaje de programación representan una interfaz entre la voluntad del programador y el lenguaje que una máquina puede entender y por lo tanto resultan esenciales e impresindibles. Pero con este trabajo, hemos observado que esta cualidad de interfaz o intermediario que cumplen los compiladores puede aplicarse a multiples aspectos de la vida práctica: en este caso, pasar de un lenguaje sensillo y entendible por cualquier persona a un lenguaje más complejo que puede ejecutar el midicomp.
