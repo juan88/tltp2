@@ -13,6 +13,7 @@ class Traductor(object):
       'semifusa' : 64
     }
 
+
     notas = {
       'do' : 'c',
       're' : 'd',
@@ -33,7 +34,7 @@ class Traductor(object):
 
 
     def calcularTempo(self, figura, figura_minuto):
-        """ Calculo el tempo a partir de una figura y una duracion por figura segun el formato midi """
+        """ Calculo el tempo a partir de una figura y una duration por figura segun el formato midi """
         return 1000000 * 60 * self.valorParaFigura(figura) / (4 * figura_minuto)
 
 
@@ -44,11 +45,11 @@ class Traductor(object):
         values = { 'ntracks':ntracks, 'compas':compas, 'tempo':str(tempo), 'tiempoInicial':self.timer.mostrar() }
         
         template =  """MFile 1 $ntracks 384 
-        MTrk
-        $tiempoInicial TimeSig $compas 24 8
-        $tiempoInicial Tempo $tempo
-        $tiempoInicial Meta TrkEnd
-        TrkEnd"""
+MTrk
+$tiempoInicial TimeSig $compas 24 8
+$tiempoInicial Tempo $tempo
+$tiempoInicial Meta TrkEnd
+TrkEnd\n"""
 
         return string.Template(template).substitute(values)
 
@@ -75,14 +76,17 @@ TrkEnd
     def escribirNotas(self, nroInstrumento, notas):
         ret = ''
         for nota in notas:
-            ret += self.escribirNota(nroInstrumento, nota['nota'], nota['octava'], nota['duracion'])
+            if(nota['type'] == 'NOT'):
+                ret += self.escribirNota(nroInstrumento, nota['nota'], nota['desv'], nota['octava'], nota['duration'])
+            else:
+                self.timer.avanzar(nota['duration'])
         return ret
 
-    def escribirNota(self, nroInstrumento, nota, octava, duracion):
+    def escribirNota(self, nroInstrumento, nota, desv, octava, duration):
         """ A partir de un nro de instrumento escribo el valor de una nota para el documento a generar """
-        valorNota = self.notaEnIngles(nota)
+        valorNota = self.notaEnIngles(nota) + desv
         values = { 'tiempo':self.timer.mostrar(), 'canal':nroInstrumento, 'nota':valorNota+str(octava) }
-        self.timer.avanzar(duracion)
+        self.timer.avanzar(duration)
         values['tiempoLuego'] = self.timer.mostrar()
 
         template =  """$tiempo On ch=$canal note=$nota vol=70
@@ -97,6 +101,16 @@ $tiempoLuego Off ch=$canal note=$nota vol=0
 class CompasTimer(object):
     
     CLICKS_POR_PULSO = 384
+
+    tiempos = {
+        1.0 : 'redonda',
+        0.5 : 'blanca',
+        0.25 : 'negra',
+        0.125 : 'corchea',
+        0.0625 : 'semicorchea',
+        0.03125 : 'fusa',
+        0.015625 : 'semifusa'
+    }
 
     def __init__(self, numerador, denominador):
         """ Constructor del timer para compas. Necesita numerador y denominador para
@@ -122,7 +136,7 @@ class CompasTimer(object):
 
     def avanzar(self, figura):
         """ Avanza el timer segun el valor de la figura en cuestion """
-        clicksASumar = self.clicksPorFigura(figura)
+        clicksASumar = self.clicksPorFigura(self.tiempos[figura])
         pulsosASumar = int(math.floor(clicksASumar / CompasTimer.CLICKS_POR_PULSO))
         clicksFraccion = clicksASumar - pulsosASumar * CompasTimer.CLICKS_POR_PULSO
         compasesASumar = 0

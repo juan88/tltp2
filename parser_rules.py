@@ -125,7 +125,6 @@ class Reglas():
 
     def p_notas(p):
         'notas : figura notas'
-        p[0] = []
         p[0] = [p[1]] + p[2]
         #return p
 
@@ -143,7 +142,8 @@ class Reglas():
         'notaProd : NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON'
         p[0] = {}
         p[0]["duration"] = p[7]
-        p[0]["nota"] = p[3]
+        p[0]["nota"] = p[3][0]
+        p[0]["desv"] = p[3][1]
         p[0]["octava"] = p[5]
         p[0]["type"] = "NOT"
         #return p
@@ -158,14 +158,15 @@ class Reglas():
         else:
             p[0] = {}
             p[0]["duration"] = p[7]
-            p[0]["nota"] = p[3]
+            p[0]["nota"] = p[3][0]
+            p[0]["desv"] = p[3][1]
             p[0]["octava"] = Reglas.consts[var]
             p[0]["type"] = "NOT"
         #return p
 
     def p_altura(p):
         'altura : NOTAID simbolo_altura'
-        p[0] = p[1] + p[2]
+        p[0] = [p[1], p[2]]
         pass
 
     def p_simbolo_altura_lambda(p):

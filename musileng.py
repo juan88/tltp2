@@ -28,13 +28,6 @@ def archivo_para_escribir(ruta):
     return open(ruta, "w")
 
 
-# def parser(expresion):
-
-#     lexer = lex(module=lexer_rules)
-#     parser = parser_rules.yacc
-#     # parser = yacc(module=parser_rules)
-#     return parser.parse(expresion, lexer)
-
 if __name__ == "__main__":
     if len(argv) != 3:
         print "Invalid arguments."
@@ -55,8 +48,6 @@ if __name__ == "__main__":
 
     expression = parser.parse(text, lexer)
     encabezado = expression[0]
-    print "encabezado: "
-    print encabezado
     voces = expression[1]
     print "voces: "
     print voces
@@ -69,11 +60,25 @@ if __name__ == "__main__":
     ntracks = len(voces) + 1
     compas = str(numeradorCompas) + "/" + str(denomCompas)
     figura = encabezado[0][0]
-    print figura
     tempofigura = encabezado[0][1]
-    print tempofigura
     escribirEncabezado = traductor.escribirEncabezado(ntracks, compas, figura, tempofigura)
-    print escribirEncabezado
+
+    voices = {}
+    track = 1
+    salidaStr = escribirEncabezado
+    for voz in voces:
+        instrumento = voz[0]
+        notas = []
+        for compas in voz[1]:
+            for nota in compas[1]:
+                notas = notas + [nota]
+        voices[instrumento] = notas
+        escribirTrack = traductor.escribirTrack(track, instrumento, voices)
+        salidaStr = salidaStr + escribirTrack
+        track = track + 1
+        if(track == 10):
+            track = 11
+    print salidaStr
 
     entrada.close()
     salida.close()
