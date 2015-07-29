@@ -41,7 +41,6 @@ if __name__ == "__main__":
     salida = archivo_para_escribir(parametros[1])
 
     text = entrada.read()
-    print text
     variables = parser_rules.Reglas()
     lexer = lex(module=lexer_rules)
     parser = parser_rules.yacc
@@ -49,8 +48,7 @@ if __name__ == "__main__":
     expression = parser.parse(text, lexer)
     encabezado = expression[0]
     voces = expression[1]
-    print "voces: "
-    print voces
+
 
     numeradorCompas = encabezado[1][0]
     denomCompas = encabezado[1][1]
@@ -79,6 +77,8 @@ if __name__ == "__main__":
         if(track == 10):
             track = 11
     print salidaStr
+
+    salida.write(salidaStr)
 
     entrada.close()
     salida.close()
