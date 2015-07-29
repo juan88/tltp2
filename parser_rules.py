@@ -81,6 +81,7 @@ class Reglas():
         duracion_compas = 0
         for diccs in lista:
             duracion_compas += diccs["duration"]
+        print duracion_compas
         if(duracion_compas != Reglas.dicc["compas_val"]):
             raise Exception("El tiempo del compas es erroneo")
         else:
@@ -149,7 +150,7 @@ class Reglas():
 
     def p_duracion_punto(p):
         'duracion : FIGURE DOT'
-        p[0] = (1 / p[1]["value"]) * 1.5
+        p[0] = (1 / float(p[1]["value"])) * 1.5
 
     def p_silencio(p):
         'silencio : SILENCIO LPAREN duracion RPAREN SEMICOLON'

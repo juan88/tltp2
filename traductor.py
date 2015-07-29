@@ -104,12 +104,19 @@ class CompasTimer(object):
     CLICKS_POR_PULSO = 384
 
     tiempos = {
+        1.5 : 'redonda.',
         1.0 : 'redonda',
+        0.75 : 'blanca.',
         0.5 : 'blanca',
+        0.375 : 'negra.',
         0.25 : 'negra',
+        0.1875 : 'corchea.',
         0.125 : 'corchea',
+        0.09375 : 'semicorchea.',
         0.0625 : 'semicorchea',
+        0.046875 : 'fusa.',
         0.03125 : 'fusa',
+        0.0234375 : 'semifusa.',
         0.015625 : 'semifusa'
     }
 
@@ -125,8 +132,11 @@ class CompasTimer(object):
     def clicksPorFigura(self, figura):
         """ Devuelvo la cantidad de clicks por figura de acuerdo a la configuracion del compas """
         traductor = Traductor(self)
-        clicksPorRedonda = CompasTimer.CLICKS_POR_PULSO * self.denominador 
-        return clicksPorRedonda / traductor.valorParaFigura(figura)
+        clicksPorRedonda = CompasTimer.CLICKS_POR_PULSO * self.denominador
+        if(figura in ['redonda', 'blanca', 'negra', 'corchea', 'semicorchea', 'fusa', 'semifusa']):
+            return clicksPorRedonda / traductor.valorParaFigura(figura)
+        else:
+            return int((clicksPorRedonda / traductor.valorParaFigura(figura[0:-1])) * 1.5)
 
     def mostrar(self):
         """ Devuelvo una representacion de string del tiempo actual """
