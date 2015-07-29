@@ -3,7 +3,7 @@
 
 import unittest
 import lexer_rules
-import parser_rules_merge
+import parser_rules
 import os
 from traductor import *
 
@@ -14,31 +14,66 @@ from ply.yacc import yacc
 
 class ParserTest(unittest.TestCase):
     
-    def atestTraductor1(self):
-        expresion = """#tempo redonda 60
-        #compas 2/2
-        """
-        ast = self.parser(expresion)
-        self.assertTrue(isinstance(ast, Traductor))
+    # def testTraductor1(self):
+    #     expresion = """#tempo redonda 60
+    #     #compas 2/2
+    #     """
+    #     ast = self.parser(expresion)
+    #     self.assertTrue(isinstance(ast, Traductor))
 
-    def atestTraductor2(self):
-        expresion = self.leer_archivo("entradas_de_prueba/encabezado1.mus")
-        ast = self.parser(expresion)
-        self.assertTrue(isinstance(ast, Traductor))
+    # def testTraductor2(self):
+    #     expresion = self.leer_archivo("entradas_de_prueba/encabezado1.mus")
+    #     ast = self.parser(expresion)
+    #     self.assertTrue(isinstance(ast, Traductor))
 
+
+    def testTraductor1(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_ok_1.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor2(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_ok_4.mus")
+        ast = self.parser(expresion)
 
     def testTraductor3(self):
-        expresion = self.leer_archivo("entradas_de_prueba/entrada1.mus")
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_ok_2.mus")
         ast = self.parser(expresion)
 
     def testTraductor4(self):
-        expresion = self.leer_archivo("parsingtest.mus")
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_ok_3.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor5(self):
+        expresion = self.leer_archivo("entradas_de_prueba/parsingtest_wrongtimecompas.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor6(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_error_def_compas_malformada.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor7(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_error_longitud_mal_formada_de_compas.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor8(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_def_tempo_malformada.mus")
+        ast = self.parser(expresion)
+
+    def testTraductor9(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_errores_varios")
+        ast = self.parser(expresion)
+
+    def testTraductor10(self):
+        expresion = self.leer_archivo("entradas_de_prueba/entrada_error_bloque_no_cerrado.mus")
+        print expresion
         ast = self.parser(expresion)
 
     # Funciones utilitarias
     def parser(self, expresion):
+        variables = parser_rules.Reglas()
         lexer = lex(module=lexer_rules)
-        parser = yacc(module=parser_rules_merge)
+        parser = parser_rules.yacc
+        # parser = yacc(module=parser_rules)
         return parser.parse(expresion, lexer)
 
     def leer_archivo(self, ruta):

@@ -2,12 +2,16 @@
 #compas 2/2
 
 const piano = 0;
-const octava = 5;
+const octava = 6;
 
-voz(piano)
+voz(0)
 {
 	compas{
         	nota(do, 5, blanca);
         	nota(re, 5, blanca);
+	}
+	compas{
+		nota(do, octava, blanca);
+		silencio(blanca);
 	}
 }

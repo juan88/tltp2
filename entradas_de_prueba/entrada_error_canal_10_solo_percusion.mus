@@ -1,0 +1,86 @@
+#tempo figura 60 //figura es cualquier cosa. Debería ser una redonda o negra o algo asi
+#compas 2/2
+
+const octava = 6;
+const grand_piano = 0;
+
+voz (grand_piano)
+{
+	compas
+	{
+		nota(do, octava, blanca);
+		nota(re, octava, blanca);
+	}
+}
+voz (grand_piano)
+{
+	compas
+	{
+		nota(do, octava, blanca);
+		nota(sol, octava, blanca);
+	}
+}
+voz (grand_piano)
+{
+	compas
+	{
+		nota(la, octava, blanca);
+		nota(la, octava, blanca);
+	}
+}
+voz (grand_piano)
+{
+	compas
+	{
+		nota(mi, octava, blanca);
+		nota(fa, octava, blanca);
+	}
+}
+voz (grand_piano)
+{
+	compas
+	{
+		nota(sol, octava, blanca);
+		nota(si, octava, blanca);
+	}
+}
+voz (grand_piano)
+{
+	compas
+	{
+		nota(do, octava, blanca);
+		nota(re, octava, blanca);
+	}
+}
+voz (grand_piano)
+{
+	compas
+	{
+		nota(do, octava, blanca);
+		nota(sol, octava, blanca);
+	}
+}
+voz (grand_piano)
+{
+	compas
+	{
+		nota(la, octava, blanca);
+		nota(la, octava, blanca);
+	}
+}
+voz (grand_piano)
+{
+	compas
+	{
+		nota(mi, octava, blanca);
+		nota(fa, octava, blanca);
+	}
+}
+voz (grand_piano) //Aca esperaría usar percusión no piano
+{
+	compas
+	{
+		nota(sol, octava, blanca);
+		nota(si, octava, blanca);
+	}
+}

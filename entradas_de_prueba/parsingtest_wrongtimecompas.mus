@@ -1,0 +1,17 @@
+#tempo redonda 60
+#compas 2/2
+
+const piano = 0;
+const octava = 6;
+
+voz(0)
+{
+	compas{
+        	nota(do, 5, blanca);
+        	nota(re, 5, negra);
+	}
+	compas{
+		nota(do, octava, blanca);
+		silencio(blanca);
+	}
+}
