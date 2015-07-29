@@ -139,3 +139,8 @@ class CompasTimer(object):
             self.pulso = self.pulso % self.numerador
         
         self.compas += compasesASumar
+
+    def reset(self):
+    	self.compas = 0
+    	self.pulso = 0
+    	self.click = 0

@@ -115,6 +115,19 @@ TrkEnd
 """
         self.assertEquals(testigo, traductor.escribirTrack(1, 1, notas))
 
+    def testReseteoTimer(self):
+        timer = CompasTimer(2,4)
+        self.assertEquals('000:00:000', timer.mostrar())
+        timer.avanzar('negra')
+        timer.avanzar('corchea')
+        timer.avanzar('corchea')
+        timer.avanzar('corchea')
+        timer.avanzar('blanca')
+        timer.avanzar('redonda')
+        self.assertEquals('004:00:192', timer.mostrar())
+        timer.reset()
+        self.assertEquals('000:00:000', timer.mostrar())
+
     # Funciones utilitarias
     def leerArchivo(self, ruta):
         if not os.path.exists(ruta):
