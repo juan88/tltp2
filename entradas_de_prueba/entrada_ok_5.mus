@@ -1,0 +1,54 @@
+#tempo redonda 60
+#compas 2/2
+
+const piano = 0;
+const octava = 6;
+const violin = 40;
+
+voz(piano)
+{
+	compas{
+        nota(do, 5, blanca);
+        nota(re, 5, blanca);
+	}
+	compas{
+		nota(do, octava, blanca);
+		silencio(blanca);
+	}
+	compas{
+        	nota(do, 5, blanca);
+        	nota(re, 5, blanca);
+	}
+	compas{
+        	nota(do, 5, blanca);
+        	nota(re, 5, blanca);
+	}
+	compas{
+        	nota(mi, 5, blanca);
+        	nota(fa, 5, blanca);
+	}
+}
+
+voz(violin)
+{
+	compas{
+        	silencio(blanca);
+        	silencio(blanca);
+	}
+	compas{
+		nota(do, octava, blanca);
+		silencio(blanca);
+	}
+	compas{
+        	nota(do, 5, blanca);
+        	nota(re, 5, blanca);
+	}
+	compas{
+        	nota(do, 5, blanca);
+        	nota(re, 5, blanca);
+	}
+	compas{
+        	nota(mi, 5, blanca);
+        	nota(fa, 5, blanca);
+	}
+}
