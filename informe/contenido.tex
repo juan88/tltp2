@@ -1,22 +1,22 @@
 \section{Introduccion}
 
 Dentro del marco de el reconocimiento y la generación de lenguajes vimos un número de técnicas que nos permiten
-estudiar la estructura sintáctica de un lenguaje. Estas técnicas, también llamada \emph{parsing} nos permiten
+estudiar la estructura sintáctica de un lenguaje. Estas técnicas nos permiten
 comprender un lenguaje desde su estructura a partir de una gramática. Es decir, podemos chequear (o incluso generar)
-un lenguaje a partir de un conjunto acotado de reglas que nos dicen como se construye un lenguaje.
+un lenguaje a partir de un conjunto acotado de reglas que nos dicen como se construye dicho lenguaje.
 
 En nuestro caso, se nos pidió realizar un programa que pueda ser capaz de \emph{reconocer} un lenguaje llamado \emph{Musileng}.
 
-Musileng es un lenguaje que nos permite realizar composiciones musicales en formato MIDI a través de una especificación dada que luego
+Musileng es un lenguaje que posibilita la realización de composiciones musicales en formato MIDI a través de una especificación dada que luego
 será convertida a un formato intermedio para ser a su vez procesado oportunamente por otro programa que se encargará de generar el archivo
 de audio en el formato antes mencionado.
 
 \section{Gramática}
 
 Parte del trabajo necesario para poder cumplir con la tarea asignada era poder definir la gramática del lenguaje Musileng.
-En nuestro caso, si bien contamos con una especificación del lenguaje y como eran sus estructuras de control no contamos con la definición
-formal de la gramática del mismo motivo por el cual procedimos a definirla nosotros mismos. A continuación se detalla la gramática que
-se dedujo a partir de la especificación brindada.
+En nuestro caso, si bien contamos con una especificación del lenguaje y una descripción de sus estructuras de control no contamos con la definición
+formal de la gramática, motivo por el cual procedimos a definirla nosotros mismos. A continuación se detalla la gramática que
+se dedujo a partir de la información recibida.
 
 %% Poner la gramática %%
 Sea $G$ una gramática libre de contexto tal que $G: <V_n, V_t, P, S>$ con $P$ definido como: 
@@ -47,9 +47,9 @@ SILENCIO $\rightarrow$ silencio(DURACION) \\
 
 Una vez que contamos con la gramática definida para el lenguaje en cuestión teníamos dos puntos fundamentales para resolver. 
 
-Por un lado implementar un parser para poder comprender la estructura sintáctica de nuestro lenguaje y, por otro lado, 
+Por un lado implementar un parser para poder comprender la estructura sintáctica de musileng y, por otro lado, 
 era necesario poder darle semántica a lo que estabamos tratando de comprender para poder generar ciertas estructuras y recavar 
-cierta información necesaria de lo que se leía para poder generar un archivo intermedio en otro lenguaje para poder, efectivamente,
+cierta información útil de lo que se leía para poder generar un archivo intermedio en otro lenguaje para poder, efectivamente,
 componer música a través un programa externo.
 
 Respecto de la primera tarea lo que hicimos fue utilizar por recomendación de la cátedra un \emph{generador de parser y lexer} llamado
