@@ -8,24 +8,83 @@ from sys import argv, exit
 from ply.lex import lex
 from ply.yacc import yacc
 
+class Musileng(object):
+
+    def archivo_para_leer(self, ruta):
+        if not os.path.exists(ruta):
+            sys.exit("El archivo '%s' no existe." % ruta)
+        elif not os.path.isfile(ruta):
+            sys.exit("El archivo '%s' es invalido." % ruta)
+
+        return open(ruta, "r")
 
 
-def archivo_para_leer(ruta):
-    if not os.path.exists(ruta):
-        sys.exit("El archivo '%s' no existe." % ruta)
-    elif not os.path.isfile(ruta):
-        sys.exit("El archivo '%s' es invalido." % ruta)
+    def archivo_para_escribir(self, ruta):
+        ruta_completa = os.path.realpath(ruta)
+        directorio = os.path.dirname(ruta_completa)
+        if not os.access(directorio, os.W_OK):
+            sys.exit("El archivo '%s' no puede escribirse." % ruta)
 
-    return open(ruta, "r")
+        return open(ruta, "w")
 
 
-def archivo_para_escribir(ruta):
-    ruta_completa = os.path.realpath(ruta)
-    directorio = os.path.dirname(ruta_completa)
-    if not os.access(directorio, os.W_OK):
-        sys.exit("El archivo '%s' no puede escribirse." % ruta)
+    def convertir(self, entrada, salida):
+        text = entrada.read()
+        variables = parser_rules.Reglas()
+        lexer = lex(module=lexer_rules)
+        parser = parser_rules.yacc
 
-    return open(ruta, "w")
+        expression = parser.parse(text, lexer)
+        encabezado = expression[0]
+        voces = expression[1]
+
+
+        numeradorCompas = encabezado[1][0]
+        denomCompas = encabezado[1][1]
+
+        traductor = Traductor(CompasTimer(numeradorCompas,denomCompas))
+
+        ntracks = len(voces) + 1
+        compas = str(numeradorCompas) + "/" + str(denomCompas)
+        figura = encabezado[0][0]
+        tempofigura = encabezado[0][1]
+        escribirEncabezado = traductor.escribirEncabezado(ntracks, compas, figura, tempofigura)
+
+        voices = {}
+        track = 1
+        salidaStr = escribirEncabezado
+        for voz in voces:
+            instrumento = voz[0]
+            notas = []
+
+            #ELIMINAMOS LOS BUCLES Y NOS QUEDAMOS CON LISTA DE COMPASES EXCLUSIVAMENTE
+            original = voz[1]
+            aRecorrer = original
+            hayCambios = True
+            while hayCambios:
+                hayCambios = False
+                original = aRecorrer
+                aRecorrer = []
+                for compas in original:
+                    if(compas[0] == 'C'):
+                        aRecorrer = aRecorrer + [compas]
+                    else:
+                        compasesBucle = compas[1][1]
+                        for i in range(compas[1][0]):
+                            for compas in compasesBucle:
+                                aRecorrer = aRecorrer + [compas]
+                        hayCambios = True
+            for compas in aRecorrer:
+                for nota in compas[1]:
+                    notas = notas + [nota]
+            voices[instrumento] = notas
+            escribirTrack = traductor.escribirTrack(track, instrumento, voices)
+            salidaStr = salidaStr + escribirTrack
+            track = track + 1
+            if(track == 10):
+                track = 11
+
+        salida.write(salidaStr)
 
 
 if __name__ == "__main__":
@@ -37,66 +96,12 @@ if __name__ == "__main__":
 
     parametros = argv[1:]
 
-    entrada = archivo_para_leer(parametros[0])
-    salida = archivo_para_escribir(parametros[1])
+    musileng = Musileng()
+    entrada = musileng.archivo_para_leer(parametros[0])
+    salida = musileng.archivo_para_escribir(parametros[1])
 
-    text = entrada.read()
-    variables = parser_rules.Reglas()
-    lexer = lex(module=lexer_rules)
-    parser = parser_rules.yacc
-
-    expression = parser.parse(text, lexer)
-    encabezado = expression[0]
-    voces = expression[1]
-
-
-    numeradorCompas = encabezado[1][0]
-    denomCompas = encabezado[1][1]
-
-    traductor = Traductor(CompasTimer(numeradorCompas,denomCompas))
-
-    ntracks = len(voces) + 1
-    compas = str(numeradorCompas) + "/" + str(denomCompas)
-    figura = encabezado[0][0]
-    tempofigura = encabezado[0][1]
-    escribirEncabezado = traductor.escribirEncabezado(ntracks, compas, figura, tempofigura)
-
-    voices = {}
-    track = 1
-    salidaStr = escribirEncabezado
-    for voz in voces:
-        instrumento = voz[0]
-        notas = []
-
-        #ELIMINAMOS LOS BUCLES Y NOS QUEDAMOS CON LISTA DE COMPASES EXCLUSIVAMENTE
-        original = voz[1]
-        aRecorrer = original
-        hayCambios = True
-        while hayCambios:
-            hayCambios = False
-            original = aRecorrer
-            aRecorrer = []
-            for compas in original:
-                if(compas[0] == 'C'):
-                    aRecorrer = aRecorrer + [compas]
-                else:
-                    compasesBucle = compas[1][1]
-                    for i in range(compas[1][0]):
-                        for compas in compasesBucle:
-                            aRecorrer = aRecorrer + [compas]
-                    hayCambios = True
-        for compas in aRecorrer:
-            for nota in compas[1]:
-                notas = notas + [nota]
-        voices[instrumento] = notas
-        escribirTrack = traductor.escribirTrack(track, instrumento, voices)
-        salidaStr = salidaStr + escribirTrack
-        track = track + 1
-        if(track == 10):
-            track = 11
-
-    salida.write(salidaStr)
-
+    
+    musileng.convertir(entrada, salida)
     entrada.close()
     salida.close()
 
