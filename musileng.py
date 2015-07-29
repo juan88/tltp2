@@ -67,7 +67,25 @@ if __name__ == "__main__":
     for voz in voces:
         instrumento = voz[0]
         notas = []
-        for compas in voz[1]:
+
+        #ELIMINAMOS LOS BUCLES Y NOS QUEDAMOS CON LISTA DE COMPASES EXCLUSIVAMENTE
+        original = voz[1]
+        aRecorrer = original
+        hayCambios = True
+        while hayCambios:
+            hayCambios = False
+            original = aRecorrer
+            aRecorrer = []
+            for compas in original:
+                if(compas[0] == 'C'):
+                    aRecorrer = aRecorrer + [compas]
+                else:
+                    compasesBucle = compas[1][1]
+                    for i in range(compas[1][0]):
+                        for compas in compasesBucle:
+                            aRecorrer = aRecorrer + [compas]
+                    hayCambios = True
+        for compas in aRecorrer:
             for nota in compas[1]:
                 notas = notas + [nota]
         voices[instrumento] = notas
@@ -76,7 +94,6 @@ if __name__ == "__main__":
         track = track + 1
         if(track == 10):
             track = 11
-    print salidaStr
 
     salida.write(salidaStr)
 
