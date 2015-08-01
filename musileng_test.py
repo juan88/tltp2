@@ -105,7 +105,7 @@ class MusilengTest(unittest.TestCase):
         with self.assertRaises(Exception):
                 musileng.convertir(entrada, salida)
 
-    def testErrorTempoMayorACero(self):
+    def testErrorTempoMayorACero(self): #Ojo que falla pero por división por cero. Debería fallar por lo que verdaderamente corresponde.
         """ El tempo debe ser mayor a 0 """
         musileng = Musileng()
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_error_tempo_blanca_0.mus')
