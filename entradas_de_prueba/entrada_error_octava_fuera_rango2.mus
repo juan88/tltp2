@@ -1,0 +1,12 @@
+#tempo blanca 60
+#compas 1/1
+
+const octava = 11;
+
+voz (0)
+{
+    compas
+    {
+        nota(do, octava, redonda);
+    }
+}

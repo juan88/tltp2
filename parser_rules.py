@@ -5,24 +5,60 @@ from lexer_rules import tokens
 
 DEBUG = True
 
+
+#Clase propia para manejar los errores de Musileng
+class SemanticException(Exception):
+    def __init__(self, message, lineNumber):
+
+        # Call the base class constructor with the parameters it needs
+        #super(MusilengException, self).__init__(message)
+
+        # Now for your custom code...
+        self.message = message
+        self.lineNumber = lineNumber
+        self.filename = ''
+
+    def __str__(self):
+        return self.errorMsg()    
+
+    def errorMsg(self):
+        """ Muestro un mesaje custom de error diciendo en que archivo, nro de linea y error que hubo """
+        return " --> " + self.filename + ":" + str(self.lineNumber) + " - " + self.message
+
 class Reglas():
     cantvoices = 1
     dicc = {}
     consts = {}
+
+    @classmethod
+    def instrumentoEnRango(cls, idInstrumento):
+        """ Devuelve True si un instrumento esta bien configurado en el rango aceptado por MIDI """
+        return idInstrumento >= 0 and idInstrumento <= 127
+
+    @classmethod
+    def octavaEnRango(cls, octava):
+        """ Chequeo que el valor de la octava este bien definido """
+        return octava >= 1 and octava <= 9
 
 
 #BNF
     def p_start(p):
     	'start : encabezado constantes voces'
     	p[0] = [p[1], p[3]]
+        if(len(p[3]) == 0):
+            raise SemanticException("La cantidad de voces debe ser mayor a cero", p.lineno(3))
 
     def p_encabezado(p):
     	'encabezado : tempo compas'
     	p[0] = [p[1], p[2]]
 
+
     def p_tempo(p):
     	'tempo : HASH TEMPO FIGURE NUMBER'
-    	p[0] = [p[3]["type"] , p[4]]
+        tempo = p[4]
+        if tempo <= 0:
+            raise SemanticException("El tiempo de duracion de la figura "+ str(p[3]["type"]) +" debe ser mayor a 0.", p.lineno(3))
+    	p[0] = [p[3]["type"] , tempo]
 
     def p_compas(p):
     	'compas : HASH COMPAS NUMBER DIV NUMBER'
@@ -51,13 +87,22 @@ class Reglas():
     def p_decla_instrumento(p):
         'decla_instrumento : VOICE LPAREN NUMBER RPAREN'
         Reglas.cantvoices = Reglas.cantvoices + 1
-        p[0] = p[3]
+
+        if(Reglas.cantvoices > 16):
+            raise SemanticException("No se pueden configurar mas de 16 voces para el estandar", p.lineno(1))
+
+        idInstrumento = p[3]
+        if not(Reglas.instrumentoEnRango(idInstrumento)):
+            msg = "El instrumento '" + str(idInstrumento) + "' no esta en el rango valido soportado por MIDI (0 a 127)"
+            raise SemanticException(msg, p.lineno(3))
+
+        p[0] = idInstrumento
 
     def p_decla_instrumento_const(p):
         'decla_instrumento : VOICE LPAREN CONSTID RPAREN'
         if(not(p[3] in Reglas.consts)):
-        	message = "Constant " + p[3] + " not declared"
-                raise Exception(message)
+        	message = "Constante " + p[3] + " no declarada!"
+                raise SemanticException(message, p.lineno(3))
         else:
             Reglas.cantvoices = Reglas.cantvoices + 1
             p[0] = Reglas.consts[p[3]]
@@ -83,7 +128,7 @@ class Reglas():
             duracion_compas += diccs["duration"]
         if(duracion_compas != Reglas.dicc["compas_val"]):
             message = "El tiempo del compas es erroneo"
-            raise Exception(message)
+            raise SemanticException(message, p.lineno(1))
         else:
             p[0] = lista
 
@@ -110,6 +155,9 @@ class Reglas():
 
     def p_nota_prod(p):
         'notaProd : NOTA LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON'
+        if not(Reglas.octavaEnRango(p[5])):
+            raise SemanticException("El valor de octava definido como '"+ str(p[5])+"' esta fuera del rango permitido", p.lineno(5))
+
         p[0] = {}
         p[0]["duration"] = p[7]
         p[0]["nota"] = p[3][0]
@@ -117,14 +165,17 @@ class Reglas():
         p[0]["octava"] = p[5]
         p[0]["type"] = "NOT"
 
-# FALTA HACER QUE EN VEZ DE HACEPTAR UN NUMBER PUEDA ACEPTAR UN CONSTID
+# FALTA HACER QUE EN VEZ DE ACEPTAR UN NUMBER PUEDA ACEPTAR UN CONSTID
     def p_nota_prod_constid(p):
         'notaProd : NOTA LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON'
         var = p[5]
         if(not(var in Reglas.consts)):
-            message = "Constant " + var + " not declared"
-            raise Exception(message)
+            message = "Constante '" + var + "' no declarada"
+            raise SemanticException(message, p.lineno(5))
         else:
+            if not(Reglas.octavaEnRango(Reglas.consts[var])):
+                raise SemanticException("El valor de octava definido como '"+ str(p[5])+"'=" + str(Reglas.consts[var]) +" esta fuera del rango permitido", p.lineno(5))
+
             p[0] = {}
             p[0]["duration"] = p[7]
             p[0]["nota"] = p[3][0]
