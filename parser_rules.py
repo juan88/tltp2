@@ -31,7 +31,31 @@ class Reglas():
 
     def p_constantes(p):
     	'constantes : CONST CONSTID EQUAL NUMBER SEMICOLON constantes'
-    	Reglas.consts[p[2]] = p[4]
+        heredated = p[0]
+        con = p[2]
+        if(con in heredated):
+            message = "Constant " + con + "has already been declared"
+            raise Exception(message)
+    	Reglas.consts[con] = p[4]
+        p[6] = heredated + [con]
+
+    def p_constantes(p):
+        'constantes : CONST CONSTID EQUAL CONSTID SEMICOLON constantes'
+        toDefine = p[4]
+        con = p[2]
+        heredated = p[0]
+        if(con in heredated):
+            message = "Constant " + con + "has already been declared"
+            raise Exception(message)
+        if(toDefine in heredated):
+            Reglas.consts[con] = Reglas.consts[toDefine]
+            p[6] = heredated + [con]
+        else:
+            message = "Constant " + toDefine + "doesn't exists. Please define constants using numbers or other constants already defined"
+            raise Exception(message)
+
+
+        Reglas.consts[p[2]] = p[4]
 
     def p_constantes_lambda(p):
     	'constantes : '
