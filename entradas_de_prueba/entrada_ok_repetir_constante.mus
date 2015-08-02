@@ -1,0 +1,15 @@
+#tempo blanca 60
+#compas 1/1
+
+const repeticiones = 5;
+
+voz (0)
+{
+    repetir (repeticiones)
+    {
+        compas
+        {
+            nota(do, 5, redonda);
+        }
+    }
+}

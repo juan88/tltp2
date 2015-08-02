@@ -1,0 +1,10 @@
+#tempo blanca 0
+#compas 1/2
+
+voz (0)
+{
+    compas
+    {
+        nota(do, 5, blanca);
+    }
+}
