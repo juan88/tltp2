@@ -30,14 +30,16 @@ class Musileng(object):
 
     def convertir(self, entrada, salida):
         text = entrada.read()
+
+        #Inicializo variables
         variables = parser_rules.Reglas()
+        
         lexer = lex(module=lexer_rules)
         parser = parser_rules.yacc
 
         expression = parser.parse(text, lexer)
         encabezado = expression[0]
         voces = expression[1]
-
 
         numeradorCompas = encabezado[1][0]
         denomCompas = encabezado[1][1]
@@ -87,6 +89,7 @@ class Musileng(object):
         salida.write(salidaStr)
 
 
+#Main para correr el programa
 if __name__ == "__main__":
     if len(argv) != 3:
         print "Invalid arguments."
@@ -100,8 +103,13 @@ if __name__ == "__main__":
     entrada = musileng.archivo_para_leer(parametros[0])
     salida = musileng.archivo_para_escribir(parametros[1])
 
-    
-    musileng.convertir(entrada, salida)
+    try:
+        musileng.convertir(entrada, salida)
+    except parser_rules.SemanticException as e:
+        e.filename = entrada.name
+        print " Musileng > ERROR Semantico!!"
+        print e.errorMsg()
+
     entrada.close()
     salida.close()
 

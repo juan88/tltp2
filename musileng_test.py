@@ -113,7 +113,7 @@ class MusilengTest(unittest.TestCase):
         with self.assertRaises(Exception):
                 musileng.convertir(entrada, salida)
 
-    def testErrorAlMenosUnaVozDeinida(self):
+    def testErrorAlMenosUnaVozDefinida(self):
         """ Debe haber al menos una voz definida """
         musileng = Musileng()
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_error_voz_no_definida.mus')
@@ -129,6 +129,14 @@ class MusilengTest(unittest.TestCase):
         salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
         with self.assertRaises(Exception):
                 musileng.convertir(entrada, salida)
+
+        musileng = Musileng()
+        entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_error_octava_fuera_rango2.mus')
+        salida = musileng.archivo_para_escribir('salidas/salida_error.mus')
+        with self.assertRaises(Exception):
+                musileng.convertir(entrada, salida)
+
+
 
     def testErrorConMasDe16Voces(self):
         """ No puede haber mas de 16 voces """
