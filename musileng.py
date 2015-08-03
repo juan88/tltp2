@@ -89,6 +89,9 @@ class Musileng(object):
         salida.write(salidaStr)
 
 
+    def restart(self):
+        parser_rules.Reglas().restart()
+
 #Main para correr el programa
 if __name__ == "__main__":
     if len(argv) != 3:

@@ -14,30 +14,39 @@ class MusilengTest(unittest.TestCase):
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_1.mus')
         salida = musileng.archivo_para_escribir('salidas/salida1.mus')
         musileng.convertir(entrada, salida)
+        print "1"
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_2.mus')
         salida = musileng.archivo_para_escribir('salidas/salida2.mus')
         musileng.convertir(entrada, salida)
+        print "2"
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_3.mus')
         salida = musileng.archivo_para_escribir('salidas/salida3.mus')
         musileng.convertir(entrada, salida)
+        print "3"
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_4.mus')
         salida = musileng.archivo_para_escribir('salidas/salida4.mus')
         musileng.convertir(entrada, salida)
+        print "4"
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_5.mus')
         salida = musileng.archivo_para_escribir('salidas/salida5.mus')
         musileng.convertir(entrada, salida)
+        print "5"
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_bucles_anidados_puntillos.mus')
         salida = musileng.archivo_para_escribir('salidas/salidaBuclesPuntillos.mus')
         musileng.convertir(entrada, salida)
+        print "6"
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_constante_foo1_1.mus')
         salida = musileng.archivo_para_escribir('salidas/salida_constante_foo1_1.mus')
         musileng.convertir(entrada, salida)
+        print "7"
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_repetir_constante.mus')
         salida = musileng.archivo_para_escribir('salidas/salida_repetir_constante.mus')
         musileng.convertir(entrada, salida)
+        print "8"
         entrada = musileng.archivo_para_leer('entradas_de_prueba/entrada_ok_constante_definida.mus')
         salida = musileng.archivo_para_escribir('salidas/salida_constante_definida.mus')
         musileng.convertir(entrada, salida)
+        print "9"
 
 
         self.assertTrue(os.path.isfile('salidas/salida1.mus'))

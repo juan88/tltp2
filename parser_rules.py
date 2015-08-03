@@ -40,12 +40,23 @@ class Reglas():
         """ Chequeo que el valor de la octava este bien definido """
         return octava >= 1 and octava <= 9
 
+    @classmethod
+    def restart(cls):
+        cantvoices = 1
+        dicc = {}
+        consts = {}
+
 
 #BNF
     def p_start(p):
     	'start : encabezado constantes voces'
-    	p[0] = [p[1], p[3]]
-        if(len(p[3]) == 0):
+        Reglas.cantvoices = 1
+        Reglas.dicc = {}
+        Reglas.consts = {}
+        v = p[3]
+        p[2] = []
+    	p[0] = [p[1], v]
+        if(len(v) == 0):
             raise SemanticException("La cantidad de voces debe ser mayor a cero", p.lineno(3))
 
     def p_encabezado(p):
@@ -67,27 +78,25 @@ class Reglas():
 
     def p_constantes(p):
     	'constantes : CONST CONSTID EQUAL NUMBER SEMICOLON constantes'
-        heredated = p[0]
+        heredated = Reglas.consts.keys()
         con = p[2]
         if(con in heredated):
-            message = "Constant " + con + "has already been declared"
+            message = "Constant " + con + " has already been declared"
             raise Exception(message)
     	Reglas.consts[con] = p[4]
-        p[6] = heredated + [con]
 
-    def p_constantes(p):
+    def p_constantes_constid(p):
         'constantes : CONST CONSTID EQUAL CONSTID SEMICOLON constantes'
         toDefine = p[4]
         con = p[2]
-        heredated = p[0]
+        heredated = Reglas.consts.keys()
         if(con in heredated):
-            message = "Constant " + con + "has already been declared"
+            message = "Constant " + con + " has already been declared"
             raise Exception(message)
         if(toDefine in heredated):
             Reglas.consts[con] = Reglas.consts[toDefine]
-            p[6] = heredated + [con]
         else:
-            message = "Constant " + toDefine + "doesn't exists. Please define constants using numbers or other constants already defined"
+            message = "Constant " + toDefine + " doesn't exists. Please define constants using numbers or other constants already defined"
             raise Exception(message)
 
 
@@ -159,6 +168,17 @@ class Reglas():
     def p_bucle(p):
         'bucle : REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL'
         p[0] = [p[3], p[6]]
+
+    def p_bucle_constid(p):
+        'bucle : REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL'
+        con = p[3]
+        print con
+        if(con in Reglas.consts.keys()):
+            p[0] = [Reglas.consts[con], p[6]]
+            print con + ": " + str(Reglas.consts[con])
+        else:
+            message = "La constante " + con + " no esta definida"
+            raise SemanticException(message, p.lineno(1))
 
 
     def p_notas_lambda(p):

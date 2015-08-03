@@ -80,7 +80,7 @@ def t_NOTAID(token):
   return token
 
 def t_CONSTID(token):
-  r"[_a-zA-Z]+"
+  r"[_a-zA-Z0-9]+"
   token.type = reservadas.get(token.value, 'CONSTID')
   return token
 

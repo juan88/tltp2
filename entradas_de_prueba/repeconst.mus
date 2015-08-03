@@ -1,11 +1,11 @@
 #tempo blanca 60
-#compas 2/2
+#compas 1/1
 
-const toRepeat = 5;
+const repeticiones = 5;
 
 voz (2)
 {
-	repetir(toRepeat)
+	repetir(repeticiones)
 	{
         	compas
         	{
