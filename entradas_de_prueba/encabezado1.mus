@@ -1,5 +1,0 @@
-#tempo redonda 60
-#compas 2/2
-
-const octava = 0;
-const grand_piano = 0;

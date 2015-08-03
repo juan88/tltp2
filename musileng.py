@@ -29,7 +29,9 @@ class Musileng(object):
 
 
     def convertir(self, entrada, salida):
-        text = entrada.read()
+
+        text = self.archivo_para_leer(entrada).read()
+        # text = entrada.read()
 
         #Inicializo variables
         variables = parser_rules.Reglas()
@@ -86,7 +88,8 @@ class Musileng(object):
             if(track == 10):
                 track = 11
 
-        salida.write(salidaStr)
+        salidaFile = self.archivo_para_escribir(salida)
+        salidaFile.write(salidaStr)
 
 
     def restart(self):

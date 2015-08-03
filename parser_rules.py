@@ -17,6 +17,10 @@ class SemanticException(Exception):
         self.message = message
         self.lineNumber = lineNumber
         self.filename = ''
+        Reglas.cantvoices = 1
+        Reglas.dicc = {}
+        Reglas.consts = {}
+        Reglas.constsCon = {}
 
     def __str__(self):
         return self.errorMsg()    
@@ -41,12 +45,6 @@ class Reglas():
         """ Chequeo que el valor de la octava este bien definido """
         return octava >= 1 and octava <= 9
 
-    @classmethod
-    def restart(cls):
-        cantvoices = 1
-        dicc = {}
-        consts = {}
-
 
 #BNF
     def p_start(p):
@@ -58,7 +56,7 @@ class Reglas():
         v = p[3]
         p[2] = []
     	p[0] = [p[1][1], v]
-        if(len(v) == 0):
+        if(len(v) == 0 or len(v) > 16):
             raise SemanticException("La cantidad de voces debe ser mayor a cero", p.lineno(3))
 
     def p_encabezado(p):
@@ -84,7 +82,7 @@ class Reglas():
         con = p[2]
         if(con in heredated):
             message = "Constant " + con + " has already been declared"
-            raise Exception(message)
+            raise SemanticException(message, p.lineno(2))
     	Reglas.consts[con] = p[4]
         prev = p[-1][0]
         if prev == "encabezado":
@@ -103,7 +101,7 @@ class Reglas():
         heredated = Reglas.consts.keys()
         if(con in heredated):
             message = "Constant " + con + " has already been declared"
-            raise Exception(message)
+            raise SemanticException(message, p.lineno(2))
         Reglas.constsCon[con] = [toDefine, p.lineno(2)]
         prev = p[-1][0]
         if prev == "encabezado":
@@ -127,7 +125,11 @@ class Reglas():
 
     def p_voz(p):
         'voz : decla_instrumento LCURL musica RCURL'
-        p[0] = [p[1], p[3]]
+        mus = p[3]
+        if not mus:
+            message = "Voices defined must have at least one compas"
+            raise SemanticException(message, p.lineno(3))
+        p[0] = [p[1], mus]
 
     def p_decla_instrumento(p):
         'decla_instrumento : VOICE LPAREN NUMBER RPAREN'
@@ -264,6 +266,10 @@ class Reglas():
         p[0]["type"] = "SIL"
 
     def p_error(token):
+        Reglas.cantvoices = 1
+        Reglas.dicc = {}
+        Reglas.consts = {}
+        Reglas.constsCon = {}
         message = "[Syntax error]"
         if token is not None:
             message += "\ntype:" + token.type

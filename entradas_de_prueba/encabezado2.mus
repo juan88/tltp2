@@ -1,8 +1,0 @@
-// 60 redondas por minuto, osea cada redonda dura 1 seg.
-#tempo redonda 60
-// compas de 2 tiempos y cada tiempo dura 1/2 redonda (1 blanca).
-// entonces cada compas puede tener 1 redonda, 2 blancas, 4 negras, etc.
-#compas 2/2
-
-const octava = 5;
-const grand_piano = 0;

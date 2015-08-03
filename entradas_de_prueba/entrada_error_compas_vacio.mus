@@ -1,4 +1,4 @@
-#tempo figura 60 //figura es cualquier cosa. Debería ser una redonda o negra o algo asi
+#tempo blanca 60 //figura es cualquier cosa. Debería ser una redonda o negra o algo asi
 #compas 2/2
 
 const octava = 6;
