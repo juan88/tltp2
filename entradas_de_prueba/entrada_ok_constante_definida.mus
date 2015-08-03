@@ -3,6 +3,9 @@
 
 const foo = 1;
 const baz = foo;
+const foo2 = baz;
+const bazz = foo;
+const cinco = foo;
 
 voz (0)
 {

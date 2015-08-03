@@ -29,6 +29,7 @@ class Reglas():
     cantvoices = 1
     dicc = {}
     consts = {}
+    constsCon = {}
 
     @classmethod
     def instrumentoEnRango(cls, idInstrumento):
@@ -53,15 +54,16 @@ class Reglas():
         Reglas.cantvoices = 1
         Reglas.dicc = {}
         Reglas.consts = {}
+        Reglas.constsCon = {}
         v = p[3]
         p[2] = []
-    	p[0] = [p[1], v]
+    	p[0] = [p[1][1], v]
         if(len(v) == 0):
             raise SemanticException("La cantidad de voces debe ser mayor a cero", p.lineno(3))
 
     def p_encabezado(p):
     	'encabezado : tempo compas'
-    	p[0] = [p[1], p[2]]
+    	p[0] = ["encabezado", [p[1], p[2]]]
 
 
     def p_tempo(p):
@@ -84,23 +86,33 @@ class Reglas():
             message = "Constant " + con + " has already been declared"
             raise Exception(message)
     	Reglas.consts[con] = p[4]
+        prev = p[-1][0]
+        if prev == "encabezado":
+            for current in Reglas.constsCon.keys():
+                if Reglas.constsCon[current][0] in Reglas.consts.keys():
+                    Reglas.consts[current] = Reglas.consts[Reglas.constsCon[current][0]]
+                else:
+                    message = "The constant value " + Reglas.constsCon[current][0] + "has never been declared"
+                    raise SemanticException(message, Reglas.constsCon[current][1])
 
     def p_constantes_constid(p):
         'constantes : CONST CONSTID EQUAL CONSTID SEMICOLON constantes'
+
         toDefine = p[4]
         con = p[2]
         heredated = Reglas.consts.keys()
         if(con in heredated):
             message = "Constant " + con + " has already been declared"
             raise Exception(message)
-        if(toDefine in heredated):
-            Reglas.consts[con] = Reglas.consts[toDefine]
-        else:
-            message = "Constant " + toDefine + " doesn't exists. Please define constants using numbers or other constants already defined"
-            raise Exception(message)
-
-
-        Reglas.consts[p[2]] = p[4]
+        Reglas.constsCon[con] = [toDefine, p.lineno(2)]
+        prev = p[-1][0]
+        if prev == "encabezado":
+            for current in Reglas.constsCon.keys():
+                if Reglas.constsCon[current][0] in Reglas.consts.keys():
+                    Reglas.consts[current] = Reglas.consts[Reglas.constsCon[current][0]]
+                else:
+                    message = "The constant value " + Reglas.constsCon[current][0] + "has never been declared"
+                    raise SemanticException(message, Reglas.constsCon[current][1])
 
     def p_constantes_lambda(p):
     	'constantes : '
@@ -172,10 +184,8 @@ class Reglas():
     def p_bucle_constid(p):
         'bucle : REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL'
         con = p[3]
-        print con
         if(con in Reglas.consts.keys()):
             p[0] = [Reglas.consts[con], p[6]]
-            print con + ": " + str(Reglas.consts[con])
         else:
             message = "La constante " + con + " no esta definida"
             raise SemanticException(message, p.lineno(1))
