@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
+
 import unittest
 import os
 from musileng import *
 from sys import argv, exit
 
 class MusilengTest(unittest.TestCase):
-    
     
     def testArchivosOk(self):
         """ Testeo que musileng lea y escriba los archivos que estan ok """
@@ -68,6 +68,7 @@ class MusilengTest(unittest.TestCase):
         salida = 'salidas/salida_error.mus' #Este archivo nunca se deberia crear
         with self.assertRaises(Exception):
             musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testBloqueNoCerrado(self):
         """ Definicion de tempo malformada """
@@ -76,6 +77,7 @@ class MusilengTest(unittest.TestCase):
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
             musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testCompasVacio(self):
         """ Compas vacio """
@@ -84,6 +86,7 @@ class MusilengTest(unittest.TestCase):
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
             musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testConstanteDefinidaDosVeces(self):
         """ Compas vacio """
@@ -92,6 +95,7 @@ class MusilengTest(unittest.TestCase):
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
             musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testDefinicionDeCompasMalformada(self):
         """ Definicion de compas malformada """
@@ -99,7 +103,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_def_compas_malformada.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testEntradaErroresVarios(self):
         """ Entrada con varios errores """
@@ -107,7 +112,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_errores_varios'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
     
     def testLongitudMalformadaDeCompas(self):
         """ Mal configurada la longitud del compas """
@@ -115,7 +121,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_longitud_mal_formada_de_compas.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testErrorConConstanteRepetida(self):
         """ Error cuando se tiene una constante repetida """
@@ -123,7 +130,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_constante_repetida.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testErrorTempoMayorACero(self): #Ojo que falla pero por división por cero. Debería fallar por lo que verdaderamente corresponde.
         """ El tempo debe ser mayor a 0 """
@@ -131,7 +139,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_tempo_blanca_0.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testErrorAlMenosUnaVozDefinida(self):
         """ Debe haber al menos una voz definida """
@@ -139,7 +148,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_voz_no_definida.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
 
     def testErrorOctavaFueraDeRango(self):
@@ -148,13 +158,15 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_octava_fuera_rango.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
         musileng = Musileng()
         entrada = 'entradas_de_prueba/entrada_error_octava_fuera_rango2.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
 
 
@@ -164,7 +176,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_voz_17_veces.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testVozFueraDeRango(self):
         """ No se puede configurar un valor de instrumento por fuera del rango permitido """
@@ -172,7 +185,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_voz_fuera_rango.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testVozNoDefinida(self):
         """ Compas vacio """
@@ -181,6 +195,7 @@ class MusilengTest(unittest.TestCase):
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
             musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
 
     def testVozVacia(self):
         """ No se puede configurar una voz vacía """
@@ -188,7 +203,8 @@ class MusilengTest(unittest.TestCase):
         entrada = 'entradas_de_prueba/entrada_error_voz_vacia.mus'
         salida = 'salidas/salida_error.mus'
         with self.assertRaises(Exception):
-                musileng.convertir(entrada, salida)
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
             
 
     # Funciones utilitarias
