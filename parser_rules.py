@@ -127,7 +127,7 @@ class Reglas():
         'voz : decla_instrumento LCURL musica RCURL'
         mus = p[3]
         if not mus:
-            message = "Voices defined must have at least one compas"
+            message = "Las voces tienen que tener un compas definido como minimo."
             raise SemanticException(message, p.lineno(3))
         p[0] = [p[1], mus]
 
