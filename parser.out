@@ -4,9 +4,9 @@ Grammar
 
 Rule 0     S' -> start
 Rule 1     start -> encabezado constantes voces
-Rule 2     encabezado -> tempo compas
+Rule 2     encabezado -> tempo compasDef
 Rule 3     tempo -> HASH TEMPO FIGURE NUMBER
-Rule 4     compas -> HASH COMPAS NUMBER DIV NUMBER
+Rule 4     compasDef -> HASH COMPAS NUMBER DIV NUMBER
 Rule 5     constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes
 Rule 6     constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON constantes
 Rule 7     constantes -> <empty>
@@ -64,7 +64,8 @@ Nonterminals, with rules where they appear
 
 altura               : 23 24
 bucle                : 15
-compas               : 2 14
+compas               : 14
+compasDef            : 2
 constantes           : 1 5 6
 decla_instrumento    : 10
 duracion             : 23 24 30
@@ -86,7 +87,7 @@ state 0
 
     (0) S' -> . start
     (1) start -> . encabezado constantes voces
-    (2) encabezado -> . tempo compas
+    (2) encabezado -> . tempo compasDef
     (3) tempo -> . HASH TEMPO FIGURE NUMBER
 
     HASH            shift and go to state 1
@@ -117,14 +118,12 @@ state 2
 
 state 3
 
-    (2) encabezado -> tempo . compas
-    (4) compas -> . HASH COMPAS NUMBER DIV NUMBER
-    (16) compas -> . COMPAS LCURL notas RCURL
+    (2) encabezado -> tempo . compasDef
+    (4) compasDef -> . HASH COMPAS NUMBER DIV NUMBER
 
     HASH            shift and go to state 8
-    COMPAS          shift and go to state 9
 
-    compas                         shift and go to state 10
+    compasDef                      shift and go to state 9
 
 state 4
 
@@ -136,7 +135,7 @@ state 5
 
     (3) tempo -> HASH TEMPO . FIGURE NUMBER
 
-    FIGURE          shift and go to state 11
+    FIGURE          shift and go to state 10
 
 
 state 6
@@ -144,7 +143,7 @@ state 6
     (5) constantes -> CONST . CONSTID EQUAL NUMBER SEMICOLON constantes
     (6) constantes -> CONST . CONSTID EQUAL CONSTID SEMICOLON constantes
 
-    CONSTID         shift and go to state 12
+    CONSTID         shift and go to state 11
 
 
 state 7
@@ -157,73 +156,66 @@ state 7
     (12) decla_instrumento -> . VOICE LPAREN CONSTID RPAREN
 
     $end            reduce using rule 9 (voces -> .)
-    VOICE           shift and go to state 15
+    VOICE           shift and go to state 14
 
-    decla_instrumento              shift and go to state 13
-    voces                          shift and go to state 14
-    voz                            shift and go to state 16
+    decla_instrumento              shift and go to state 12
+    voces                          shift and go to state 13
+    voz                            shift and go to state 15
 
 state 8
 
-    (4) compas -> HASH . COMPAS NUMBER DIV NUMBER
+    (4) compasDef -> HASH . COMPAS NUMBER DIV NUMBER
 
-    COMPAS          shift and go to state 17
+    COMPAS          shift and go to state 16
 
 
 state 9
 
-    (16) compas -> COMPAS . LCURL notas RCURL
+    (2) encabezado -> tempo compasDef .
 
-    LCURL           shift and go to state 18
+    CONST           reduce using rule 2 (encabezado -> tempo compasDef .)
+    VOICE           reduce using rule 2 (encabezado -> tempo compasDef .)
+    $end            reduce using rule 2 (encabezado -> tempo compasDef .)
 
 
 state 10
 
-    (2) encabezado -> tempo compas .
+    (3) tempo -> HASH TEMPO FIGURE . NUMBER
 
-    CONST           reduce using rule 2 (encabezado -> tempo compas .)
-    VOICE           reduce using rule 2 (encabezado -> tempo compas .)
-    $end            reduce using rule 2 (encabezado -> tempo compas .)
+    NUMBER          shift and go to state 17
 
 
 state 11
 
-    (3) tempo -> HASH TEMPO FIGURE . NUMBER
+    (5) constantes -> CONST CONSTID . EQUAL NUMBER SEMICOLON constantes
+    (6) constantes -> CONST CONSTID . EQUAL CONSTID SEMICOLON constantes
 
-    NUMBER          shift and go to state 19
+    EQUAL           shift and go to state 18
 
 
 state 12
 
-    (5) constantes -> CONST CONSTID . EQUAL NUMBER SEMICOLON constantes
-    (6) constantes -> CONST CONSTID . EQUAL CONSTID SEMICOLON constantes
+    (10) voz -> decla_instrumento . LCURL musica RCURL
 
-    EQUAL           shift and go to state 20
+    LCURL           shift and go to state 19
 
 
 state 13
-
-    (10) voz -> decla_instrumento . LCURL musica RCURL
-
-    LCURL           shift and go to state 21
-
-
-state 14
 
     (1) start -> encabezado constantes voces .
 
     $end            reduce using rule 1 (start -> encabezado constantes voces .)
 
 
-state 15
+state 14
 
     (11) decla_instrumento -> VOICE . LPAREN NUMBER RPAREN
     (12) decla_instrumento -> VOICE . LPAREN CONSTID RPAREN
 
-    LPAREN          shift and go to state 22
+    LPAREN          shift and go to state 20
 
 
-state 16
+state 15
 
     (8) voces -> voz . voces
     (8) voces -> . voz voces
@@ -233,20 +225,227 @@ state 16
     (12) decla_instrumento -> . VOICE LPAREN CONSTID RPAREN
 
     $end            reduce using rule 9 (voces -> .)
-    VOICE           shift and go to state 15
+    VOICE           shift and go to state 14
 
-    voces                          shift and go to state 23
-    voz                            shift and go to state 16
-    decla_instrumento              shift and go to state 13
+    voces                          shift and go to state 21
+    voz                            shift and go to state 15
+    decla_instrumento              shift and go to state 12
+
+state 16
+
+    (4) compasDef -> HASH COMPAS . NUMBER DIV NUMBER
+
+    NUMBER          shift and go to state 22
+
 
 state 17
 
-    (4) compas -> HASH COMPAS . NUMBER DIV NUMBER
+    (3) tempo -> HASH TEMPO FIGURE NUMBER .
 
-    NUMBER          shift and go to state 24
+    HASH            reduce using rule 3 (tempo -> HASH TEMPO FIGURE NUMBER .)
 
 
 state 18
+
+    (5) constantes -> CONST CONSTID EQUAL . NUMBER SEMICOLON constantes
+    (6) constantes -> CONST CONSTID EQUAL . CONSTID SEMICOLON constantes
+
+    NUMBER          shift and go to state 23
+    CONSTID         shift and go to state 24
+
+
+state 19
+
+    (10) voz -> decla_instrumento LCURL . musica RCURL
+    (13) musica -> .
+    (14) musica -> . compas musica
+    (15) musica -> . bucle musica
+    (16) compas -> . COMPAS LCURL notas RCURL
+    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
+    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
+
+    RCURL           reduce using rule 13 (musica -> .)
+    COMPAS          shift and go to state 29
+    REPEAT          shift and go to state 25
+
+    compas                         shift and go to state 27
+    musica                         shift and go to state 28
+    bucle                          shift and go to state 26
+
+state 20
+
+    (11) decla_instrumento -> VOICE LPAREN . NUMBER RPAREN
+    (12) decla_instrumento -> VOICE LPAREN . CONSTID RPAREN
+
+    NUMBER          shift and go to state 30
+    CONSTID         shift and go to state 31
+
+
+state 21
+
+    (8) voces -> voz voces .
+
+    $end            reduce using rule 8 (voces -> voz voces .)
+
+
+state 22
+
+    (4) compasDef -> HASH COMPAS NUMBER . DIV NUMBER
+
+    DIV             shift and go to state 32
+
+
+state 23
+
+    (5) constantes -> CONST CONSTID EQUAL NUMBER . SEMICOLON constantes
+
+    SEMICOLON       shift and go to state 33
+
+
+state 24
+
+    (6) constantes -> CONST CONSTID EQUAL CONSTID . SEMICOLON constantes
+
+    SEMICOLON       shift and go to state 34
+
+
+state 25
+
+    (17) bucle -> REPEAT . LPAREN NUMBER RPAREN LCURL musica RCURL
+    (18) bucle -> REPEAT . LPAREN CONSTID RPAREN LCURL musica RCURL
+
+    LPAREN          shift and go to state 35
+
+
+state 26
+
+    (15) musica -> bucle . musica
+    (13) musica -> .
+    (14) musica -> . compas musica
+    (15) musica -> . bucle musica
+    (16) compas -> . COMPAS LCURL notas RCURL
+    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
+    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
+
+    RCURL           reduce using rule 13 (musica -> .)
+    COMPAS          shift and go to state 29
+    REPEAT          shift and go to state 25
+
+    musica                         shift and go to state 36
+    bucle                          shift and go to state 26
+    compas                         shift and go to state 27
+
+state 27
+
+    (14) musica -> compas . musica
+    (13) musica -> .
+    (14) musica -> . compas musica
+    (15) musica -> . bucle musica
+    (16) compas -> . COMPAS LCURL notas RCURL
+    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
+    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
+
+    RCURL           reduce using rule 13 (musica -> .)
+    COMPAS          shift and go to state 29
+    REPEAT          shift and go to state 25
+
+    musica                         shift and go to state 37
+    bucle                          shift and go to state 26
+    compas                         shift and go to state 27
+
+state 28
+
+    (10) voz -> decla_instrumento LCURL musica . RCURL
+
+    RCURL           shift and go to state 38
+
+
+state 29
+
+    (16) compas -> COMPAS . LCURL notas RCURL
+
+    LCURL           shift and go to state 39
+
+
+state 30
+
+    (11) decla_instrumento -> VOICE LPAREN NUMBER . RPAREN
+
+    RPAREN          shift and go to state 40
+
+
+state 31
+
+    (12) decla_instrumento -> VOICE LPAREN CONSTID . RPAREN
+
+    RPAREN          shift and go to state 41
+
+
+state 32
+
+    (4) compasDef -> HASH COMPAS NUMBER DIV . NUMBER
+
+    NUMBER          shift and go to state 42
+
+
+state 33
+
+    (5) constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON . constantes
+    (5) constantes -> . CONST CONSTID EQUAL NUMBER SEMICOLON constantes
+    (6) constantes -> . CONST CONSTID EQUAL CONSTID SEMICOLON constantes
+    (7) constantes -> .
+
+    CONST           shift and go to state 6
+    VOICE           reduce using rule 7 (constantes -> .)
+    $end            reduce using rule 7 (constantes -> .)
+
+    constantes                     shift and go to state 43
+
+state 34
+
+    (6) constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON . constantes
+    (5) constantes -> . CONST CONSTID EQUAL NUMBER SEMICOLON constantes
+    (6) constantes -> . CONST CONSTID EQUAL CONSTID SEMICOLON constantes
+    (7) constantes -> .
+
+    CONST           shift and go to state 6
+    VOICE           reduce using rule 7 (constantes -> .)
+    $end            reduce using rule 7 (constantes -> .)
+
+    constantes                     shift and go to state 44
+
+state 35
+
+    (17) bucle -> REPEAT LPAREN . NUMBER RPAREN LCURL musica RCURL
+    (18) bucle -> REPEAT LPAREN . CONSTID RPAREN LCURL musica RCURL
+
+    NUMBER          shift and go to state 45
+    CONSTID         shift and go to state 46
+
+
+state 36
+
+    (15) musica -> bucle musica .
+
+    RCURL           reduce using rule 15 (musica -> bucle musica .)
+
+
+state 37
+
+    (14) musica -> compas musica .
+
+    RCURL           reduce using rule 14 (musica -> compas musica .)
+
+
+state 38
+
+    (10) voz -> decla_instrumento LCURL musica RCURL .
+
+    VOICE           reduce using rule 10 (voz -> decla_instrumento LCURL musica RCURL .)
+    $end            reduce using rule 10 (voz -> decla_instrumento LCURL musica RCURL .)
+
+
+state 39
 
     (16) compas -> COMPAS LCURL . notas RCURL
     (19) notas -> .
@@ -258,75 +457,68 @@ state 18
     (30) silencio -> . SILENCIO LPAREN duracion RPAREN SEMICOLON
 
     RCURL           reduce using rule 19 (notas -> .)
-    NOTA            shift and go to state 29
-    SILENCIO        shift and go to state 28
+    NOTA            shift and go to state 51
+    SILENCIO        shift and go to state 50
 
-    figura                         shift and go to state 25
-    notas                          shift and go to state 26
-    notaProd                       shift and go to state 27
-    silencio                       shift and go to state 30
+    figura                         shift and go to state 47
+    notas                          shift and go to state 48
+    notaProd                       shift and go to state 49
+    silencio                       shift and go to state 52
 
-state 19
+state 40
 
-    (3) tempo -> HASH TEMPO FIGURE NUMBER .
+    (11) decla_instrumento -> VOICE LPAREN NUMBER RPAREN .
 
-    HASH            reduce using rule 3 (tempo -> HASH TEMPO FIGURE NUMBER .)
-    COMPAS          reduce using rule 3 (tempo -> HASH TEMPO FIGURE NUMBER .)
-
-
-state 20
-
-    (5) constantes -> CONST CONSTID EQUAL . NUMBER SEMICOLON constantes
-    (6) constantes -> CONST CONSTID EQUAL . CONSTID SEMICOLON constantes
-
-    NUMBER          shift and go to state 31
-    CONSTID         shift and go to state 32
+    LCURL           reduce using rule 11 (decla_instrumento -> VOICE LPAREN NUMBER RPAREN .)
 
 
-state 21
+state 41
 
-    (10) voz -> decla_instrumento LCURL . musica RCURL
-    (13) musica -> .
-    (14) musica -> . compas musica
-    (15) musica -> . bucle musica
-    (4) compas -> . HASH COMPAS NUMBER DIV NUMBER
-    (16) compas -> . COMPAS LCURL notas RCURL
-    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
-    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
+    (12) decla_instrumento -> VOICE LPAREN CONSTID RPAREN .
 
-    RCURL           reduce using rule 13 (musica -> .)
-    HASH            shift and go to state 8
-    COMPAS          shift and go to state 9
-    REPEAT          shift and go to state 33
-
-    compas                         shift and go to state 35
-    musica                         shift and go to state 36
-    bucle                          shift and go to state 34
-
-state 22
-
-    (11) decla_instrumento -> VOICE LPAREN . NUMBER RPAREN
-    (12) decla_instrumento -> VOICE LPAREN . CONSTID RPAREN
-
-    NUMBER          shift and go to state 37
-    CONSTID         shift and go to state 38
+    LCURL           reduce using rule 12 (decla_instrumento -> VOICE LPAREN CONSTID RPAREN .)
 
 
-state 23
+state 42
 
-    (8) voces -> voz voces .
+    (4) compasDef -> HASH COMPAS NUMBER DIV NUMBER .
 
-    $end            reduce using rule 8 (voces -> voz voces .)
-
-
-state 24
-
-    (4) compas -> HASH COMPAS NUMBER . DIV NUMBER
-
-    DIV             shift and go to state 39
+    CONST           reduce using rule 4 (compasDef -> HASH COMPAS NUMBER DIV NUMBER .)
+    VOICE           reduce using rule 4 (compasDef -> HASH COMPAS NUMBER DIV NUMBER .)
+    $end            reduce using rule 4 (compasDef -> HASH COMPAS NUMBER DIV NUMBER .)
 
 
-state 25
+state 43
+
+    (5) constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes .
+
+    VOICE           reduce using rule 5 (constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes .)
+    $end            reduce using rule 5 (constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes .)
+
+
+state 44
+
+    (6) constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON constantes .
+
+    VOICE           reduce using rule 6 (constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON constantes .)
+    $end            reduce using rule 6 (constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON constantes .)
+
+
+state 45
+
+    (17) bucle -> REPEAT LPAREN NUMBER . RPAREN LCURL musica RCURL
+
+    RPAREN          shift and go to state 53
+
+
+state 46
+
+    (18) bucle -> REPEAT LPAREN CONSTID . RPAREN LCURL musica RCURL
+
+    RPAREN          shift and go to state 54
+
+
+state 47
 
     (20) notas -> figura . notas
     (19) notas -> .
@@ -338,22 +530,22 @@ state 25
     (30) silencio -> . SILENCIO LPAREN duracion RPAREN SEMICOLON
 
     RCURL           reduce using rule 19 (notas -> .)
-    NOTA            shift and go to state 29
-    SILENCIO        shift and go to state 28
+    NOTA            shift and go to state 51
+    SILENCIO        shift and go to state 50
 
-    figura                         shift and go to state 25
-    notas                          shift and go to state 40
-    notaProd                       shift and go to state 27
-    silencio                       shift and go to state 30
+    figura                         shift and go to state 47
+    notas                          shift and go to state 55
+    notaProd                       shift and go to state 49
+    silencio                       shift and go to state 52
 
-state 26
+state 48
 
     (16) compas -> COMPAS LCURL notas . RCURL
 
-    RCURL           shift and go to state 41
+    RCURL           shift and go to state 56
 
 
-state 27
+state 49
 
     (21) figura -> notaProd .
 
@@ -362,22 +554,22 @@ state 27
     RCURL           reduce using rule 21 (figura -> notaProd .)
 
 
-state 28
+state 50
 
     (30) silencio -> SILENCIO . LPAREN duracion RPAREN SEMICOLON
 
-    LPAREN          shift and go to state 42
+    LPAREN          shift and go to state 57
 
 
-state 29
+state 51
 
     (23) notaProd -> NOTA . LPAREN altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
     (24) notaProd -> NOTA . LPAREN altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
 
-    LPAREN          shift and go to state 43
+    LPAREN          shift and go to state 58
 
 
-state 30
+state 52
 
     (22) figura -> silencio .
 
@@ -386,337 +578,197 @@ state 30
     RCURL           reduce using rule 22 (figura -> silencio .)
 
 
-state 31
+state 53
 
-    (5) constantes -> CONST CONSTID EQUAL NUMBER . SEMICOLON constantes
+    (17) bucle -> REPEAT LPAREN NUMBER RPAREN . LCURL musica RCURL
 
-    SEMICOLON       shift and go to state 44
-
-
-state 32
-
-    (6) constantes -> CONST CONSTID EQUAL CONSTID . SEMICOLON constantes
-
-    SEMICOLON       shift and go to state 45
+    LCURL           shift and go to state 59
 
 
-state 33
+state 54
 
-    (17) bucle -> REPEAT . LPAREN NUMBER RPAREN LCURL musica RCURL
-    (18) bucle -> REPEAT . LPAREN CONSTID RPAREN LCURL musica RCURL
+    (18) bucle -> REPEAT LPAREN CONSTID RPAREN . LCURL musica RCURL
 
-    LPAREN          shift and go to state 46
-
-
-state 34
-
-    (15) musica -> bucle . musica
-    (13) musica -> .
-    (14) musica -> . compas musica
-    (15) musica -> . bucle musica
-    (4) compas -> . HASH COMPAS NUMBER DIV NUMBER
-    (16) compas -> . COMPAS LCURL notas RCURL
-    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
-    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
-
-    RCURL           reduce using rule 13 (musica -> .)
-    HASH            shift and go to state 8
-    COMPAS          shift and go to state 9
-    REPEAT          shift and go to state 33
-
-    musica                         shift and go to state 47
-    bucle                          shift and go to state 34
-    compas                         shift and go to state 35
-
-state 35
-
-    (14) musica -> compas . musica
-    (13) musica -> .
-    (14) musica -> . compas musica
-    (15) musica -> . bucle musica
-    (4) compas -> . HASH COMPAS NUMBER DIV NUMBER
-    (16) compas -> . COMPAS LCURL notas RCURL
-    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
-    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
-
-    RCURL           reduce using rule 13 (musica -> .)
-    HASH            shift and go to state 8
-    COMPAS          shift and go to state 9
-    REPEAT          shift and go to state 33
-
-    musica                         shift and go to state 48
-    bucle                          shift and go to state 34
-    compas                         shift and go to state 35
-
-state 36
-
-    (10) voz -> decla_instrumento LCURL musica . RCURL
-
-    RCURL           shift and go to state 49
+    LCURL           shift and go to state 60
 
 
-state 37
-
-    (11) decla_instrumento -> VOICE LPAREN NUMBER . RPAREN
-
-    RPAREN          shift and go to state 50
-
-
-state 38
-
-    (12) decla_instrumento -> VOICE LPAREN CONSTID . RPAREN
-
-    RPAREN          shift and go to state 51
-
-
-state 39
-
-    (4) compas -> HASH COMPAS NUMBER DIV . NUMBER
-
-    NUMBER          shift and go to state 52
-
-
-state 40
+state 55
 
     (20) notas -> figura notas .
 
     RCURL           reduce using rule 20 (notas -> figura notas .)
 
 
-state 41
+state 56
 
     (16) compas -> COMPAS LCURL notas RCURL .
 
-    HASH            reduce using rule 16 (compas -> COMPAS LCURL notas RCURL .)
     COMPAS          reduce using rule 16 (compas -> COMPAS LCURL notas RCURL .)
     REPEAT          reduce using rule 16 (compas -> COMPAS LCURL notas RCURL .)
     RCURL           reduce using rule 16 (compas -> COMPAS LCURL notas RCURL .)
-    CONST           reduce using rule 16 (compas -> COMPAS LCURL notas RCURL .)
-    VOICE           reduce using rule 16 (compas -> COMPAS LCURL notas RCURL .)
-    $end            reduce using rule 16 (compas -> COMPAS LCURL notas RCURL .)
 
 
-state 42
+state 57
 
     (30) silencio -> SILENCIO LPAREN . duracion RPAREN SEMICOLON
     (28) duracion -> . FIGURE
     (29) duracion -> . FIGURE DOT
 
-    FIGURE          shift and go to state 53
+    FIGURE          shift and go to state 61
 
-    duracion                       shift and go to state 54
+    duracion                       shift and go to state 62
 
-state 43
+state 58
 
     (23) notaProd -> NOTA LPAREN . altura COMMA NUMBER COMMA duracion RPAREN SEMICOLON
     (24) notaProd -> NOTA LPAREN . altura COMMA CONSTID COMMA duracion RPAREN SEMICOLON
     (25) altura -> . NOTAID simbolo_altura
 
-    NOTAID          shift and go to state 55
+    NOTAID          shift and go to state 63
 
-    altura                         shift and go to state 56
+    altura                         shift and go to state 64
 
-state 44
+state 59
 
-    (5) constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON . constantes
-    (5) constantes -> . CONST CONSTID EQUAL NUMBER SEMICOLON constantes
-    (6) constantes -> . CONST CONSTID EQUAL CONSTID SEMICOLON constantes
-    (7) constantes -> .
+    (17) bucle -> REPEAT LPAREN NUMBER RPAREN LCURL . musica RCURL
+    (13) musica -> .
+    (14) musica -> . compas musica
+    (15) musica -> . bucle musica
+    (16) compas -> . COMPAS LCURL notas RCURL
+    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
+    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
 
-    CONST           shift and go to state 6
-    VOICE           reduce using rule 7 (constantes -> .)
-    $end            reduce using rule 7 (constantes -> .)
+    RCURL           reduce using rule 13 (musica -> .)
+    COMPAS          shift and go to state 29
+    REPEAT          shift and go to state 25
 
-    constantes                     shift and go to state 57
+    musica                         shift and go to state 65
+    bucle                          shift and go to state 26
+    compas                         shift and go to state 27
 
-state 45
+state 60
 
-    (6) constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON . constantes
-    (5) constantes -> . CONST CONSTID EQUAL NUMBER SEMICOLON constantes
-    (6) constantes -> . CONST CONSTID EQUAL CONSTID SEMICOLON constantes
-    (7) constantes -> .
+    (18) bucle -> REPEAT LPAREN CONSTID RPAREN LCURL . musica RCURL
+    (13) musica -> .
+    (14) musica -> . compas musica
+    (15) musica -> . bucle musica
+    (16) compas -> . COMPAS LCURL notas RCURL
+    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
+    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
 
-    CONST           shift and go to state 6
-    VOICE           reduce using rule 7 (constantes -> .)
-    $end            reduce using rule 7 (constantes -> .)
+    RCURL           reduce using rule 13 (musica -> .)
+    COMPAS          shift and go to state 29
+    REPEAT          shift and go to state 25
 
-    constantes                     shift and go to state 58
+    musica                         shift and go to state 66
+    bucle                          shift and go to state 26
+    compas                         shift and go to state 27
 
-state 46
-
-    (17) bucle -> REPEAT LPAREN . NUMBER RPAREN LCURL musica RCURL
-    (18) bucle -> REPEAT LPAREN . CONSTID RPAREN LCURL musica RCURL
-
-    NUMBER          shift and go to state 59
-    CONSTID         shift and go to state 60
-
-
-state 47
-
-    (15) musica -> bucle musica .
-
-    RCURL           reduce using rule 15 (musica -> bucle musica .)
-
-
-state 48
-
-    (14) musica -> compas musica .
-
-    RCURL           reduce using rule 14 (musica -> compas musica .)
-
-
-state 49
-
-    (10) voz -> decla_instrumento LCURL musica RCURL .
-
-    VOICE           reduce using rule 10 (voz -> decla_instrumento LCURL musica RCURL .)
-    $end            reduce using rule 10 (voz -> decla_instrumento LCURL musica RCURL .)
-
-
-state 50
-
-    (11) decla_instrumento -> VOICE LPAREN NUMBER RPAREN .
-
-    LCURL           reduce using rule 11 (decla_instrumento -> VOICE LPAREN NUMBER RPAREN .)
-
-
-state 51
-
-    (12) decla_instrumento -> VOICE LPAREN CONSTID RPAREN .
-
-    LCURL           reduce using rule 12 (decla_instrumento -> VOICE LPAREN CONSTID RPAREN .)
-
-
-state 52
-
-    (4) compas -> HASH COMPAS NUMBER DIV NUMBER .
-
-    HASH            reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
-    COMPAS          reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
-    REPEAT          reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
-    RCURL           reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
-    CONST           reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
-    VOICE           reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
-    $end            reduce using rule 4 (compas -> HASH COMPAS NUMBER DIV NUMBER .)
-
-
-state 53
+state 61
 
     (28) duracion -> FIGURE .
     (29) duracion -> FIGURE . DOT
 
     RPAREN          reduce using rule 28 (duracion -> FIGURE .)
-    DOT             shift and go to state 61
+    DOT             shift and go to state 67
 
 
-state 54
+state 62
 
     (30) silencio -> SILENCIO LPAREN duracion . RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 62
+    RPAREN          shift and go to state 68
 
 
-state 55
+state 63
 
     (25) altura -> NOTAID . simbolo_altura
     (26) simbolo_altura -> .
     (27) simbolo_altura -> . ALTURA
 
     COMMA           reduce using rule 26 (simbolo_altura -> .)
-    ALTURA          shift and go to state 64
+    ALTURA          shift and go to state 70
 
-    simbolo_altura                 shift and go to state 63
+    simbolo_altura                 shift and go to state 69
 
-state 56
+state 64
 
     (23) notaProd -> NOTA LPAREN altura . COMMA NUMBER COMMA duracion RPAREN SEMICOLON
     (24) notaProd -> NOTA LPAREN altura . COMMA CONSTID COMMA duracion RPAREN SEMICOLON
 
-    COMMA           shift and go to state 65
+    COMMA           shift and go to state 71
 
 
-state 57
+state 65
 
-    (5) constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes .
+    (17) bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica . RCURL
 
-    VOICE           reduce using rule 5 (constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes .)
-    $end            reduce using rule 5 (constantes -> CONST CONSTID EQUAL NUMBER SEMICOLON constantes .)
-
-
-state 58
-
-    (6) constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON constantes .
-
-    VOICE           reduce using rule 6 (constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON constantes .)
-    $end            reduce using rule 6 (constantes -> CONST CONSTID EQUAL CONSTID SEMICOLON constantes .)
+    RCURL           shift and go to state 72
 
 
-state 59
+state 66
 
-    (17) bucle -> REPEAT LPAREN NUMBER . RPAREN LCURL musica RCURL
+    (18) bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica . RCURL
 
-    RPAREN          shift and go to state 66
-
-
-state 60
-
-    (18) bucle -> REPEAT LPAREN CONSTID . RPAREN LCURL musica RCURL
-
-    RPAREN          shift and go to state 67
+    RCURL           shift and go to state 73
 
 
-state 61
+state 67
 
     (29) duracion -> FIGURE DOT .
 
     RPAREN          reduce using rule 29 (duracion -> FIGURE DOT .)
 
 
-state 62
+state 68
 
     (30) silencio -> SILENCIO LPAREN duracion RPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 68
+    SEMICOLON       shift and go to state 74
 
 
-state 63
+state 69
 
     (25) altura -> NOTAID simbolo_altura .
 
     COMMA           reduce using rule 25 (altura -> NOTAID simbolo_altura .)
 
 
-state 64
+state 70
 
     (27) simbolo_altura -> ALTURA .
 
     COMMA           reduce using rule 27 (simbolo_altura -> ALTURA .)
 
 
-state 65
+state 71
 
     (23) notaProd -> NOTA LPAREN altura COMMA . NUMBER COMMA duracion RPAREN SEMICOLON
     (24) notaProd -> NOTA LPAREN altura COMMA . CONSTID COMMA duracion RPAREN SEMICOLON
 
-    NUMBER          shift and go to state 69
-    CONSTID         shift and go to state 70
+    NUMBER          shift and go to state 75
+    CONSTID         shift and go to state 76
 
 
-state 66
+state 72
 
-    (17) bucle -> REPEAT LPAREN NUMBER RPAREN . LCURL musica RCURL
+    (17) bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .
 
-    LCURL           shift and go to state 71
-
-
-state 67
-
-    (18) bucle -> REPEAT LPAREN CONSTID RPAREN . LCURL musica RCURL
-
-    LCURL           shift and go to state 72
+    COMPAS          reduce using rule 17 (bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .)
+    REPEAT          reduce using rule 17 (bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .)
+    RCURL           reduce using rule 17 (bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .)
 
 
-state 68
+state 73
+
+    (18) bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .
+
+    COMPAS          reduce using rule 18 (bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .)
+    REPEAT          reduce using rule 18 (bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .)
+    RCURL           reduce using rule 18 (bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .)
+
+
+state 74
 
     (30) silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .
 
@@ -725,126 +777,52 @@ state 68
     RCURL           reduce using rule 30 (silencio -> SILENCIO LPAREN duracion RPAREN SEMICOLON .)
 
 
-state 69
+state 75
 
     (23) notaProd -> NOTA LPAREN altura COMMA NUMBER . COMMA duracion RPAREN SEMICOLON
 
-    COMMA           shift and go to state 73
+    COMMA           shift and go to state 77
 
 
-state 70
+state 76
 
     (24) notaProd -> NOTA LPAREN altura COMMA CONSTID . COMMA duracion RPAREN SEMICOLON
 
-    COMMA           shift and go to state 74
+    COMMA           shift and go to state 78
 
 
-state 71
-
-    (17) bucle -> REPEAT LPAREN NUMBER RPAREN LCURL . musica RCURL
-    (13) musica -> .
-    (14) musica -> . compas musica
-    (15) musica -> . bucle musica
-    (4) compas -> . HASH COMPAS NUMBER DIV NUMBER
-    (16) compas -> . COMPAS LCURL notas RCURL
-    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
-    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
-
-    RCURL           reduce using rule 13 (musica -> .)
-    HASH            shift and go to state 8
-    COMPAS          shift and go to state 9
-    REPEAT          shift and go to state 33
-
-    musica                         shift and go to state 75
-    bucle                          shift and go to state 34
-    compas                         shift and go to state 35
-
-state 72
-
-    (18) bucle -> REPEAT LPAREN CONSTID RPAREN LCURL . musica RCURL
-    (13) musica -> .
-    (14) musica -> . compas musica
-    (15) musica -> . bucle musica
-    (4) compas -> . HASH COMPAS NUMBER DIV NUMBER
-    (16) compas -> . COMPAS LCURL notas RCURL
-    (17) bucle -> . REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL
-    (18) bucle -> . REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL
-
-    RCURL           reduce using rule 13 (musica -> .)
-    HASH            shift and go to state 8
-    COMPAS          shift and go to state 9
-    REPEAT          shift and go to state 33
-
-    musica                         shift and go to state 76
-    bucle                          shift and go to state 34
-    compas                         shift and go to state 35
-
-state 73
+state 77
 
     (23) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA . duracion RPAREN SEMICOLON
     (28) duracion -> . FIGURE
     (29) duracion -> . FIGURE DOT
 
-    FIGURE          shift and go to state 53
+    FIGURE          shift and go to state 61
 
-    duracion                       shift and go to state 77
+    duracion                       shift and go to state 79
 
-state 74
+state 78
 
     (24) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA . duracion RPAREN SEMICOLON
     (28) duracion -> . FIGURE
     (29) duracion -> . FIGURE DOT
 
-    FIGURE          shift and go to state 53
+    FIGURE          shift and go to state 61
 
-    duracion                       shift and go to state 78
+    duracion                       shift and go to state 80
 
-state 75
-
-    (17) bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica . RCURL
-
-    RCURL           shift and go to state 79
-
-
-state 76
-
-    (18) bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica . RCURL
-
-    RCURL           shift and go to state 80
-
-
-state 77
+state 79
 
     (23) notaProd -> NOTA LPAREN altura COMMA NUMBER COMMA duracion . RPAREN SEMICOLON
 
     RPAREN          shift and go to state 81
 
 
-state 78
+state 80
 
     (24) notaProd -> NOTA LPAREN altura COMMA CONSTID COMMA duracion . RPAREN SEMICOLON
 
     RPAREN          shift and go to state 82
-
-
-state 79
-
-    (17) bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .
-
-    HASH            reduce using rule 17 (bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .)
-    COMPAS          reduce using rule 17 (bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .)
-    REPEAT          reduce using rule 17 (bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .)
-    RCURL           reduce using rule 17 (bucle -> REPEAT LPAREN NUMBER RPAREN LCURL musica RCURL .)
-
-
-state 80
-
-    (18) bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .
-
-    HASH            reduce using rule 18 (bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .)
-    COMPAS          reduce using rule 18 (bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .)
-    REPEAT          reduce using rule 18 (bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .)
-    RCURL           reduce using rule 18 (bucle -> REPEAT LPAREN CONSTID RPAREN LCURL musica RCURL .)
 
 
 state 81

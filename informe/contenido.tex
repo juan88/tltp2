@@ -20,29 +20,31 @@ se dedujo a partir de la información recibida.
 
 %% Poner la gramática %%
 Sea $G$ una gramática libre de contexto tal que $G: <V_n, V_t, P, S>$ con $P$ definido como: \\
-\\
+\\  
 S $\rightarrow$ ENCABEZADO CONSTANTES VOCES \\
-ENCABEZADO $\rightarrow$ \#tempo FIGURA \emph{numero} \\
-TEMPO $\rightarrow$ \#FIGURA numero \\
+ENCABEZADO $\rightarrow$ TEMPO COMPAS\_DEF \\
+TEMPO $\rightarrow$ \#tempo FIGURA numero \\
 FIGURA $\rightarrow$ blanca $\mid$ redonda $\mid$ negra $\mid$ corchea $\mid$ semicorchea $\mid$ fusa $\mid$ semifusa \\
-COMPAS\_DEF $\rightarrow$ \#compas \emph{numero}$/$\emph{numero}  \\
-CONSTANTES $\rightarrow$ const \emph{numero} = \emph{numero}; CONSTANTES $\mid$ $\lambda$ \\
-VOCES $\rightarrow$ VOZ VOCES $\mid$ $\lambda$
+COMPAS\_DEF $\rightarrow$ \#compas numero$/$numero  \\
+CONSTANTES $\rightarrow$ const string = numero; CONSTANTES \\
+.\hspace{2.5cm} $\mid$ const string = constid; CONSTANTES $\mid$ $\lambda$ \\
+VOCES $\rightarrow$ VOZ VOCES $\mid$ $\lambda$ \\
 VOZ $\rightarrow$ DECLA\_INST \{ MUSICA \} \\
-DECLA\_INST $\rightarrow$ voz(\emph{numero}) \\
+DECLA\_INST $\rightarrow$ voz(numero) $\mid$ voz(constid) \\
 MUSICA $\rightarrow$ COMPAS MUSICA $\mid$ BUCLE MUSICA $\mid$ $\lambda$ \\
 COMPAS $\rightarrow$ compas \{ NOTAS \} \\
-BUCLE $\rightarrow$ repetir(\emph{numero}) \{ MUSICA \} $\mid$ repetir(\emph{string}) \{ MUSICA \} \\
+BUCLE $\rightarrow$ repetir(numero) \{ MUSICA \} $\mid$ repetir(constid) \{ MUSICA \} \\
 NOTAS $\rightarrow$ FIGURA NOTAS $\mid$ $\lambda$ \\
 FIGURA $\rightarrow$ NOTA $\mid$ SILENCIO \\
-NOTA $\rightarrow$ nota(ALTURA, \emph{numero}, DURACION); $\mid$ nota(ALTURA, \emph{string}, DURACION); \\
+NOTA $\rightarrow$ nota(ALTURA, numero, DURACION); \\
+.\hspace{2.5cm} $\mid$ nota(ALTURA, constid, DURACION); \\
 ALTURA $\rightarrow$ NOTAID SIMBOLO \\
 NOTAID $\rightarrow$ do $\mid$ re $\mid$ mi $\mid$ fa $\mid$ sol $\mid$ la $\mid$ si \\
 SIMBOLO $\rightarrow$ $+$ $\mid$ $-$ $\mid$ $\lambda$ \\
 DURACION $\rightarrow$ FIGURA $\mid$ FIGURA $\bullet$ \\
 SILENCIO $\rightarrow$ silencio(DURACION); \\
 
-
+\normalsize
 
 \section{Implementación}
 
@@ -122,4 +124,12 @@ Más bien todo lo contrario, creemos que es una tarea compleja a pesar de los av
 vimos a lo largo de la materia. Especialmente compleja cuando hablamos de tareas que se agregan en este proceso como
 por ejemplo la optimización del código que se genera y demás cosas que son importantes en el diseño de compiladores.
 
-Por último, pudimos ver también la utilidad práctica que tienen los compiladores más allá de los algoritmos o de los lenguajes de programación en sí. Los compiladores permiten parsear y manipular texto con una facilidad increíble a partir de una serie de reglas gramaticales que describen el objetivo de la transformación que queremos realizar. Para un lenguaje de programación representan una interfaz entre la voluntad del programador y el lenguaje que una máquina puede entender y por lo tanto resultan esenciales e imprescindibles. Pero con este trabajo, hemos observado que esta cualidad de interfaz o intermediario que cumplen los compiladores puede aplicarse a multiples aspectos de la vida práctica: en este caso, pasar de un lenguaje sensillo y entendible por cualquier persona a un lenguaje más complejo que puede ejecutar el midicomp.
+Por último, pudimos ver también la utilidad práctica que tienen los compiladores más allá de los algoritmos o de los lenguajes de programación en sí. Los compiladores permiten parsear y manipular texto con una facilidad increíble a partir de una serie de reglas gramaticales que describen el objetivo de la transformación que queremos realizar. Para un lenguaje de programación representan una interfaz entre la voluntad del programador y el lenguaje que una máquina puede entender y por lo tanto resultan esenciales e impresindibles. Pero con este trabajo, hemos observado que esta cualidad de interfaz o intermediario que cumplen los compiladores puede aplicarse a multiples aspectos de la vida práctica: en este caso, pasar de un lenguaje sensillo y entendible por cualquier persona a un lenguaje más complejo que puede ejecutar el midicomp.
+
+\section{ANEXO: Manual}
+
+Para correr el programa ejecutar python musileng.py archivo\_de\_entrada archivo\_de\_salida
+
+En la carpeta "entradas\_de\_prueba" a su vez, hay varios archivos de entradas modelos que pueden utilizarse para probar el programa
+
+También se adjuntan los archivos musileng\_test.py y parser\_rules\_test.py que constituyen un conjunto de pruebas funcionales (musileng\_test) y unitarias (parser\_rules) que pueden correrse directamente desde python (en la carpeta "entradas\_de\_prueba" ya tienen las entradas de prueba que toman los tests y en el caso de musileng\_test las guarda en la carpeta "salidas" que debe estar creada para que los tests funcionen)

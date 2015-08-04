@@ -60,7 +60,7 @@ class Reglas():
             raise SemanticException("La cantidad de voces debe ser mayor a cero", p.lineno(3))
 
     def p_encabezado(p):
-    	'encabezado : tempo compas'
+    	'encabezado : tempo compasDef'
     	p[0] = ["encabezado", [p[1], p[2]]]
 
 
@@ -71,8 +71,8 @@ class Reglas():
             raise SemanticException("El tiempo de duracion de la figura "+ str(p[3]["type"]) +" debe ser mayor a 0.", p.lineno(3))
     	p[0] = [p[3]["type"] , tempo]
 
-    def p_compas(p):
-    	'compas : HASH COMPAS NUMBER DIV NUMBER'
+    def p_compas_def(p):
+    	'compasDef : HASH COMPAS NUMBER DIV NUMBER'
     	p[0] = [p[3], p[5]]
         Reglas.dicc["compas_val"] = (float(p[3]) / float(p[5]))
 
@@ -167,7 +167,7 @@ class Reglas():
         'musica : bucle musica'
         p[0] = [['B', p[1]]] + p[2]
 
-    def p_compas_def(p):
+    def p_compas(p):
         'compas : COMPAS LCURL notas RCURL'
         lista = p[3]
         duracion_compas = 0
