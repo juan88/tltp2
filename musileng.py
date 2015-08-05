@@ -30,8 +30,8 @@ class Musileng(object):
 
     def convertir(self, entrada, salida):
 
-        text = self.archivo_para_leer(entrada).read()
-        # text = entrada.read()
+        entradaFile = self.archivo_para_leer(entrada)
+        text = entradaFile.read()
 
         #Inicializo variables
         variables = parser_rules.Reglas()
@@ -91,6 +91,9 @@ class Musileng(object):
         salidaFile = self.archivo_para_escribir(salida)
         salidaFile.write(salidaStr)
 
+        entradaFile.close()
+        salidaFile.close()
+
 
     def restart(self):
         parser_rules.Reglas().restart()
@@ -106,8 +109,8 @@ if __name__ == "__main__":
     parametros = argv[1:]
 
     musileng = Musileng()
-    entrada = musileng.archivo_para_leer(parametros[0])
-    salida = musileng.archivo_para_escribir(parametros[1])
+    entrada = parametros[0]
+    salida = parametros[1]
 
     try:
         musileng.convertir(entrada, salida)
@@ -115,7 +118,4 @@ if __name__ == "__main__":
         e.filename = entrada.name
         print " Musileng > ERROR Semantico!!"
         print e.errorMsg()
-
-    entrada.close()
-    salida.close()
 
