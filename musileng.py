@@ -4,6 +4,7 @@ from traductor import *
 import os
 
 from sys import argv, exit
+import sys
 
 from ply.lex import lex
 from ply.yacc import yacc
@@ -115,7 +116,7 @@ if __name__ == "__main__":
     try:
         musileng.convertir(entrada, salida)
     except parser_rules.SemanticException as e:
-        e.filename = entrada.name
+        e.filename = entrada
         print " Musileng > ERROR Semantico!!"
         print e.errorMsg()
 
