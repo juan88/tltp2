@@ -51,6 +51,10 @@ class MusilengTest(unittest.TestCase):
         salida = 'salidas/salida_constante_definida.mus'
         musileng.convertir(entrada, salida)
 
+        #Entrada con constantes con prefijos de palabras reservadas del lenguaje
+        entrada = 'entradas_de_prueba/entrada_ok_6.mus'
+        salida = 'salidas/salida6.mus'
+        musileng.convertir(entrada, salida)
 
         self.assertTrue(os.path.isfile('salidas/salida1.mus'))
         self.assertTrue(os.path.isfile('salidas/salida2.mus'))
@@ -60,6 +64,7 @@ class MusilengTest(unittest.TestCase):
         self.assertTrue(os.path.isfile('salidas/salida_constante_foo1_1.mus'))
         self.assertTrue(os.path.isfile('salidas/salida_repetir_constante.mus'))
         self.assertTrue(os.path.isfile('salidas/salida_constante_definida.mus'))
+        self.assertTrue(os.path.isfile('salidas/salida6.mus'))
 
     def testDefinicionTempoMalformada(self):
         """ Definicion de tempo malformada """
@@ -206,7 +211,16 @@ class MusilengTest(unittest.TestCase):
             musileng.convertir(entrada, salida)
         self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
             
-
+    def testConstantesComoKeywords(self):
+        """ No se puede configurar una voz vacía """
+        musileng = Musileng()
+        entrada = 'entradas_de_prueba/entrada_error_constante_con_keyword.mus'
+        salida = 'salidas/salida_error.mus'
+        with self.assertRaises(Exception):
+            musileng.convertir(entrada, salida)
+        self.assertFalse(os.path.isfile('salidas/salida_error.mus'))
+            
+                
     # Funciones utilitarias
     def leerArchivo(self, ruta):
         if not os.path.exists(ruta):

@@ -1,0 +1,62 @@
+#tempo redonda 60
+#compas 2/2
+
+const piano = 0;
+const constante = 6;
+const compasito = 3;
+const tempoo = 2;
+const silencioporfavor = 1;
+const aaasilencio = 1;
+const voza = 2;
+const redondaYDeRicota = 1;
+const mifasollasidoremihola = 1;
+const repetirr = 6;
+const alturaR = 6;
+
+voz(0)
+{
+	compas{
+        	nota(do, 5, blanca);
+        	nota(re, 5, blanca);
+	}
+	compas{
+		nota(do, constante, blanca);
+		silencio(blanca);
+	}
+
+	compas{
+		nota(do, silencioporfavor, blanca);
+		nota(re, 5, blanca);
+	}
+
+	compas{
+		nota(do, aaasilencio, blanca);
+		nota(re, 5, blanca);
+	}
+
+	compas{
+		nota(do, voza, blanca);
+		nota(re, 5, blanca);
+	}
+
+	compas{
+		nota(do, mifasollasidoremihola, blanca);
+		nota(re, 5, blanca);
+	}
+	compas{
+		nota(do, compasito, blanca);
+		nota(re, 5, blanca);
+	}
+
+	repetir(tempoo) {
+		compas{
+			nota(do, redondaYDeRicota, blanca);
+			nota(re, 5, blanca);
+		}
+		compas{
+			nota(re, 5, blanca);
+			nota(do, alturaR, blanca);
+		}
+	}
+
+}

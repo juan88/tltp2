@@ -12,26 +12,6 @@ from ply.yacc import yacc
 
 class LexerTest(unittest.TestCase):
 
-    def testLeoEncabezadoYValidoTokens1(self):
-        expresion = self.leer_archivo("entradas_de_prueba/encabezado1.mus")
-        lexer = self.lexer(expresion)
-        esperados = ['HASH', 'TEMPO', 'FIGURE', 'NUMBER',
-            'HASH', 'COMPAS', 'NUMBER', 'DIV', 'NUMBER', 
-            'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
-            'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON']
-        self.assertTokens(esperados, lexer)
-
-
-    def testLeoEncabezadoYValidoTokens2(self):
-        expresion = self.leer_archivo("entradas_de_prueba/encabezado2.mus")
-        lexer = self.lexer(expresion)
-        esperados = ['HASH', 'TEMPO', 'FIGURE', 'NUMBER',
-            'HASH', 'COMPAS', 'NUMBER', 'DIV', 'NUMBER', 
-            'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
-            'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON']
-        self.assertTokens(esperados, lexer)
-
-
     def testTokensLinea1(self):
         lexer = self.lexer("#tempo redonda 60")
         esperados = ['HASH', 'TEMPO', 'FIGURE', 'NUMBER']
@@ -149,6 +129,30 @@ class LexerTest(unittest.TestCase):
             'RCURL']
         self.assertTokens(esperados2, lexer)
 
+
+    def testKeywordsYPrefijos(self):
+        texto = """ const piano = 0;
+const constante = 6;
+const compasito = 3;
+const tempoo = 2;
+const silencioporfavor = 1;
+const aaasilencio = 1;
+const voza = 2;
+const redondaYDeRicota = 1;
+const mifasollasidoremihola = 1;
+const repetirr = 6; """
+        lexer = self.lexer(texto)
+        esperados = ['CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON',
+        'CONST', 'CONSTID', 'EQUAL', 'NUMBER', 'SEMICOLON']
+        self.assertTokens(esperados, lexer)
 
 
     # Funciones utilitarias

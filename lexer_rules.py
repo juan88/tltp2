@@ -7,6 +7,8 @@ reservadas = {
   'voz' : 'VOICE',
   'const' : 'CONST',
   'nota' : 'NOTA',
+  'silencio' : 'SILENCIO',
+  'repetir' : 'REPEAT',
   'compas' : 'COMPAS'
 }
 
@@ -26,8 +28,8 @@ tokens = [
    'ALTURA',
    'CONSTID',
    'NOTAID',
-   'SILENCIO',
-   'REPEAT',
+   #'SILENCIO',
+   #'REPEAT',
    'DOT'
 ] + list(reservadas.values())
 
@@ -61,21 +63,21 @@ def t_NUMBER(token):
   return token
 
 def t_FIGURE(token):
-  r"redonda|blanca|negra|corchea|semicorchea|fusa|semifusa"
+  r"\b(redonda|blanca|negra|corchea|semicorchea|fusa|semifusa)\b"
   if token.value in figuras:
     token.value = {"value": figuras[token.value], "type": token.value}
   return token
 
-def t_SILENCIO(token):
-  r"silencio"
+def at_SILENCIO(token):
+  r"\bsilencio\b"
   return token
 
-def t_REPEAT(token):
-  r"repetir"
+def at_REPEAT(token):
+  r"\brepetir\b"
   return token
 
 def t_NOTAID(token):
-  r"do|re|mi|fa|sol|la|si"
+  r"\b(do|re|mi|fa|sol|la|si)\b"
   token.type = 'NOTAID'
   return token
 
